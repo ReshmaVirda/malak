@@ -182,6 +182,7 @@ class Goal(models.Model):
     amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
     created_at=models.DateField(auto_now_add=True)
     modified_at=models.DateField(auto_now=True)
+    is_completed =models.BooleanField(default=False)
 
     def __str__(self):
         return self.title        
@@ -247,6 +248,22 @@ class Tag(models.Model):
     def __str__(self):
         return self.name  
 
+class Debt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_debt") 
+    icon = models.CharField(max_length=1000, default="")
+    name = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
+    paid_amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
+    date = models.DateField()
+    is_paid = models.BooleanField(default=False)
+    is_partial_paid = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False)
+    created_at = models.DateField(auto_now_add=True)
+    modified_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
 class Transaction(models.Model):
     title = models.CharField(max_length=255, default=None, blank=True, null=True)
     description = models.CharField(max_length=255, default=None, blank=True, null=True)
@@ -259,6 +276,7 @@ class Transaction(models.Model):
     source = models.ForeignKey(SourceIncome, on_delete=models.CASCADE, blank=True, null=True, related_name="transaction_source")
     location=models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null=True, related_name="location")
     periodic=models.ForeignKey(Periodic, on_delete=models.CASCADE, blank=True, null=True, related_name="periodic")
+    debt = models.ForeignKey(Debt, on_delete=models.CASCADE, blank=True, null=True, related_name="debt")
     tag = models.ManyToManyField(Tag, related_name="tags", blank=True)
     created_at=models.DateField()
     modified_at=models.DateField()
@@ -285,17 +303,3 @@ class notification(models.Model):
     date = models.DateField()
     created_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now_add=True)
-
-class Debt(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_debt") 
-    icon = models.CharField(max_length=1000, default="")
-    name = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
-    date = models.DateField()
-    is_paid = models.BooleanField(default=False)
-    is_partial_paid = models.BooleanField(default=False)
-    created_at = models.DateField(auto_now_add=True)
-    modified_at = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name

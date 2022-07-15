@@ -1438,7 +1438,7 @@ class DebtView(APIView):
                 user = User.objects.get(email=str(request.user))
             except:
                 return Response({"status":False, "message":"User Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
-           
+            
             serializer = DebtSerializer(data=request.data, context={'request':request})
             if serializer.is_valid(raise_exception=True):
 
@@ -1449,7 +1449,6 @@ class DebtView(APIView):
                 return Response({"status":False, "data":serializer.error}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"status":False, "message":"please provide any field like name, amount"}, status=status.HTTP_400_BAD_REQUEST)
-
 
     def get(self,request):
         try:
@@ -1479,7 +1478,6 @@ class DebtDetailView(APIView):
         serializer = DebtSerializer(debt)
         return Response({"status":True, "data":serializer.data}, status=status.HTTP_200_OK)
 
-
     def put(self,request,pk,format=None):
         try:
             user = User.objects.get(email=str(request.user)).id
@@ -1489,12 +1487,7 @@ class DebtDetailView(APIView):
             debt = Debt.objects.get(id=pk, user_id=user)
         except:
             return Response({'status':False, 'message':'debt data not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        if debt.amount == request.data["amount"]:
-            request.data.update({"is_paid":True})
-        elif debt.amount/2 == request.data["amount"]:
-            request.data.update({"is_partial_paid":True})
-
+    
         serializer = DebtSerializer(debt,data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -1695,7 +1688,7 @@ class TransactionView(APIView):
                     else:
                         return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    return Response({"status":False, "message":"title, description, amount, source and income_to are required fields"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"status":False, "message":"amount, income_from, debt are required fields. title and description is optional"}, status=status.HTTP_400_BAD_REQUEST)
 
             elif (('amount' in request.data and 'income_from' in request.data and 'income_to' in request.data) and ('source' not in request.data) and ('expense' not in request.data) and ('goal' not in request.data)):
                 if (request.data["amount"] != "" and request.data["income_from"] != "" and request.data["income_to"] != ""):
@@ -1796,9 +1789,9 @@ class TransactionView(APIView):
                     else:
                         return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    return Response({"status":False, "message":"title, description, amount, income_from and income_to are required fields"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"status":False, "message":"amount, income_from, debt are required fields. title and description is optional"}, status=status.HTTP_400_BAD_REQUEST)
             
-            elif (('amount' in request.data and 'income_from' in request.data and 'goal' in request.data) and ('source' not in request.data) and ('expense' not in request.data) and ('income_to' not in request.data)):
+            elif (('amount' in request.data and 'income_from' in request.data and 'goal' in request.data) and ('source' not in request.data) and ('expense' not in request.data) and ('income_to' not in request.data)): 
                 if (request.data["amount"] != "" and request.data["income_from"] != "" and request.data["goal"] != ""):
                     
                     if 'title' not in request.data or request.data['title'] == "":
@@ -1873,31 +1866,34 @@ class TransactionView(APIView):
 
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
-                        transaction_id = transaction_serializer.save()
-                        if len(str(transaction_id)) > 0 and transaction_id is not None:
-                            Income.objects.filter(title=income.title, id=income.id, user_id=user).update(amount=income_amount)
-                            Goal.objects.filter(title=goal.title, id=goal.id, user_id=user).update(added_amount=goal_amount)
-                        else:
-                            return Response({"status":False, "message":" transaction fail from Income %s to Goal %s"%(income.title, goal.title)}, status=status.HTTP_400_BAD_REQUEST)
+                        if goal.amount != goal.added_amount and not goal.is_completed:
+                            transaction_id = transaction_serializer.save()
+                            if len(str(transaction_id)) > 0 and transaction_id is not None:
+                                Income.objects.filter(title=income.title, id=income.id, user_id=user).update(amount=income_amount)
+                                Goal.objects.filter(title=goal.title, id=goal.id, user_id=user).update(added_amount=goal_amount)
+                            else:
+                                return Response({"status":False, "message":" transaction fail from Income %s to Goal %s"%(income.title, goal.title)}, status=status.HTTP_400_BAD_REQUEST)
                         
-                        # changes on server #
-                        transaction_dict = transaction_serializer.data
-                        transaction_dict["income_from_name"] = income.title
-                        transaction_dict["goal_name"] = goal.title
+                            # changes on server #
+                            transaction_dict = transaction_serializer.data
+                            transaction_dict["income_from_name"] = income.title
+                            transaction_dict["goal_name"] = goal.title
 
-                        if periodicSerializer != "" and location_serializer == "":
-                            transaction_dict.update({"periodic":periodicSerializer.data})
-                        elif periodicSerializer == "" and location_serializer != "":
-                            transaction_dict.update({"location":location_serializer.data})
-                        elif periodicSerializer != "" and location_serializer != "":
-                            transaction_dict.update({"periodic":periodicSerializer.data})
-                            transaction_dict.update({"location":location_serializer.data})
-                        # changes on server #
-                        return Response({"status":True, "message":"Transfer amount from Income %s to Goal %s"%(income.title, goal.title), "data":transaction_dict}, status=status.HTTP_201_CREATED)
+                            if periodicSerializer != "" and location_serializer == "":
+                                transaction_dict.update({"periodic":periodicSerializer.data})
+                            elif periodicSerializer == "" and location_serializer != "":
+                                transaction_dict.update({"location":location_serializer.data})
+                            elif periodicSerializer != "" and location_serializer != "":
+                                transaction_dict.update({"periodic":periodicSerializer.data})
+                                transaction_dict.update({"location":location_serializer.data})
+                            # changes on server #
+                            return Response({"status":True, "message":"Transfer amount from Income %s to Goal %s"%(income.title, goal.title), "data":transaction_dict}, status=status.HTTP_201_CREATED)
+                        else:
+                            return Response({"status":False, "message":"Goal is Completed"}, status=status.HTTP_400_BAD_REQUEST)
                     else:
                         return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    return Response({"status":False, "message":"title, description, amount, income_from, goal are required fields"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"status":False, "message":"amount, income_from, debt are required fields. title and description is optional"}, status=status.HTTP_400_BAD_REQUEST)
             
             elif (('amount' in request.data and 'income_from' in request.data and 'expense' in request.data) and ('source' not in request.data) and ('goal' not in request.data) and ('income_to' not in request.data)):
                 if (request.data["amount"] != "" and request.data["income_from"] != "" and request.data["expense"] != ""):
@@ -1999,7 +1995,78 @@ class TransactionView(APIView):
                     else:
                         return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    return Response({"status":False, "message":"title, description, amount, income_from, expense are required fields"}, status=status.HTTP_400_BAD_REQUEST)     
+                    return Response({"status":False, "message":"amount, income_from, debt are required fields. title and description is optional"}, status=status.HTTP_400_BAD_REQUEST)     
+        
+            elif (('amount' in request.data and 'income_from' in request.data and 'debt' in request.data) and ('source' not in request.data) and ('goal' not in request.data) and ('income_to' not in request.data) and ('expense' not in request.data)):
+                if (request.data["amount"] != "" and request.data["income_from"] != "" and request.data["debt"] != ""):
+                    
+                    if 'title' not in request.data or request.data['title'] == "":
+                        title = None
+                    else:
+                        title = request.data['title']
+
+                    if 'description' not in request.data or request.data['description'] == "":
+                        description = None
+                    else:
+                        description = request.data['description']
+                    
+                    try:
+                        income = Income.objects.get(user_id=user, id=str(request.data["income_from"]))
+                    except Income.DoesNotExist:
+                        return Response({"status":False, "message":"Income doesn't exist with id %s"%(request.data["income_from"])}, status=status.HTTP_404_NOT_FOUND)
+
+                    try:
+                        debt = Debt.objects.get(user_id=user, id=str(request.data["debt"]))
+                    except Debt.DoesNotExist:
+                        return Response({"status":False, "message":"Debt doesn't exist with id %s"%(request.data["debt"])}, status=status.HTTP_404_NOT_FOUND)
+
+                    income_amount = income.amount - request.data["amount"]
+                    debt_amount = ""
+                    if debt.amount == request.data["amount"]:
+                        debt_amount = debt.paid_amount + request.data["amount"]
+                    else:
+                        if request.data["amount"] < debt.amount:
+                            debt_amount = debt.paid_amount + request.data["amount"]
+                        else:
+                            return Response({"status":False, "message":"Paid amount %s is grater then the Debt amount %s"%(request.data["amount"], debt.amount)}, status=status.HTTP_400_BAD_REQUEST)
+
+                    data_dict ={
+                        "title":title,
+                        "description":description,
+                        "amount":request.data["amount"],
+                        "income_from":income.id,
+                        "debt":debt.id
+                    }
+                    
+                    if 'created_at' in request.data and "modified_at" in request.data:
+                        data_dict.update({"created_at":request.data["created_at"]})
+                        data_dict.update({"modified_at":request.data["modified_at"]})
+
+                    transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
+                    if transaction_serializer.is_valid(raise_exception=False):
+                        transaction_id = transaction_serializer.save()
+                        if transaction_id > 0 and transaction_id is not None:
+                            Income.objects.filter(title=income.title, id=income.id, user_id=user).update(amount=income_amount)
+                            if debt.amount == request.data["amount"]:
+                                Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_paid=True, is_completed=True)
+                            else:
+                                if request.data["amount"] < debt.amount:
+                                    if debt_amount == debt.amount:
+                                        Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_partial_paid=True, is_completed=True)
+                                    Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_partial_paid=True, is_completed=False)
+                        else:
+                            return Response({"status":False, "message":" transaction fail from Income %s to debt %s"%(income.title, debt.name)}, status=status.HTTP_400_BAD_REQUEST)
+                        
+                        # changes on server #
+                        transaction_dict = transaction_serializer.data
+                        transaction_dict["income_from_name"] = income.title
+                        transaction_dict["debt_paid_to"] = debt.name
+                        # changes on server #
+                        return Response({"status":True, "message":"Transfer amount from Income %s to debt %s"%(income.title, debt.name), "data":transaction_dict}, status=status.HTTP_201_CREATED)
+                    else:
+                        return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    return Response({"status":False, "message":"amount, income_from, debt are required fields. title and description is optional"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"status":False, "message":"Invalid data Passed"}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -2010,6 +2077,8 @@ class TransactionView(APIView):
             income_to = ''
             source = ''
             expense = ''
+            debt = ''
+
             try:
                 user = User.objects.get(email=request.user).id
             except User.DoesNotExist:
@@ -2035,6 +2104,9 @@ class TransactionView(APIView):
             if transaction.expense_id is not None:
                 expense = Expense.objects.filter(user_id=user, id=transaction.expense_id)
 
+            if transaction.debt_id is not None:
+                debt = Debt.objects.filter(user_id=user, id=transaction.debt_id)
+
             if (len(source) > 0 and len(income_to) > 0 and len(goal) <= 0 and len(income_from) <= 0 and len(expense) <= 0):
                 source_amount = ''
                 income_to_amount = ''
@@ -2058,7 +2130,7 @@ class TransactionView(APIView):
                         income_to.update(amount=income_to_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
-                    return Response({"status":True, "message":"%s Transaction Amount Upldate from source %s to income %s"%(pk, source[0].title, income_to[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
+                    return Response({"status":True, "message":"%s Transaction Amount Update from source %s to income %s"%(pk, source[0].title, income_to[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
                 else:
                     return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
                      
@@ -2086,7 +2158,7 @@ class TransactionView(APIView):
                         income_to.update(amount=income_to_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
-                    return Response({"status":True, "message":"%s Transaction Amount Upldate from Income %s to Income %s"%(pk, income_from[0].title, income_to[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
+                    return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Income %s"%(pk, income_from[0].title, income_to[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
                 else:
                     return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 
@@ -2114,7 +2186,7 @@ class TransactionView(APIView):
                         goal.update(added_amount=goal_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
-                    return Response({"status":True, "message":"%s Transaction Amount Upldate from Income %s to Goal %s"%(pk, income_from[0].title, goal[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
+                    return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Goal %s"%(pk, income_from[0].title, goal[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
                 else:
                     return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -2142,7 +2214,35 @@ class TransactionView(APIView):
                         expense.update(spent_amount=expense_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
-                    return Response({"status":True, "message":"%s Transaction Amount Upldate from Income %s to Expense %s"%(pk, income_from[0].title, expense[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
+                    return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Expense %s"%(pk, income_from[0].title, expense[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        
+            elif (len(source) <= 0 and len(income_to) <= 0 and len(goal) <= 0 and len(income_from) > 0 and len(expense) <= 0 and len(debt) > 0):
+                income_from_amount = ''
+                debt_amount = ''
+                updated_transfer_amount = ''
+
+                if request.data["amount"] > transaction.amount:
+                    updated_transfer_amount = request.data["amount"] - transaction.amount
+                    income_from_amount = income_from[0].amount - updated_transfer_amount
+                    debt_amount = debt[0].paid_amount + updated_transfer_amount
+                elif request.data["amount"] < transaction.amount:
+                    updated_transfer_amount =  transaction.amount - request.data["amount"]
+                    income_from_amount = income_from[0].amount + updated_transfer_amount
+                    debt_amount = debt[0].paid_amount - updated_transfer_amount
+                elif request.data["amount"] == transaction.amount:
+                    request.data.pop("amount")
+
+                transaction_serializer = TransactionSerializer(transaction, data=request.data)
+                if transaction_serializer.is_valid(raise_exception=False):
+                    transaction_id = transaction_serializer.save()
+                    if len(str(transaction_id)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        debt.update(paid_amount=debt_amount)
+                    else:
+                        return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
+                    return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Debt %s"%(pk, income_from[0].title, debt[0].name), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
                 else:
                     return Response({"status":False, "message":transaction_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -2157,6 +2257,8 @@ class TransactionView(APIView):
         expense = ""
         location = ""
         periodic = ""
+        debt = ""
+
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -2205,6 +2307,13 @@ class TransactionView(APIView):
                     transcation = Transaction.objects.filter(user=user, source_id=request.query_params["source"])
                     if len(transcation) <= 0: 
                         return Response({"status":False, "message":"source transaction not found"}, status=status.HTTP_404_NOT_FOUND)   
+            
+                if 'debt' in request.query_params and request.query_params["debt"] is not None:
+                    if request.query_params["debt"] is None:
+                        return Response({"status":False, "message":"Please Provide debt id in query params like url/?debt=1"}, status=status.HTTP_400_BAD_REQUEST)
+                    transcation = Transaction.objects.filter(user=user, debt_id=request.query_params["debt"])
+                    if len(transcation) <= 0: 
+                        return Response({"status":False, "message":"debt transaction not found with id %s"%(request.query_params["debt"])}, status=status.HTTP_404_NOT_FOUND)
             else:
                 return Response({"status":False, "message":"provide source, income_to, income_from, goal, expense id in request query_params like url/?source=1"})
 
@@ -2243,6 +2352,9 @@ class TransactionView(APIView):
 
         if transcation[0].location_id is not None:
             location = Location.objects.get(id=str(transcation[0].location_id))
+
+        if transcation[0].debt_id is not None:
+            debt = Debt.objects.get(id=str(transcation[0].debt_id)).name
             
 
         for x in transcation:
@@ -2264,7 +2376,8 @@ class TransactionView(APIView):
             data_dict[0]["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
         if data_dict[0]["location"] is not None:
             data_dict[0]["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
-
+        if data_dict[0]["debt"] is not None:
+            data_dict[0]["debt_name"] = debt
         return Response({"status":True, "message":"transaction data Fetched Succcessfully", "data":data_dict}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk=None, format=None):
@@ -2300,7 +2413,10 @@ class TransactionView(APIView):
                 goal = Goal.objects.filter(id=transaction.goal_id)
 
             if transaction.source_id != "":
-                source = SourceIncome.objects.filter(id=transaction.source_id)    
+                source = SourceIncome.objects.filter(id=transaction.source_id)  
+
+            if transaction.debt_id != "":
+                debt = Debt.objects.filter(id=str(transaction.debt_id))
             
             if len(income_from) > 0 and len(expense) > 0 and len(income_to) <= 0 and len(goal) <= 0 and len(source) <= 0:
         
@@ -2372,6 +2488,27 @@ class TransactionView(APIView):
                 if len(str(deleted_transaction)) > 0:
                     income_from.update(amount=income_from_amount)
                     goal.update(added_amount=goal_amount) 
+                else:
+                    header = {
+                        "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                    }
+                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                    return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)   
+                header = {
+                    "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                }
+                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":True,"message":"transaction data was successfully delete by id %s"%(pk)}), email=request.user, status=True)
+                return Response({"status":True, "message":"transaction data was successfully delete by id %s"%(pk)}, status=status.HTTP_200_OK)
+
+            elif len(income_from) > 0 and len(expense) <= 0 and len(income_to) <= 0 and len(goal) <= 0 and len(source) <= 0 and len(debt) > 0:
+               
+                income_from_amount = income_from[0].amount + transaction.amount
+                debt_amount = debt[0].paid_amount - transaction.amount
+
+                deleted_transaction = transaction.delete()   
+                if len(str(deleted_transaction)) > 0:
+                    income_from.update(amount=income_from_amount)
+                    debt.update(paid_amount=debt_amount) 
                 else:
                     header = {
                         "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -2870,6 +3007,13 @@ class ReportView(APIView):
             if x["location"] is not None:
                 location = Location.objects.get(id=str(x["location"]))
                 x["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
+            if x["debt"] is not None:
+                try:
+                    debt = Debt.objects.get(id=str(x["debt"])).name
+                except Debt.DoesNotExist:
+                    return Response({"status":False, "message":"debt data not found"}, status=status.HTTP_404_NOT_FOUND)
+                x["debt_paid_to"] = debt
+            
         header = {
             "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
         }
