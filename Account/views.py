@@ -1649,7 +1649,10 @@ class TransactionView(APIView):
                     return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)   
         
             if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
+<<<<<<< HEAD
                 status_list = []
+=======
+>>>>>>> f8542176f5574ca522b78231d794fc7cc0c51e36
                 if 'week_days' in request.data and request.data["week_days"] != "":
                     Date_List = str(request.data["week_days"]).split(",")
                     for x in Date_List:
@@ -1672,7 +1675,10 @@ class TransactionView(APIView):
                     else:
                         start_date = date.today()
 
+<<<<<<< HEAD
                     
+=======
+>>>>>>> f8542176f5574ca522b78231d794fc7cc0c51e36
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
