@@ -1936,3 +1936,592 @@ TypeError: super() takes at least 1 argument (0 given)
 Not Found: /transaction/
 Not Found: /transaction/
 Not Found: /favicon.ico
+Not Found: /
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /favicon.ico
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/sss%40gmail.com/image_cropper_1657879233260.jpg
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 483, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 400, in initial
+    self.perform_authentication(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 326, in perform_authentication
+    request.user
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/request.py", line 223, in user
+    self._authenticate()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/request.py", line 376, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework_simplejwt/authentication.py", line 38, in authenticate
+    return self.get_user(validated_token), None
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_user
+    raise AuthenticationFailed(_('User not found'), code='user_not_found')
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework_simplejwt/exceptions.py", line 29, in __init__
+    super().__init__(detail_dict)
+TypeError: super() takes at least 1 argument (0 given)
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /media/ddd%40gmail.com/image_cropper_1657865281250.jpg
+Not Found: /register
+Not Found: /register
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2364, in get
+    data[0]["amount"] = float(data[0]["amount"])
+NameError: global name 'data' is not defined
+Not Found: /transaction/
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2361, in get
+    x["amount"] = float(x["amount"])
+TypeError: 'Transaction' object has no attribute '__getitem__'
+Not Found: /favicon.ico
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1615, in post
+    source_amount = source.spent_amount + request.data["amount"]
+TypeError: unsupported operand type(s) for +: 'Decimal' and 'float'
+Not Found: /transaction/
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1921, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1921, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1921, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1921, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /favicon.ico
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1615, in post
+    source_amount = source.spent_amount + request.data["amount"]
+TypeError: unsupported operand type(s) for +: 'Decimal' and 'float'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2023, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2023, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2023, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /transaction/
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1921, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1921, in post
+    income_amount = income.amount - request.data["amount"]
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+Internal Server Error: /login
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/deprecation.py", line 138, in __call__
+    response = self.process_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 63, in process_request
+    if self.should_redirect_with_slash(request):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 81, in should_redirect_with_slash
+    not is_valid_path(request.path_info, urlconf) and
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 158, in is_valid_path
+    resolve(path, urlconf)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 27, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 2117
+    income_to_amount = float()income_to[0].amount) + float(updated_transfer_amount)
+                                      ^
+SyntaxError: invalid syntax
+Internal Server Error: /transaction/110
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2545, in delete
+    debt = Debt.objects.filter(id=str(transaction.debt_id))
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/query.py", line 787, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/query.py", line 805, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1250, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1276, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1210, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1104, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/lookups.py", line 24, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/lookups.py", line 74, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 966, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'None'
+Not Found: /expense/146
+Not Found: /expense/146
+Internal Server Error: /goal
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/deprecation.py", line 138, in __call__
+    response = self.process_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 63, in process_request
+    if self.should_redirect_with_slash(request):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 81, in should_redirect_with_slash
+    not is_valid_path(request.path_info, urlconf) and
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 158, in is_valid_path
+    resolve(path, urlconf)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 27, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 2458
+    if y.income_from_id is not None:
+                                   ^
+IndentationError: unindent does not match any outer indentation level
+Internal Server Error: /goal
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/deprecation.py", line 138, in __call__
+    response = self.process_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 63, in process_request
+    if self.should_redirect_with_slash(request):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 81, in should_redirect_with_slash
+    not is_valid_path(request.path_info, urlconf) and
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 158, in is_valid_path
+    resolve(path, urlconf)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 27, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 2458
+    if y.income_from_id is not None:
+                                   ^
+IndentationError: unindent does not match any outer indentation level
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 2458
+    if y.income_from_id is not None:
+                                   ^
+IndentationError: unindent does not match any outer indentation level
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 2504, in get
+    data_dict[0]["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
+AttributeError: 'unicode' object has no attribute 'id'
+Not Found: /income/107
+Not Found: /income/108
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /debt/0
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
