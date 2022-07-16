@@ -1624,6 +1624,7 @@ class TransactionView(APIView):
         if request.data != {}:
             location_serializer = ''
             periodicSerializer = ''
+            status_days = ""
             try:
                 user = User.objects.get(email=request.user).id
             except User.DoesNotExist:
@@ -1648,16 +1649,19 @@ class TransactionView(APIView):
                     return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)  
         
             if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
+                status = []
                 if 'week_days' in request.data and request.data["week_days"] != "":
                     data = {
                         "start_date":request.data['start_date'],
                         "end_date":request.data['end_date'],
                         "prefix":request.data['prefix'],
                         "prefix_value":request.data['prefix_value'],
-                        "week_days":request.data["week_days"]
+                        "week_days":request.data["week_days"],
+                        "status_days":request.data["status_days"]
                     }  
                 else:
                     # Changes Server #
+                    status_list = []
                     start_date = None
                     if request.data['start_date'] != "":
                         start_date = request.data['start_date']
@@ -1666,36 +1670,57 @@ class TransactionView(APIView):
 
                     Date_Dict = ""
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
-
+                        del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                        Date_List = Date_Dict.split(",")
+                        Date_List = Date_List.pop()
+                        for x in Date_List:
+                            x = False
+                            status_list.append(str(x))
+                        status_days = ','.join(status_list)
                         data = {
                             "start_date":start_date,
                             "end_date":request.data['end_date'],
                             "prefix":request.data['prefix'],
                             "prefix_value":request.data['prefix_value'],
-                            "week_days":Date_Dict["Date_Months"]
+                            "week_days":Date_Dict["Date_Months"],
+                            "status_days":status_days
                         }
 
                     elif "year" in request.data['prefix'] and request.data['prefix_value'] != 0:
-                        
+                        del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                        Date_List = Date_Dict.split(",")
+                        Date_List = Date_List.pop()
+                        for x in Date_List:
+                            x = False
+                            status_list.append(str(x))
+                        status_days = ','.join(status_list)
                         data = {
                             "start_date":start_date,
                             "end_date":request.data['end_date'],
                             "prefix":request.data['prefix'],
                             "prefix_value":request.data['prefix_value'],
-                            "week_days":Date_Dict["Date_Years"]
+                            "week_days":Date_Dict["Date_Years"],
+                            "status_days":status_days
                         }
 
                     elif "day" in request.data['prefix'] and request.data['prefix_value'] != 0:
-                        
+                        del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                        Date_List = Date_Dict.split(",")
+                        Date_List = Date_List.pop()
+                        for x in Date_List:
+                            x = False
+                            status_list.append(str(x))
+                        status_days = ','.join(status_list)
                         data = {
                             "start_date":start_date,
                             "end_date":request.data['end_date'],
                             "prefix":request.data['prefix'],
                             "prefix_value":request.data['prefix_value'],
-                            "week_days":Date_Dict["Date_Days"]
+                            "week_days":Date_Dict["Date_Days"],
+                            "status_days":status_days
                         }
                     else:
                         return Response({"status":False, "message":"prefix_value cannot be blank must be integer"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1715,6 +1740,8 @@ class TransactionView(APIView):
                         message = "prefix cannot be blank must be string choice like day,month,year,week."
                     if 'prefix_value' in periodicSerializer.errors:
                         message="prefix_value must be integer."
+                    if 'status_days' in periodicSerializer.errors:
+                        message = "status_days cannot be blank must be comma saparated string like false,false,false."
                     return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
             if (('amount' in request.data and 'source' in request.data and 'income_to' in request.data) and ('income_from' not in request.data) and ('expense' not in request.data) and ('goal' not in request.data)):
