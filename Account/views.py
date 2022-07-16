@@ -163,7 +163,7 @@ class UserRegistrationView(APIView):
                 'is_subscribed':user.is_subscribed,
                 'access_token':token.get('access'),
                 'refresh_token':token.get('refresh'),
-                'setting_id':settings.id
+                'settings_id':settings.id
             }
             LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":True, "message":"Register Successfully"}), email=user.email, status=True)
             return Response({"status":True, "message":"Register Successfully", "data":User_data}, status=status.HTTP_201_CREATED)
@@ -1633,11 +1633,11 @@ class TransactionView(APIView):
             if ('longitude' in request.data and 'latitude' in request.data and request.data["longitude"] != 0 and request.data["latitude"] != 0):
                 
                 data = {
-                    "longitude":request.data['longitude'],
-                    "latitude":request.data['latitude']
+                    "longitude":float(request.data['longitude']),
+                    "latitude":float(request.data['latitude'])
                 }  
                 location_serializer = LocationSerializer(data=data) 
-                if location_serializer.is_valid(raise_exception=False):
+                if location_serializer.is_valid(raise_exception=True):
                     location_serializer.save()
                 else:
                     message = ""
@@ -1646,34 +1646,38 @@ class TransactionView(APIView):
                     
                     if 'longitude' in location_serializer.errors:
                         message = "longitude cannot be blank must be double max_length 15 digit."
-                    return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)  
+                    return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)   
         
             if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
-                status = []
+                status_list = []
                 if 'week_days' in request.data and request.data["week_days"] != "":
+                    Date_List = str(request.data["week_days"]).split(",")
+                    for x in Date_List:
+                        x = False
+                        status_list.append(str(x))
+                    status_days = ','.join(status_list)
                     data = {
                         "start_date":request.data['start_date'],
                         "end_date":request.data['end_date'],
                         "prefix":request.data['prefix'],
                         "prefix_value":request.data['prefix_value'],
                         "week_days":request.data["week_days"],
-                        "status_days":request.data["status_days"]
+                        "status_days":status_days
                     }  
                 else:
                     # Changes Server #
-                    status_list = []
                     start_date = None
                     if request.data['start_date'] != "":
                         start_date = request.data['start_date']
                     else:
                         start_date = date.today()
 
-                    Date_Dict = ""
+                    
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict.split(",")
-                        Date_List = Date_List.pop()
+                        print(Date_Dict)
+                        Date_List = Date_Dict["Date_Months"].split(",")
                         for x in Date_List:
                             x = False
                             status_list.append(str(x))
@@ -1690,8 +1694,7 @@ class TransactionView(APIView):
                     elif "year" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict.split(",")
-                        Date_List = Date_List.pop()
+                        Date_List = Date_Dict["Date_Years"].split(",")
                         for x in Date_List:
                             x = False
                             status_list.append(str(x))
@@ -1708,8 +1711,7 @@ class TransactionView(APIView):
                     elif "day" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict.split(",")
-                        Date_List = Date_List.pop()
+                        Date_List = Date_Dict["Date_Days"].split(",")
                         for x in Date_List:
                             x = False
                             status_list.append(str(x))
@@ -2202,12 +2204,12 @@ class TransactionView(APIView):
                         if transaction_id > 0 and transaction_id is not None:
                             Income.objects.filter(title=income.title, id=income.id, user_id=user).update(amount=income_amount)
                             if float(debt.amount) == float(request.data["amount"]):
-                                Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_paid=True, is_completed=True)
+                                Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount)
                             else:
                                 if float(request.data["amount"]) < float(debt.amount):
                                     if float(debt_amount) == float(debt.amount):
-                                        Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_partial_paid=False, is_completed=True, is_paid=True)
-                                    Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_partial_paid=True, is_completed=False)
+                                        Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount)
+                                    Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount, is_partial_paid=True)
                         else:
                             return Response({"status":False, "message":" transaction fail from Income %s to debt %s"%(income.title, debt.name)}, status=status.HTTP_400_BAD_REQUEST)
                         
@@ -3175,7 +3177,7 @@ class ReportView(APIView):
                     debt = Debt.objects.get(id=str(x["debt"])).name
                 except Debt.DoesNotExist:
                     return Response({"status":False, "message":"debt data not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["debt_paid_to"] = debt
+                x["debt_name"] = debt
             
         header = {
             "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']

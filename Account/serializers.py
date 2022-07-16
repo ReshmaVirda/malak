@@ -359,9 +359,9 @@ class DebtSerializer(serializers.ModelSerializer):
             "date":{"required":False},
             "amount":{"required":False},
             "paid_amount":{"required":False},
-            "is_paid":{"required":False, "read_only":True},
-            "is_partial_paid":{"required":False, "read_only":True},
-            "is_completed":{"required":False, "read_only":True}
+            "is_paid":{"required":False},
+            "is_partial_paid":{"required":False},
+            "is_completed":{"required":False}
         }
 
 

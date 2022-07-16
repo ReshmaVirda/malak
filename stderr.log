@@ -2525,3 +2525,397 @@ Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
 Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
 Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
 Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1693, in post
+    Date_List = Date_Dict.split(",")
+AttributeError: 'dict' object has no attribute 'split'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1693, in post
+    Date_List = date_data.split(",")
+AttributeError: 'dict' object has no attribute 'split'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1842, in post
+    return Response({"status":True, "message":"Transfer amount from source %s to income %s"%(source.title, income.title), "data":transaction_dict}, status=status.HTTP_201_CREATED)
+AttributeError: 'list' object has no attribute 'HTTP_201_CREATED'
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 412, in finalize_response
+    % type(response)
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<type 'NoneType'>`
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /transaction/
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1660, in post
+    "status_days":request.data["status_days"]
+KeyError: u'status_days'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1660, in post
+    "status_days":request.data["status_days"]
+KeyError: u'status_days'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1634
+    data = {}
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /source
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/deprecation.py", line 138, in __call__
+    response = self.process_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 63, in process_request
+    if self.should_redirect_with_slash(request):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 81, in should_redirect_with_slash
+    not is_valid_path(request.path_info, urlconf) and
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 158, in is_valid_path
+    resolve(path, urlconf)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 27, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/deprecation.py", line 138, in __call__
+    response = self.process_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 63, in process_request
+    if self.should_redirect_with_slash(request):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/middleware/common.py", line 81, in should_redirect_with_slash
+    not is_valid_path(request.path_info, urlconf) and
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 158, in is_valid_path
+    resolve(path, urlconf)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/base.py", line 27, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1635
+    data = {
+         ^
+SyntaxError: invalid syntax

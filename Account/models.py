@@ -220,8 +220,8 @@ class Exchangerate(models.Model):
         return self.currency_name
 
 class Location(models.Model):
-    latitude = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
-    longitude = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
+    latitude = models.FloatField(blank=True, null=True, default="0.00")
+    longitude = models.FloatField(blank=True, null=True, default="0.00")
     created_at = models.DateField(auto_now_add=True)
     modified_at = models.DateField(auto_now_add=True)
 
