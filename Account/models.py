@@ -231,9 +231,10 @@ class Location(models.Model):
 class Periodic(models.Model):
     start_date = models.DateField(blank=True ,null=True)
     end_date = models.DateField(blank=True ,null=True)
-    week_days =models.CharField(max_length=255)
+    week_days =models.CharField(max_length=5000, blank=True, null=True)
     prefix = models.CharField(max_length=255, blank=True, null=True)
     prefix_value = models.IntegerField(blank=True, null=True)
+    status_days = models.CharField(max_length=5000, blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     modified_at = models.DateField(auto_now_add=True)
 

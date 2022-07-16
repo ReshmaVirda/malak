@@ -2378,6 +2378,7 @@ class TransactionView(APIView):
     def get(self, request, pk=None, format=None):
         transcation = ''
         transaction_list = []
+        main_list = []
         income_from = ""
         income_to = ""
         goal = ""
@@ -2394,7 +2395,7 @@ class TransactionView(APIView):
         transcation = Transaction.objects.filter(user=user)
         if pk is not None and request.query_params == {}:
             transcation = Transaction.objects.filter(user=user, id=pk)
-
+            
             if len(transcation) <= 0: 
                 return Response({"status":False, "message":"transaction history not found"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -2444,66 +2445,72 @@ class TransactionView(APIView):
             else:
                 return Response({"status":False, "message":"provide source, income_to, income_from, goal, expense, debt id in request query_params like url/?source=1"})
 
-        if transcation[0].income_to_id is not None:
-            try:
-                income_to = Income.objects.get(id=str(transcation[0].income_to_id)).title
-            except Income.DoesNotExist:
-                return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
+        for x in transcation:
+            if x.income_to_id is not None:
+                try:
+                    income_to = Income.objects.get(id=str(x.income_to_id)).title
+                except Income.DoesNotExist:
+                    return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
+                
+            if x.income_from_id is not None:
+                try:
+                    income_from = Income.objects.get(id=str(x.income_from_id)).title
+                except Income.DoesNotExist:
+                    return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            if x.source_id is not None:
+                try:
+                    source = SourceIncome.objects.get(id=str(x.source_id)).title
+                except SourceIncome.DoesNotExist:
+                    return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            if x.goal_id is not None:
+                try:
+                    goal = Goal.objects.get(id=str(x.goal_id)).title
+                except Goal.DoesNotExist:
+                    return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            if x.expense_id is not None:
+                try:
+                    expense = Expense.objects.get(id=str(x.expense_id)).title
+                except Expense.DoesNotExist:
+                    return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
             
-        if transcation[0].income_from_id is not None:
-            try:
-                income_from = Income.objects.get(id=str(transcation[0].income_from_id)).title
-            except Income.DoesNotExist:
-                return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
+            if x.periodic_id is not None:
+                periodic = Periodic.objects.get(id=str(x.periodic_id))
 
-        if transcation[0].source_id is not None:
-            try:
-                source = SourceIncome.objects.get(id=str(transcation[0].source_id)).title
-            except SourceIncome.DoesNotExist:
-                return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
+            if x.location_id is not None:
+                location = Location.objects.get(id=str(x.location_id))
 
-        if transcation[0].goal_id is not None:
-            try:
-                goal = Goal.objects.get(id=str(transcation[0].goal_id)).title
-            except Goal.DoesNotExist:
-                return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        if transcation[0].expense_id is not None:
-            try:
-                expense = Expense.objects.get(id=str(transcation[0].expense_id)).title
-            except Expense.DoesNotExist:
-                return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-        if transcation[0].periodic_id is not None:
-            periodic = Periodic.objects.get(id=str(transcation[0].periodic_id))
-
-        if transcation[0].location_id is not None:
-            location = Location.objects.get(id=str(transcation[0].location_id))
-
-        if transcation[0].debt_id is not None:
-            debt = Debt.objects.get(id=str(transcation[0].debt_id)).name
+            if x.debt_id is not None:
+                debt = Debt.objects.get(id=str(x.debt_id)).name
             
 
         for x in transcation:
             transaction_list.append(x)
         transaction_serializer = TransactionSerializer(transaction_list, many=True)
-        data_dict = transaction_serializer.data
-        if data_dict[0]["income_to"] is not None:
-            data_dict[0]["income_to_name"] = income_to
-        if data_dict[0]["income_from"] is not None:
-            data_dict[0]["income_from_name"] = income_from
-        if data_dict[0]["source"] is not None:
-            data_dict[0]["source_name"] = source
-        if data_dict[0]["goal"] is not None:
-            data_dict[0]["goal_name"] = goal
-        if data_dict[0]["expense"] is not None:
-            data_dict[0]["expense_name"] = expense
-        if data_dict[0]["periodic"] is not None:
-            data_dict[0]["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
-        if data_dict[0]["location"] is not None:
-            data_dict[0]["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
-        if data_dict[0]["debt"] is not None:
-            data_dict[0]["debt_name"] = debt
+
+        for y in transaction_serializer.data:
+            if y["income_to"] is not None:
+                y["income_to_name"] = income_to
+            if y["income_from"] is not None:
+                y["income_from_name"] = income_from
+            if y["source"] is not None:
+                y["source_name"] = source
+            if y["goal"] is not None:
+                y["goal_name"] = goal
+            if y["expense"] is not None:
+                y["expense_name"] = expense
+            if y["periodic"] is not None:
+                y["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
+            if y["location"] is not None:
+                y["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
+            if y["debt"] is not None:
+                y["debt_name"] = debt
+            
+            main_list.append(y)
+        data_dict = main_list
+        
         return Response({"status":True, "message":"transaction data Fetched Succcessfully", "data":data_dict}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk=None, format=None):

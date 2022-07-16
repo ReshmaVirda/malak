@@ -244,12 +244,13 @@ class LocationSerializer(serializers.ModelSerializer):
 class PeriodicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Periodic
-        fields = ['id','start_date','end_date','week_days','prefix','prefix_value', 'created_at', 'modified_at']
+        fields = ['id','start_date','end_date','week_days','status_days','prefix','prefix_value', 'created_at', 'modified_at']
 
         extra_kwargs = {
             'id':{'read_only':True},
             'start_date':{'required':False},
             'week_days':{'required':False},
+            'status_days':{"required":False},
             "created_at":{'read_only':True, 'required':False},
             "modified_at":{'required':False}
         }
