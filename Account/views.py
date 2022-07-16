@@ -1649,7 +1649,6 @@ class TransactionView(APIView):
                     return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)  
         
             if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
-                status = []
                 if 'week_days' in request.data and request.data["week_days"] != "":
                     data = {
                         "start_date":request.data['start_date'],
@@ -1668,12 +1667,11 @@ class TransactionView(APIView):
                     else:
                         start_date = date.today()
 
-                    Date_Dict = ""
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict.split(",")
-                        Date_List = Date_List.pop()
+                        print(Date_Dict)
+                        Date_List = Date_Dict["Date_Months"].split(",")
                         for x in Date_List:
                             x = False
                             status_list.append(str(x))
@@ -1690,8 +1688,7 @@ class TransactionView(APIView):
                     elif "year" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict.split(",")
-                        Date_List = Date_List.pop()
+                        Date_List = Date_Dict["Date_Years"].split(",")
                         for x in Date_List:
                             x = False
                             status_list.append(str(x))
@@ -1708,8 +1705,7 @@ class TransactionView(APIView):
                     elif "day" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict.split(",")
-                        Date_List = Date_List.pop()
+                        Date_List = Date_Dict["Date_Days"].split(",")
                         for x in Date_List:
                             x = False
                             status_list.append(str(x))
