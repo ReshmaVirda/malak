@@ -15,7 +15,7 @@ class Subscription(models.Model):
         return self.name
 
 class UserManager(BaseUserManager):
-    def create_user(self, firstname, lastname, email, mobile, country, birthdate, gender, registered_by, device_token, social_id, profile_pic, is_agree, password, country_code, subscription=None):
+    def create_user(self, firstname, lastname, email, mobile, country, birthdate, gender, registered_by, device_token, social_id, profile_pic, is_agree, country_code, subscription=None, password=None):
         """
         Creates and saves a User with the given email, mobile, gender and password.
         """
@@ -94,7 +94,7 @@ class User(AbstractBaseUser):
     )
     registered_by = models.CharField(max_length=10, choices=Register_Choices)
     device_token = models.CharField(max_length=5000, default='', blank=True, null=True)
-    social_id = models.CharField(max_length=2000, default='', blank=True, null=True)
+    social_id = models.CharField(max_length=15000, default='', blank=True, null=True)
     subscription = models.ForeignKey(Subscription, blank=True, null=True, default="", related_name="subscribed", on_delete=models.DO_NOTHING)
     profile_pic = models.ImageField(upload_to=upload_to, blank=True, null=True)
     setup_count = models.CharField(default=0, max_length=255)

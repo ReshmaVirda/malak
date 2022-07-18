@@ -171,23 +171,23 @@ class UserRegistrationView(APIView):
             message = ''
             if 'firstname' in serializer.errors:
                 message = "firstname cannot be blank."
-            elif 'lastname' in serializer.errors:
+            if 'lastname' in serializer.errors:
                 message = "lastname cannot be blank."
-            elif 'email' in serializer.errors and serializer.errors['email'][0] == 'This field may not be blank.':
+            if 'email' in serializer.errors and serializer.errors['email'][0] == 'This field may not be blank.':
                 message = "email cannot be blank."
-            elif 'email' in serializer.errors and serializer.errors['email'][0] == 'Enter a valid email address.':
+            if 'email' in serializer.errors and serializer.errors['email'][0] == 'Enter a valid email address.':
                 message = "Enter a valid email address."
-            elif 'mobile' in serializer.errors:
+            if 'mobile' in serializer.errors:
                 message = "mobile cannot be blank"
-            elif 'gender' in serializer.errors and serializer.errors['gender'][0] == '"" is not a valid choice.':
+            if 'gender' in serializer.errors and serializer.errors['gender'][0] == '"" is not a valid choice.':
                 message = "please provide either male or female"
-            elif 'gender' in serializer.errors and serializer.errors['gender'][0] == "This field is required.":
+            if 'gender' in serializer.errors and serializer.errors['gender'][0] == "This field is required.":
                 message = "gender is the required field. please provide male or female choice."
-            elif 'registered_by' in serializer.errors and serializer.errors['registered_by'][0] == '"" is not a valid choice.':
+            if 'registered_by' in serializer.errors and serializer.errors['registered_by'][0] == '"" is not a valid choice.':
                 message = "please provide valid choice. choices are manual, facebook, gmail and apple."
-            elif 'is_agree' in serializer.errors and serializer.errors['is_agree'][0] == 'Must be a valid boolean.':
+            if 'is_agree' in serializer.errors and serializer.errors['is_agree'][0] == 'Must be a valid boolean.':
                 message = "is_agree cannot be blank please provide either true or false"
-            elif 'country_code' in serializer.errors:
+            if 'country_code' in serializer.errors:
                 message = "please provide country_code like IN, AR"
             
             LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":message}), email="", status=False)
@@ -1131,7 +1131,7 @@ class ExchangerateCreate(APIView):
 
     def post(self, request, pk=None, format=None):
         try:
-            User.objects.get(email=request.user).id
+           user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
             header = {
                 "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -1139,6 +1139,15 @@ class ExchangerateCreate(APIView):
             LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User doesn't exist"}), email=request.user, status=False)
             return Response({"status":False, "message":"User doesn't exist"}, status=status.HTTP_404_NOT_FOUND)
         
+        serializer = ''
+        try:
+            serializer = Exchangerate.objects.get(currency_name=request.data["currency_name"], user_id=user)
+        except Exchangerate.DoesNotExist:
+            pass
+        
+        if serializer != '':
+            return Response({"status":False, "message":"you can't add same currency.Please select another one."})
+
         serializer = ExchangerateSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -1633,8 +1642,8 @@ class TransactionView(APIView):
             if ('longitude' in request.data and 'latitude' in request.data and request.data["longitude"] != 0 and request.data["latitude"] != 0):
                 
                 data = {
-                    "longitude":float(request.data['longitude']),
-                    "latitude":float(request.data['latitude'])
+                    "longitude":request.data['longitude'],
+                    "latitude":request.data['latitude']
                 }  
                 location_serializer = LocationSerializer(data=data) 
                 if location_serializer.is_valid(raise_exception=True):
@@ -1649,10 +1658,7 @@ class TransactionView(APIView):
                     return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)   
         
             if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
-<<<<<<< HEAD
-                status_list = []
-=======
->>>>>>> f8542176f5574ca522b78231d794fc7cc0c51e36
+
                 if 'week_days' in request.data and request.data["week_days"] != "":
                     Date_List = str(request.data["week_days"]).split(",")
                     for x in Date_List:
@@ -1675,10 +1681,6 @@ class TransactionView(APIView):
                     else:
                         start_date = date.today()
 
-<<<<<<< HEAD
-                    
-=======
->>>>>>> f8542176f5574ca522b78231d794fc7cc0c51e36
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)

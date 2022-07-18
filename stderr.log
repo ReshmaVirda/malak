@@ -2919,3 +2919,164 @@ Traceback (most recent call last):
     data = {
          ^
 SyntaxError: invalid syntax
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 364, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "MalakApp/urls.py", line 23, in <module>
+    url(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python27/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "Account/urls.py", line 2, in <module>
+    from . import views
+  File "Account/views.py", line 1652
+    <<<<<<< HEAD
+               ^
+IndentationError: expected an indented block
+Not Found: /
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1636, in post
+    "longitude":float(request.data['longitude']),
+ValueError: could not convert string to float: 
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1633, in post
+    if ('longitude' in request.data and 'latitude' in request.data and request.data["longitude"] != 0 and request.data["latitude"] != 0):
+TypeError: string indices must be integers
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Internal Server Error: /exchange-rate/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "Account/views.py", line 1135, in post
+    exchange_rate_data = Exchangerate.objects.get(currency_name=request.data["currency_name"])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib/python2.7/site-packages/django/db/models/query.py", line 384, in get
+    (self.model._meta.object_name, num)
+MultipleObjectsReturned: get() returned more than one Exchangerate -- it returned 14!
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /income/135
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /register
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
+Not Found: /transaction/
