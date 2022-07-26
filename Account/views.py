@@ -6,16 +6,23 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from Account.renderer import UserRenderer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from Account.serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, UserSubscriptionSerializer, IncomeSerializer,ExpenseSerializer,GoalsSerializer, SourceIncomeSerializer, ExchangerateSerializer, LocationSerializer, PeriodicSerializer, SettingSerializer, TagSerializer, DebtSerializer, TransactionSerializer
+from Account.serializers import LogoutSerializer, UserRegistrationSerializer, UserLoginSerializer, UserSocialLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, UserSubscriptionSerializer, IncomeSerializer,ExpenseSerializer,GoalsSerializer, SourceIncomeSerializer, ExchangerateSerializer, LocationSerializer, PeriodicSerializer, SettingSerializer, TagSerializer, DebtSerializer, TransactionSerializer
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.contrib.auth.hashers import make_password
 import json
 from django.db.models import Sum
-from datetime import timedelta, date, datetime
+from datetime import date, datetime as dt, timedelta
+import datetime
 from django.core.files.storage import FileSystemStorage
 from dateutil.relativedelta import relativedelta
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.shortcuts import render
+from django.template.loader import render_to_string
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 # Create your views here.
 
 ## Date Control ##
@@ -27,11 +34,11 @@ def Get_Dates(prefix, prefix_value, enddate, startdate=None):
     start_date = ""
 
     if startdate is not None:
-        start_date = datetime.strptime(str(startdate), '%Y-%m-%d').date()
+        start_date = dt.strptime(str(startdate), '%Y-%m-%d').date()
     else:
         start_date = date.today()
     
-    end_date = datetime.strptime(str(enddate), '%Y-%m-%d').date()
+    end_date = dt.strptime(str(enddate), '%Y-%m-%d').date()
 
     if prefix == "month":
         del month_dates[:]
@@ -66,24 +73,57 @@ def Get_Dates(prefix, prefix_value, enddate, startdate=None):
 
 # Generate Manual Token Code Start #
 def get_tokens_for_user(user):
-  refresh = RefreshToken.for_user(user)
-  refresh_token = refresh
-  access_token = refresh.access_token
+    refresh = ""
+    try:
+        user_data = User.objects.get(email=user).id
+    except User.DoesNotExist:
+        return Response({"status":False, "message":"User Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
+    
+    refresh = OutstandingToken.objects.filter(user_id=user_data)
+    if refresh != []:
+        refresh.delete()  
+    
+    refresh = RefreshToken.for_user(user)
 
-  refresh_token.set_exp(lifetime=timedelta(days=60))
-  access_token.set_exp(lifetime=timedelta(days=15))
-  return {
-      'refresh': str(refresh_token),
-      'access': str(access_token),
-  }
+    refresh_token = refresh
+    access_token = refresh.access_token
+    
+    return {
+        'refresh': str(refresh_token),
+        'access': str(access_token),
+    }
 # Generate Manual Token Code End #
+
+# Check Token Code Start #
+def check_token(user):
+    refresh = ""
+    try:
+        user_data = User.objects.get(email=user).id
+    except User.DoesNotExist:
+        return Response({"status":False, "message":"User Doesn't Exist."}, status=status.HTTP_404_NOT_FOUND)
+    
+    try:    
+        refresh = OutstandingToken.objects.get(user_id=user_data).id
+    except OutstandingToken.DoesNotExist:
+        return Response({"status":False, "message":"User Haven't Any Token."}, status=status.HTTP_404_NOT_FOUND)
+    
+    try:
+        refresh = BlacklistedToken.objects.get(token_id=refresh)
+        if refresh:
+            refresh = "Token is Blacklisted."
+    except BlacklistedToken.DoesNotExist:
+        refresh = ""
+    
+    return refresh
+
+# Check Token Code End #
 
 # User Registration Api Code Start #            Done with logs
 class UserRegistrationView(APIView):
-    # renderer_classes = [UserRenderer]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     def post(self, request, format=None):
         serializer = ''
+        userpassword = ""
         try:
             serializer = User.objects.get(email=request.data['email'])
         except User.DoesNotExist:
@@ -93,12 +133,21 @@ class UserRegistrationView(APIView):
             LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User already exist with this email"}), email=serializer.email, status=False)
             return Response({"status":False, "message":"User already exist with this email"}, status=status.HTTP_404_NOT_FOUND)
         
-        userpassword = make_password(request.data['password'])
-        request.data.update({'password':userpassword})
+        if 'registered_by' in request.data and request.data["registered_by"] == "manual":
+            if 'password' in request.data or request.data["password"] != "":
+                userpassword = make_password(request.data['password'])
+                request.data.update({"password":userpassword})
+            else:
+                return Response({"status":False, "message":"password is the required field cannot be blank."}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if 'social_id' not in request.data or request.data["social_id"] == "":
+                return Response({"status":False, "message":"social_id cannot be blank while signup with social account."}, status=status.HTTP_400_BAD_REQUEST)            
+
         serializer = UserRegistrationSerializer(data=request.data)#
         if serializer.is_valid(raise_exception=False):
             user = serializer.save()
             token = get_tokens_for_user(user)
+            
             user = User.objects.get(email=user)
             settings = Setting.objects.create(user_id=user.id)
             country = ''
@@ -189,135 +238,250 @@ class UserRegistrationView(APIView):
                 message = "is_agree cannot be blank please provide either true or false"
             if 'country_code' in serializer.errors:
                 message = "please provide country_code like IN, AR"
-            
+            if 'registered_by' in serializer.errors:
+                message = "please provide manual, facebook, google or apple as a choice."
             LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":message}), email="", status=False)
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 # User Registration Api Code End #  
 
 # User Login Api Code Start #                   Done with logs
 class UserLoginView(APIView):
-    # renderer_classes = [UserRenderer]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     def post(self, request, format=None):
-        if (('email' not in request.data and request.data['email'] == "") or ('email' not in request.data and request.data['email'] == None) and ('password' not in request.data and request.data['password'] == "") or ('password' not in request.data and request.data['password'] == None)): 
-            return Response({"status":False, "message":"email and password cannot be blank"})
-        serializer = UserLoginSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
-            email = serializer.data.get('email')
-            password = serializer.data.get('password')
-            user = authenticate(email=email, password=password)
-    
-            if user is not None:
-                if not user.is_active:
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"Your account is not active, please contact admin"}), email=email, status=False)
-                    return Response({"status":False, "message":"Your account is not active, please contact admin"}, status=status.HTTP_400_BAD_REQUEST)
-                elif user is not None:
-                    token = get_tokens_for_user(user)
-                    try:
-                        user = User.objects.get(email=serializer.data.get('email'))
-                    except User.DoesNotExist:
-                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User Detail Not Found"}), email=email, status=False)
-                        return Response({"status":False, "message":"User Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
+        if (('email' not in request.data and request.data['email'] == "") and ('registered_by' not in request.data and request.data['registered_by'] == "")): 
+            return Response({"status":False, "message":"email and registered_by cannot be blank"})
+        
+        if request.data["registered_by"] == "manual":
+            serializer = UserLoginSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=False):
+                email = serializer.data.get('email')
+                password = serializer.data.get('password')
+                registered_by = serializer.data.get('registered_by')
+                user = authenticate(email=email, password=password, registered_by=registered_by)
+        
+                if user is not None:
+                    if not user.is_active:
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"Your account is not active, please contact admin"}), email=email, status=False)
+                        return Response({"status":False, "message":"Your account is not active, please contact admin"}, status=status.HTTP_400_BAD_REQUEST)
+                    elif user is not None:
+                        token = get_tokens_for_user(user)
+                        try:
+                            user = User.objects.get(email=serializer.data.get('email'))
+                        except User.DoesNotExist:
+                            LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User Detail Not Found"}), email=email, status=False)
+                            return Response({"status":False, "message":"User Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
-                    country = ''
-                    birthdate = ''
-                    device_token = ''
-                    social_id = ''
-                    subscription_id = ''
-                    profile_pic = ''
+                        country = ''
+                        birthdate = ''
+                        device_token = ''
+                        social_id = ''
+                        subscription_id = ''
+                        profile_pic = ''
 
-                    if user.country != '':
-                        country = user.country
-                    else:
-                        country = None
+                        if user.country != '':
+                            country = user.country
+                        else:
+                            country = None
 
-                    if user.birthdate != '':
-                        birthdate = user.birthdate
-                    else:
-                        birthdate = None
+                        if user.birthdate != '':
+                            birthdate = user.birthdate
+                        else:
+                            birthdate = None
 
-                    if user.device_token != '':
-                        device_token = user.device_token
-                    else:
-                        device_token = None
+                        if user.device_token != '':
+                            device_token = user.device_token
+                        else:
+                            device_token = None
+                        
+                        if user.social_id != '':
+                            social_id = user.social_id
+                        else:
+                            social_id = None
+
+                        if user.subscription != '':
+                            subscription_id = user.subscription
+                        else:
+                            subscription_id = None
+                        
+                        if user.image_url != None:
+                            profile_pic = request.build_absolute_uri(user.image_url)
+                        else:
+                            profile_pic = None
+
+                        try:
+                            settings = Setting.objects.get(user_id=str(user.id)).id
+                        except Setting.DoesNotExist:
+                            settings = "setting detail not found"
                     
-                    if user.social_id != '':
-                        social_id = user.social_id
+                        User_data = {
+                            'id':user.id,
+                            'firstname':user.firstname,
+                            'lastname':user.lastname,
+                            'email':user.email,
+                            'mobile':user.mobile,
+                            'gender':user.gender,
+                            'country':country,
+                            'birthdate':birthdate,
+                            'is_agree':user.is_agree,
+                            'registered_by':user.registered_by,
+                            'profile_pic':profile_pic,
+                            'subscription_id':str(subscription_id),
+                            'social_id':social_id,
+                            'device_token':device_token,
+                            'is_verified':user.is_verified,
+                            'setupcount':int(user.setup_count),
+                            'is_setup':user.is_setup,
+                            'is_registered':user.is_registered,
+                            'is_active':user.is_active,
+                            'is_admin':user.is_admin,
+                            'country_code':user.country_code,
+                            'is_subscribed':user.is_subscribed,
+                            'access_token':token.get('access'),
+                            'refresh_token':token.get('refresh'),
+                            'settings_id':settings
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":True, "message":"Login Successfully"}), email=email, status=True)
+                        return Response({"status":True, "message":"Login Successfully", "data":User_data}, status=status.HTTP_200_OK)
                     else:
-                        social_id = None
-
-                    if user.subscription != '':
-                        subscription_id = user.subscription
-                    else:
-                        subscription_id = None
-                    
-                    if user.image_url != None:
-                        profile_pic = request.build_absolute_uri(user.image_url)
-                    else:
-                        profile_pic = None
-
-                    try:
-                        settings = Setting.objects.get(user_id=str(user.id)).id
-                    except Setting.DoesNotExist:
-                        settings = "setting detail not found"
-                
-                    User_data = {
-                        'id':user.id,
-                        'firstname':user.firstname,
-                        'lastname':user.lastname,
-                        'email':user.email,
-                        'mobile':user.mobile,
-                        'gender':user.gender,
-                        'country':country,
-                        'birthdate':birthdate,
-                        'is_agree':user.is_agree,
-                        'registered_by':user.registered_by,
-                        'profile_pic':profile_pic,
-                        'subscription_id':str(subscription_id),
-                        'social_id':social_id,
-                        'device_token':device_token,
-                        'is_verified':user.is_verified,
-                        'setupcount':int(user.setup_count),
-                        'is_setup':user.is_setup,
-                        'is_registered':user.is_registered,
-                        'is_active':user.is_active,
-                        'is_admin':user.is_admin,
-                        'country_code':user.country_code,
-                        'is_subscribed':user.is_subscribed,
-                        'access_token':token.get('access'),
-                        'refresh_token':token.get('refresh'),
-                        'settings_id':settings
-                    }
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":True, "message":"Login Successfully"}), email=email, status=True)
-                    return Response({"status":True, "message":"Login Successfully", "data":User_data}, status=status.HTTP_200_OK)
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":{"non_field_errors":["Email or Password is not valid"]}}), email=email, status=False)
+                        return Response({"status":False, "message":"Email or Password is not valid"}, status=status.HTTP_404_NOT_FOUND)
                 else:
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":{"non_field_errors":["Email or Password is not valid"]}}), email=email, status=False)
-                    return Response({"status":False, "message":"Email or Password is not valid"}, status=status.HTTP_404_NOT_FOUND)
+                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"user credential not match"}), email=request.data['email'], status=False)
+                    return Response({"status":False, "message":"user credential not match"}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"user credential not match"}), email=request.data['email'], status=False)
-                return Response({"status":False, "message":"user credential not match"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            message = ''
-            if (('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank.") and ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank.")):
-                message = "please enter your email and password to login" 
-            elif ('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank."):
-                message = "Please provide your login password"
-            elif ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank."):
-                message = "please enter your email"
-            elif ('email' in serializer.errors and serializer.errors['email'][0] == "Enter a valid email address."):
-                message = "Enter a valid email address."
+                message = ''
+                if (('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank.") and ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank.")):
+                    message = "please enter your email and password to login" 
+                elif ('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank."):
+                    message = "Please provide your login password"
+                elif ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank."):
+                    message = "please enter your email"
+                elif ('email' in serializer.errors and serializer.errors['email'][0] == "Enter a valid email address."):
+                    message = "Enter a valid email address."
 
-            LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":serializer.errors}), email=request.data['email'], status=False)
-            return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
+                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":serializer.errors}), email=request.data['email'], status=False)
+                return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = UserSocialLoginSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=False):
+                email = serializer.data.get('email')
+                password = serializer.data.get('password')
+                social_id = serializer.data.get('social_id')
+                registered_by = serializer.data.get('registered_by')
+                user = authenticate(email=email, registered_by=registered_by, social_id=social_id)
+                if user is not None:
+                    if not user.is_active:
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"Your account is not active, please contact admin"}), email=email, status=False)
+                        return Response({"status":False, "message":"Your account is not active, please contact admin"}, status=status.HTTP_400_BAD_REQUEST)
+                    elif user is not None:
+                        token = get_tokens_for_user(user)
+                        try:
+                            user = User.objects.get(email=serializer.data.get('email'))
+                        except User.DoesNotExist:
+                            LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User Detail Not Found"}), email=email, status=False)
+                            return Response({"status":False, "message":"User Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+                        country = ''
+                        birthdate = ''
+                        device_token = ''
+                        social_id = ''
+                        subscription_id = ''
+                        profile_pic = ''
+
+                        if user.country != '':
+                            country = user.country
+                        else:
+                            country = None
+
+                        if user.birthdate != '':
+                            birthdate = user.birthdate
+                        else:
+                            birthdate = None
+
+                        if user.device_token != '':
+                            device_token = user.device_token
+                        else:
+                            device_token = None
+                        
+                        if user.social_id != '':
+                            social_id = user.social_id
+                        else:
+                            social_id = None
+
+                        if user.subscription != '':
+                            subscription_id = user.subscription
+                        else:
+                            subscription_id = None
+                        
+                        if user.image_url != None:
+                            profile_pic = request.build_absolute_uri(user.image_url)
+                        else:
+                            profile_pic = None
+
+                        try:
+                            settings = Setting.objects.get(user_id=str(user.id)).id
+                        except Setting.DoesNotExist:
+                            settings = "setting detail not found"
+                    
+                        User_data = {
+                            'id':user.id,
+                            'firstname':user.firstname,
+                            'lastname':user.lastname,
+                            'email':user.email,
+                            'mobile':user.mobile,
+                            'gender':user.gender,
+                            'country':country,
+                            'birthdate':birthdate,
+                            'is_agree':user.is_agree,
+                            'registered_by':user.registered_by,
+                            'profile_pic':profile_pic,
+                            'subscription_id':str(subscription_id),
+                            'social_id':social_id,
+                            'device_token':device_token,
+                            'is_verified':user.is_verified,
+                            'setupcount':int(user.setup_count),
+                            'is_setup':user.is_setup,
+                            'is_registered':user.is_registered,
+                            'is_active':user.is_active,
+                            'is_admin':user.is_admin,
+                            'country_code':user.country_code,
+                            'is_subscribed':user.is_subscribed,
+                            'access_token':token.get('access'),
+                            'refresh_token':token.get('refresh'),
+                            'settings_id':settings
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":True, "message":"Login Successfully"}), email=email, status=True)
+                        return Response({"status":True, "message":"Login Successfully", "data":User_data}, status=status.HTTP_200_OK)
+                    else:
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":{"non_field_errors":["Email or Password is not valid"]}}), email=email, status=False)
+                        return Response({"status":False, "message":"Email or Password is not valid"}, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"user credential not match"}), email=request.data['email'], status=False)
+                    return Response({"status":False, "message":"user credential not match"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                message = ''
+                if (('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank.") and ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank.")):
+                    message = "please enter your email and password to login" 
+                elif ('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank."):
+                    message = "Please provide your login password"
+                elif ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank."):
+                    message = "please enter your email"
+                elif ('email' in serializer.errors and serializer.errors['email'][0] == "Enter a valid email address."):
+                    message = "Enter a valid email address."
+
+                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":serializer.errors}), email=request.data['email'], status=False)
+                return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 # User Login Api Code End #
 
 # User Profile API Code Start #                 Done with logs
 class UserProfileView(APIView):
-    # renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get(self, request, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserProfileSerializer(request.user)
         country = ''
         birthdate = ''
@@ -393,6 +557,9 @@ class UserProfileView(APIView):
         return Response({"status":True, "message":"Fetch UserData Successfully", "data":user_profile}, status=status.HTTP_200_OK)
     
     def put(self, request, format=None):
+	token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         country = ''
         birthdate = ''
         profile_pic = ''
@@ -489,10 +656,12 @@ class UserProfileView(APIView):
 
 # User Change Password Code Start #
 class UserChangePasswordView(APIView):
-    renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     def post(self, request, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserChangePasswordSerializer(data=request.data, context={'user':request.user})
         if serializer.is_valid(raise_exception=True):
             return Response({'status':True, 'message':'Password Changed Successfully'}, status=status.HTTP_200_OK)
@@ -501,11 +670,13 @@ class UserChangePasswordView(APIView):
 
 # Admin Subscription API Code Start #           Done with logs
 class AdminSubscriptionView(APIView):
-    # renderer_classes = [UserRenderer]
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     
     def post(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = ''    
         try:
             serializer = Subscription.objects.get(name=request.data['name'])
@@ -540,6 +711,9 @@ class AdminSubscriptionView(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         if pk is not None and pk != "":
             try:
                 subscription_data = Subscription.objects.get(id=pk)
@@ -577,6 +751,9 @@ class AdminSubscriptionView(APIView):
             return Response({"status":False, "message":"Please Enter plan id in url/<id>"}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         subscription_data = ''
         try:
             subscription_data = Subscription.objects.all()
@@ -604,6 +781,9 @@ class AdminSubscriptionView(APIView):
         return Response({"status":True, "message":"Retrieve data Successfully", "data":serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         if pk is not None and pk != "":
             try:
                 subscription_data = Subscription.objects.get(id=pk)
@@ -635,6 +815,9 @@ class UserSubscriptionView(APIView):
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get(self, request, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             subscription_data = Subscription.objects.all()
         except Subscription.DoesNotExist:
@@ -670,6 +853,9 @@ class UserSubscriptionView(APIView):
 class IncomeCreate(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = IncomeSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=True):
             if (('is_setup'in request.data and request.data['is_setup'] != "") and ('setupcount' in request.data and request.data['setupcount'] != "")):
@@ -704,6 +890,9 @@ class IncomeDetailView(APIView):
 
         
     def get(self, request, pk, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -718,6 +907,9 @@ class IncomeDetailView(APIView):
 
 
     def put(self,request,pk,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -745,6 +937,9 @@ class IncomeDetailView(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)  
 
     def delete(self,request,pk):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -807,6 +1002,9 @@ class ExpenseCreate(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = ExpenseSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=True):
             if (('setupcount' in request.data and request.data['setupcount'] != "")):
@@ -824,6 +1022,9 @@ class ExpenseCreate(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)  
 
     def get(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
         if user is not None:
             Expenses = Expense.objects.filter(user=user)
@@ -839,9 +1040,11 @@ class ExpenseDetailView(APIView):
             return Expense.objects.get(pk=pk)
         except Expense.DoesNotExist:
              return Response({"status":False, "message":"Expense Detail Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
-
-        
+       
     def get(self, request, pk, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -856,8 +1059,10 @@ class ExpenseDetailView(APIView):
         serializer = ExpenseSerializer(expense)
         return Response({"status":True, "message":"Retrieve data Successfully", "data":serializer.data}, status=status.HTTP_200_OK)   
 
-
     def put(self,request,pk,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -883,8 +1088,10 @@ class ExpenseDetailView(APIView):
                 message = "icon cannot be blank."
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST) 
 
-
     def delete(self,request,pk):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -922,6 +1129,9 @@ class GoalsCreate(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = GoalsSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=True):
             if (('setupcount' in request.data and request.data['setupcount'] != "")):
@@ -939,6 +1149,9 @@ class GoalsCreate(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)  
 
     def get(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
         if user is not None:
             goals = Goal.objects.filter(user=user)
@@ -957,6 +1170,9 @@ class GoalsDetailView(APIView):
 
         
     def get(self, request, pk, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -973,6 +1189,9 @@ class GoalsDetailView(APIView):
 
 
     def put(self,request,pk,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1000,6 +1219,9 @@ class GoalsDetailView(APIView):
 
 
     def delete(self,request,pk):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1037,6 +1259,9 @@ class GoalsDetailView(APIView):
 class SourceIncomeView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request , format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = SourceIncomeSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -1052,6 +1277,9 @@ class SourceIncomeView(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self,request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
         if user is not None:
             sourceincome = SourceIncome.objects.filter(user=user)
@@ -1069,6 +1297,9 @@ class SourceIncomeDetailView(APIView):
 
         
     def get(self, request,pk, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1083,6 +1314,9 @@ class SourceIncomeDetailView(APIView):
 
 
     def put(self,request,pk,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=str(request.user)).id
         except User.DoesNotExist:
@@ -1106,6 +1340,9 @@ class SourceIncomeDetailView(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)  
 
     def delete(self,request,pk):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = request.user
             if user is not None:
@@ -1130,6 +1367,9 @@ class ExchangerateCreate(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
            user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1170,6 +1410,9 @@ class ExchangerateCreate(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         exchangerate = ''
         try:
             user = User.objects.get(email=request.user).id
@@ -1207,6 +1450,9 @@ class ExchangerateCreate(APIView):
         return Response({"status":True, "message":"Exchangerate data Fetched Succcessfully", "data":exchangerate_serializer.data}, status=status.HTTP_200_OK)
 
     def put(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         exchangerate = ''
         if pk is not None and pk != '':
             try:
@@ -1257,6 +1503,9 @@ class ExchangerateCreate(APIView):
             return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         exchangerate = ''        
         if pk is not None and pk != '':
             try:
@@ -1302,6 +1551,9 @@ class LocationDetailView(APIView):
 
         
     def get(self, request, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=str(request.user)).id
         except User.DoesNotExist:
@@ -1320,70 +1572,6 @@ class LocationDetailView(APIView):
         
         serializer = LocationSerializer(location)
         return Response({"status":True,"message":"fetch data successfully", "data":serializer.data}, status=status.HTTP_200_OK)
-
-
-    def put(self,request,format=None):
-        try:
-            user = User.objects.get(email=request.user).id
-        except User.DoesNotExist:
-            return Response({'status':False, 'message':'user data not found'}, status=status.HTTP_404_NOT_FOUND)
-        try:
-            trans = Transaction.objects.get(user_id=user, id=request.data.get('transaction_id'))
-        except Transaction.DoesNotExist:
-            return Response({'status':False, 'message':'transaction data not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        if trans.location_id != None:
-            try:
-                location =Location.objects.get(id=trans.location_id)
-            except Location.DoesNotExist:
-                return Response({'status':False, 'message':'Location data not found'}, status=status.HTTP_404_NOT_FOUND)
-            
-            serializer = LocationSerializer(location,data=request.data)
-            if serializer.is_valid(raise_exception=False):
-                serializer.save()
-                # Transaction.objects.filter(user_id=user.id, id=request.data.get('transaction_id')).update(periodic=serializer.data.get('id'))
-                return Response({"status":True, "message":"successfully updated", "data":serializer.data}, status=status.HTTP_200_OK)
-            else:
-                message = ""
-                if 'latitude' in serializer.errors:
-                    message = "latitude cannot be blank must be double max_length 15 digit."
-                
-                if 'longitude' in serializer.errors:
-                    message = "longitude cannot be blank must be double max_length 15 digit."
-                return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)  
-        else:
-            serializer = LocationSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=False):
-                serializer.save()
-                Transaction.objects.filter(user_id=user.id, id=request.data.get('transaction_id')).update(location=serializer.data.get('id'))
-                return Response({"status":"update success", "data":serializer.data}, status=status.HTTP_201_CREATED)
-            else:
-                message = ""
-                if 'latitude' in serializer.errors:
-                    message = "latitude cannot be blank must be double max_length 15 digit."
-                
-                if 'longitude' in serializer.errors:
-                    message = "longitude cannot be blank must be double max_length 15 digit."
-                return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)    
-
-    def delete(self,request, pk=None):
-        try:
-            user = User.objects.get(email=request.user).id
-        except User.DoesNotExist:
-            return Response({'status':False, 'message':'user data not found'}, status=status.HTTP_404_NOT_FOUND)
-        try:
-            trans = Transaction.objects.get(user_id=user, id=request.data.get('transaction_id'))
-        except Transaction.DoesNotExist:
-            return Response({'status':False, 'message':'transaction data not found'}, status=status.HTTP_404_NOT_FOUND)
-        try:
-            location = Location.objects.get(id=trans.location_id)
-        except Location.DoesNotExist:
-            return Response({'status':False, 'message':'LOCATION data not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        
-        location.delete()
-        
-        return Response({"status":True, "message":"data was successfully delete"}, status=status.HTTP_200_OK)
 # User location API Code end#
 
 # User periodic API Code Start#
@@ -1397,6 +1585,9 @@ class PeriodicDetailView(APIView):
 
         
     def get(self, request, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1414,82 +1605,15 @@ class PeriodicDetailView(APIView):
         
         serializer = PeriodicSerializer(periodic)
         return Response({"status":True,"message":"fetch data successfully", "data":serializer.data}, status=status.HTTP_200_OK)
-
-
-    def put(self,request,format=None):
-        try:
-            user = User.objects.get(email=request.user).id
-        except User.DoesNotExist:
-            return Response({'status':False, 'message':'user data not found'}, status=status.HTTP_404_NOT_FOUND)
-        try:
-            trans = Transaction.objects.get(user_id=user, id=str(request.data.get('transaction_id')))
-        except Transaction.DoesNotExist:
-            return Response({'status':False, 'message':'transaction data not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        if trans.periodic_id != None:
-            try:
-                periodic = Periodic.objects.get(id=trans.periodic_id)
-            except Periodic.DoesNotExist:
-                return Response({'status':False, 'message':'periodic data not found'}, status=status.HTTP_404_NOT_FOUND)
-            
-            serializer = PeriodicSerializer(periodic,data=request.data)
-            if serializer.is_valid(raise_exception=False):
-                serializer.save()
-                return Response({"status":True, "data":serializer.data}, status=status.HTTP_201_CREATED)
-            else:
-                message = ""
-                if 'start_date' in serializer.errors:
-                    message = "provide valid date yyyy-mm-dd."
-                if 'end_date' in serializer.errors:
-                    message = "provide valid date yyyy-mm-dd."
-                if 'week_days' in serializer.errors:
-                    message = "week_days cannot be blank and must be comma saparated string like 2022-07-12,2022-07-13."
-                if 'prefix' in serializer.errors:
-                    message = "prefix cannot be blank must be string choice like day,month,year,week."
-                if 'prefix_value' in serializer.errors:
-                    message="prefix_value must be integer."
-                return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)  
-        else:
-            serializer = PeriodicSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=False):
-                serializer.save()
-                Transaction.objects.filter(user_id=user, id=request.data.get('transaction_id')).update(periodic=serializer.data.get('id'))
-                return Response({"status":"update success", "data":serializer.data}, status=status.HTTP_201_CREATED)
-            else:
-                message = ""
-                if 'start_date' in serializer.errors:
-                    message = "provide valid date yyyy-mm-dd."
-                if 'end_date' in serializer.errors:
-                    message = "provide valid date yyyy-mm-dd."
-                if 'week_days' in serializer.errors:
-                    message = "week_days cannot be blank and must be comma saparated string like 2022-07-12,2022-07-13."
-                if 'prefix' in serializer.errors:
-                    message = "prefix cannot be blank must be string choice like day,month,year,week."
-                if 'prefix_value' in serializer.errors:
-                    message="prefix_value must be integer."
-                return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)  
-
-    def delete(self,request):
-        try:
-            user = User.objects.get(email=request.user).id
-        except User.DoesNotExist:
-            return Response({'status':False, 'message':'user data not found'}, status=status.HTTP_404_NOT_FOUND)
-        try:
-            trans = Transaction.objects.get(user_id=user, id=request.data.get('transaction_id'))
-        except Transaction.DoesNotExist:
-            return Response({'status':False, 'message':'transaction data not found'}, status=status.HTTP_404_NOT_FOUND)
-        try:
-            periodic = Periodic.objects.get(id=trans.periodic_id)
-        except Periodic.DoesNotExist:
-            return Response({'status':False, 'message':'periodic data not found'}, status=status.HTTP_404_NOT_FOUND)
-        periodic.delete()
-        return Response({"status":True, "message":"data was successfully delete"}, status=status.HTTP_200_OK)
 # User periodic API Code end#
 
 # User setting API Code Start#
 class SettingView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
         if user is not None:
             setting = Setting.objects.filter(user=user)
@@ -1501,6 +1625,9 @@ class SettingDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self,request,pk,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1531,6 +1658,9 @@ class SettingDetailView(APIView):
 class DebtView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request , format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=str(request.user))
         except:
@@ -1553,9 +1683,12 @@ class DebtView(APIView):
             if 'date' in serializer.errors:
                 message = "provide valid date yyyy-mm-dd."
             
-            return Response({"status":False,  "data":serializer.error}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status":False,  "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self,request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=str(request.user)).id
         except User.DoesNotExist:
@@ -1570,7 +1703,9 @@ class DebtDetailView(APIView):
     permission_classes = [IsAuthenticated]
         
     def get(self, request,pk, format=None):
-        
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
@@ -1584,6 +1719,9 @@ class DebtDetailView(APIView):
         return Response({"status":True, "message":"fetch data successfuly", "data":serializer.data}, status=status.HTTP_200_OK)
 
     def put(self,request,pk,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=str(request.user)).id
         except User.DoesNotExist:
@@ -1596,7 +1734,7 @@ class DebtDetailView(APIView):
         serializer = DebtSerializer(debt,data=request.data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
-            return Response({"status":True, "data":serializer.data}, status=status.HTTP_201_CREATED)
+            return Response({"status":True, "message":"Update Debt Successfully", "data":serializer.data}, status=status.HTTP_201_CREATED)
         else:
             message = ""
             if 'icon' in serializer.errors:
@@ -1608,9 +1746,12 @@ class DebtDetailView(APIView):
             if 'date' in serializer.errors:
                 message = "provide valid date yyyy-mm-dd."
             
-            return Response({"status":False,  "data":serializer.error}, status=status.HTTP_400_BAD_REQUEST)  
+            return Response({"status":False,  "message":message}, status=status.HTTP_400_BAD_REQUEST)  
 
     def delete(self,request,pk):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(email=str(request.user)).id
         except User.DoesNotExist:
@@ -1619,6 +1760,23 @@ class DebtDetailView(APIView):
             debt = Debt.objects.get(id=pk, user_id=user)
         except:
             return Response({'status':False, 'message':'debt data not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        transactions = Transaction.objects.filter(debt_id=debt.id)
+        for x in transactions:
+
+            if x.income_from_id is not None:
+                income_data = Income.objects.filter(id=x.income_from_id)
+                update_amount = float(income_data[0].amount) + float(x.amount)
+                income_data.update(amount=update_amount)
+
+            if x.location_id is not None:
+                location_data = Location.objects.filter(id=x.location_id)
+                location_data.delete()
+            
+            if x.periodic_id is not None:
+                periodic_data = Periodic.objects.filter(id=x.periodic_id)
+                periodic_data.delete()
+        
         debt.delete()
         return Response({"status":True, "message":"data was successfully delete"}, status=status.HTTP_200_OK) 
 # Debt View Code End #
@@ -1628,8 +1786,12 @@ class TransactionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self,  request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         data_dict = {}
         data = {}
+        status_list = []
         if request.data != {}:
             location_serializer = ''
             periodicSerializer = ''
@@ -1662,8 +1824,15 @@ class TransactionView(APIView):
                 if 'week_days' in request.data and request.data["week_days"] != "":
                     Date_List = str(request.data["week_days"]).split(",")
                     for x in Date_List:
-                        x = False
-                        status_list.append(str(x))
+                        x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                        if x_date == dt.now().date():
+                            Date_List.remove(x)
+                            
+                    for x in data:
+                        x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                        if x_date > dt.now().date():
+                            status_list.append(False)
+
                     status_days = ','.join(status_list)
                     data = {
                         "start_date":request.data['start_date'],
@@ -1684,7 +1853,6 @@ class TransactionView(APIView):
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
                         del status_list[:]
                         Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        print(Date_Dict)
                         Date_List = Date_Dict["Date_Months"].split(",")
                         for x in Date_List:
                             x = False
@@ -2194,13 +2362,42 @@ class TransactionView(APIView):
                         else:
                             return Response({"status":False, "message":"Paid amount %s is grater then the Debt amount %s"%(request.data["amount"], debt.amount)}, status=status.HTTP_400_BAD_REQUEST)
 
-                    data_dict ={
-                        "title":title,
-                        "description":description,
-                        "amount":request.data["amount"],
-                        "income_from":income.id,
-                        "debt":debt.id
-                    }
+                    if location_serializer != "" and periodicSerializer == "":
+                        data_dict ={
+                            "title":title,
+                            "description":description,
+                            "amount":request.data["amount"],
+                            "income_from":income.id,
+                            "debt":debt.id,
+                            "location":location_serializer.data.get('id')
+                        }
+                    elif location_serializer == "" and periodicSerializer != "":
+                        data_dict ={
+                            "title":title,
+                            "description":description,
+                            "amount":request.data["amount"],
+                            "income_from":income.id,
+                            "debt":debt.id,
+                            "periodic":periodicSerializer.data.get('id')
+                        }
+                    elif location_serializer != "" and periodicSerializer != "":
+                        data_dict ={
+                            "title":title,
+                            "description":description,
+                            "amount":request.data["amount"],
+                            "income_from":income.id,
+                            "debt":debt.id,
+                            "location":location_serializer.data.get('id'),
+                            "periodic":periodicSerializer.data.get('id')
+                        }
+                    else:
+                        data_dict ={
+                            "title":title,
+                            "description":description,
+                            "amount":request.data["amount"],
+                            "income_from":income.id,
+                            "debt":debt.id
+                        }
                     
                     if 'created_at' in request.data and "modified_at" in request.data:
                         data_dict.update({"created_at":request.data["created_at"]})
@@ -2235,6 +2432,9 @@ class TransactionView(APIView):
             return Response({"status":False, "message":"Invalid data Passed"}, status=status.HTTP_400_BAD_REQUEST)
         
     def put(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         if pk is not None and pk != "":
             goal = ''
             income_from = ''
@@ -2242,6 +2442,9 @@ class TransactionView(APIView):
             source = ''
             expense = ''
             debt = ''
+            location = ''
+            periodic = ''
+            status_list = []
 
             try:
                 user = User.objects.get(email=request.user).id
@@ -2253,45 +2456,212 @@ class TransactionView(APIView):
             except Transaction.DoesNotExist:
                 return Response({"status":False, "message":"Transaction detail not found with id %s"%(pk)}, status=status.HTTP_404_NOT_FOUND)
 
-            if transaction.income_from_id is not None:
+            if transaction.income_from_id is not None and transaction.income_from_id != "":
                 income_from = Income.objects.filter(user_id=user, id=transaction.income_from_id) 
             
-            if transaction.income_to_id is not None:
+            if transaction.income_to_id is not None and transaction.income_to_id != "":
                 income_to = Income.objects.filter(user_id=user, id=transaction.income_to_id)
 
-            if transaction.goal_id is not None:
+            if transaction.goal_id is not None and transaction.goal_id != "":
                 goal = Goal.objects.filter(user_id=user, id=transaction.goal_id)
 
-            if transaction.source_id is not None:
+            if transaction.source_id is not None and transaction.source_id != "":
                 source = SourceIncome.objects.filter(user_id=user, id=transaction.source_id)
 
-            if transaction.expense_id is not None:
+            if transaction.expense_id is not None and transaction.expense_id != "":
                 expense = Expense.objects.filter(user_id=user, id=transaction.expense_id)
 
-            if transaction.debt_id is not None:
+            if transaction.debt_id is not None and transaction.debt_id != "":
                 debt = Debt.objects.filter(user_id=user, id=transaction.debt_id)
+
+            # Server Update #
+            if transaction.location_id is not None and transaction.location_id != "":
+                location = Location.objects.get(id=str(transaction.location_id))
+                if 'longitude' in request.data and 'latitude' in request.data:
+                    if request.data["longitude"] != "" and request.data["latitude"] != "":
+                        location_dict = {
+                            "longitude":request.data.pop("longitude"),
+                            "latitude":request.data.pop("latitude")
+                        }
+                        location = LocationSerializer(location, data=location_dict)
+                        if location.is_valid(raise_exception=False):
+                            location.save()
+                        else:
+                            message = ""
+                            if 'latitude' in location.errors:
+                                message = "latitude cannot be blank must be double."
+                            
+                            if 'longitude' in location.errors:
+                                message = "longitude cannot be blank must be double."
+                            return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        return Response({"status":False, "message":"longiude and latitude cannot be blank."}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                if 'longitude' in request.data and 'latitude' in request.data:
+                    if request.data["longitude"] != "" and request.data["latitude"] != "":
+                        location_dict = {
+                            "longitude":request.data.pop("longitude"),
+                            "latitude":request.data.pop("latitude")
+                        }
+                        location = LocationSerializer(data=location_dict)
+                        if location.is_valid(raise_exception=False):
+                            location.save()
+                        else:
+                            message = ""
+                            if 'latitude' in location.errors:
+                                message = "latitude cannot be blank must be double."
+                            
+                            if 'longitude' in location.errors:
+                                message = "longitude cannot be blank must be double."
+                            return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        return Response({"status":False, "message":"longiude and latitude cannot be blank."}, status=status.HTTP_400_BAD_REQUEST)
+            # Server Update #
+
+            if transaction.periodic_id is not None and transaction.periodic_id != "":
+                periodic = Periodic.objects.get(id=str(transaction.periodic_id))
+            # else:
+            #     print("A")
+            #     periodic_dict = {}
+            #     if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
+            #         print("B")
+            #         if 'week_days' in request.data and request.data["week_days"] != "":
+            #             print("C")
+            #             Date_List = str(request.data["week_days"]).split(",")
+            #             for x in Date_List:
+            #                 x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+            #                 if x_date == dt.now().date():
+            #                     Date_List.remove(x)
+
+            #             for x in Date_List:
+            #                 x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+            #                 if x_date > dt.now().date():
+            #                     status_list.append(False)
+            #             status_days = ','.join(status_list)
+            #             periodic_dict = {
+            #                 "start_date":request.data['start_date'],
+            #                 "end_date":request.data['end_date'],
+            #                 "prefix":request.data['prefix'],
+            #                 "prefix_value":request.data['prefix_value'],
+            #                 "week_days":request.data["week_days"],
+            #                 "status_days":status_days
+            #             }  
+            #         else:
+            #             print("D")
+            #             # Changes Server #
+            #             start_date = None
+            #             if request.data['start_date'] != "":
+            #                 start_date = request.data['start_date']
+            #             else:
+            #                 start_date = date.today()
+
+            #             if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
+            #                 del status_list[:]
+            #                 Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                            
+            #                 Date_List = Date_Dict["Date_Months"].split(",")
+            #                 for x in Date_List:
+            #                     x = False
+            #                     status_list.append(str(x))
+            #                 status_days = ','.join(status_list)
+            #                 periodic_dict = {
+            #                     "start_date":start_date,
+            #                     "end_date":request.data['end_date'],
+            #                     "prefix":request.data['prefix'],
+            #                     "prefix_value":request.data['prefix_value'],
+            #                     "week_days":Date_Dict["Date_Months"],
+            #                     "status_days":status_days
+            #                 }
+
+            #             elif "year" in request.data['prefix'] and request.data['prefix_value'] != 0:
+            #                 del status_list[:]
+            #                 Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+            #                 Date_List = Date_Dict["Date_Years"].split(",")
+            #                 for x in Date_List:
+            #                     x = False
+            #                     status_list.append(str(x))
+            #                 status_days = ','.join(status_list)
+            #                 periodic_dict = {
+            #                     "start_date":start_date,
+            #                     "end_date":request.data['end_date'],
+            #                     "prefix":request.data['prefix'],
+            #                     "prefix_value":request.data['prefix_value'],
+            #                     "week_days":Date_Dict["Date_Years"],
+            #                     "status_days":status_days
+            #                 }
+
+            #             elif "day" in request.data['prefix'] and request.data['prefix_value'] != 0:
+            #                 print("yes1")
+            #                 del status_list[:]
+            #                 Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+            #                 Date_List = Date_Dict["Date_Days"].split(",")
+            #                 for x in Date_List:
+            #                     x = False
+            #                     status_list.append(str(x))
+            #                 status_days = ','.join(status_list)
+            #                 periodic_dict = {
+            #                     "start_date":start_date,
+            #                     "end_date":request.data['end_date'],
+            #                     "prefix":request.data['prefix'],
+            #                     "prefix_value":request.data['prefix_value'],
+            #                     "week_days":Date_Dict["Date_Days"],
+            #                     "status_days":status_days
+            #                 }
+            #             else:
+            #                 return Response({"status":False, "message":"prefix_value cannot be blank must be integer"}, status=status.HTTP_400_BAD_REQUEST)
+            #             # Changes on server # 
+            #             periodic = PeriodicSerializer(data=periodic_dict) 
+            #             if periodic.is_valid(raise_exception=False):
+            #                 print("yes2")
+            #                 periodic.save()
+            #             else:
+            #                 print(periodic.errors, "yes3")
+            #                 message = ""
+            #                 if 'start_date' in periodic.errors:
+            #                     message = "provide valid date yyyy-mm-dd."
+            #                 if 'end_date' in periodic.errors:
+            #                     message = "provide valid date yyyy-mm-dd."
+            #                 if 'week_days' in periodic.errors:
+            #                     message = "week_days cannot be blank and must be comma saparated string like 2022-07-12,2022-07-13."
+            #                 if 'prefix' in periodic.errors:
+            #                     message = "prefix cannot be blank must be string choice like day,month,year,week."
+            #                 if 'prefix_value' in periodic.errors:
+            #                     message="prefix_value must be integer."
+            #                 if 'status_days' in periodic.errors:
+            #                     message = "status_days cannot be blank must be comma saparated string like false,false,false."
+            #                 return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
+                
 
             if (len(source) > 0 and len(income_to) > 0 and len(goal) <= 0 and len(income_from) <= 0 and len(expense) <= 0):
                 source_amount = ''
                 income_to_amount = ''
                 updated_transfer_amount = ''
-                if float(request.data["amount"]) > float(transaction.amount):
-                    updated_transfer_amount = float(request.data["amount"]) - float(transaction.amount)
-                    source_amount = float(source[0].spent_amount) + float(updated_transfer_amount)
-                    income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
-                elif float(request.data["amount"]) < float(transaction.amount):
-                    updated_transfer_amount =  float(transaction.amount) - float(request.data["amount"])
-                    source_amount = float(source[0].spent_amount) - float(updated_transfer_amount)
-                    income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
-                elif float(request.data["amount"]) == float(transaction.amount):
-                    request.data.pop("amount")
-
+                if 'amount' in request.data:
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        source_amount = float(source[0].spent_amount) + float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
+                    elif float(request.data["amount"]) < float(transaction.transaction_amount):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        source_amount = float(source[0].spent_amount) - float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        request.data.pop("amount")
+                # Server Update #
+                if transaction.location_id is None: # create new location
+                    request.data["location"] = location.data.get('id')
+                # Server Update #
+                # if transaction.periodic_id is None:
+                #     request.data["periodic"] = periodic.data.get('id')
+                request.data.update({"transaction_amount":request.data["amount"]})
+                request.data.pop('amount')
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        source.update(spent_amount=source_amount)
-                        income_to.update(amount=income_to_amount)
+                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                            source.update(spent_amount=source_amount)
+                            income_to.update(amount=income_to_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
                     return Response({"status":True, "message":"%s Transaction Amount Update from source %s to income %s"%(pk, source[0].title, income_to[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
@@ -2302,24 +2672,32 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 income_to_amount = ''
                 updated_transfer_amount = ''
+                if 'amount' in request.data:
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
+                    elif float(request.data["amount"]) < float(transaction.transaction_amount):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        request.data.pop("amount")
 
-                if float(request.data["amount"]) > float(transaction.amount):
-                    updated_transfer_amount = float(request.data["amount"]) - float(transaction.amount)
-                    income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
-                    income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
-                elif float(request.data["amount"]) < float(transaction.amount):
-                    updated_transfer_amount =  float(transaction.amount) - float(request.data["amount"])
-                    income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
-                    income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
-                elif float(request.data["amount"]) == float(transaction.amount):
-                    request.data.pop("amount")
+                if transaction.location_id is None: # create new location
+                    request.data["location"] = location.data.get('id')
 
+                # if transaction.periodic_id is None:
+                #     request.data["periodic"] = periodic.data.get('id')
+                request.data.update({"transaction_amount":request.data["amount"]})
+                request.data.pop('amount')
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        income_from.update(amount=income_from_amount)
-                        income_to.update(amount=income_to_amount)
+                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                            income_from.update(amount=income_from_amount)
+                            income_to.update(amount=income_to_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
                     return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Income %s"%(pk, income_from[0].title, income_to[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
@@ -2330,24 +2708,32 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 goal_amount = ''
                 updated_transfer_amount = ''
+                if 'amount' in request.data:
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        goal_amount = float(goal[0].added_amount) + float(updated_transfer_amount)
+                    elif float(request.data["amount"]) < float(transaction.transaction_amount):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        goal_amount = float(goal[0].added_amount) - float(updated_transfer_amount)
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        request.data.pop("amount")
+                    
+                if transaction.location_id is None: # create new location
+                    request.data["location"] = location.data.get('id')
 
-                if float(request.data["amount"]) > float(transaction.amount):
-                    updated_transfer_amount = float(request.data["amount"]) - float(transaction.amount)
-                    income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
-                    goal_amount = float(goal[0].added_amount) + float(updated_transfer_amount)
-                elif float(request.data["amount"]) < float(transaction.amount):
-                    updated_transfer_amount =  float(transaction.amount) - float(request.data["amount"])
-                    income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
-                    goal_amount = float(goal[0].added_amount) - float(updated_transfer_amount)
-                elif float(request.data["amount"]) == float(transaction.amount):
-                    request.data.pop("amount")
-
+                # if transaction.periodic_id is None:
+                #     request.data["periodic"] = periodic.data.get('id')
+                request.data.update({"transaction_amount":request.data["amount"]})
+                request.data.pop('amount')
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        income_from.update(amount=income_from_amount)
-                        goal.update(added_amount=goal_amount)
+                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                            income_from.update(amount=income_from_amount)
+                            goal.update(added_amount=goal_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
                     return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Goal %s"%(pk, income_from[0].title, goal[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
@@ -2358,24 +2744,32 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 expense_amount = ''
                 updated_transfer_amount = ''
-
-                if float(request.data["amount"]) > float(transaction.amount):
-                    updated_transfer_amount = float(request.data["amount"]) - float(transaction.amount)
-                    income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
-                    expense_amount = float(expense[0].spent_amount) + float(updated_transfer_amount)
-                elif float(request.data["amount"]) < float(transaction.amount):
-                    updated_transfer_amount =  float(transaction.amount) - float(request.data["amount"])
-                    income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
-                    expense_amount = float(expense[0].spent_amount) - float(updated_transfer_amount)
-                elif float(request.data["amount"]) == float(transaction.amount):
-                    request.data.pop("amount")
+                if 'amount' in request.data:
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        expense_amount = float(expense[0].spent_amount) + float(updated_transfer_amount)
+                    elif float(request.data["amount"]) < float(transaction.transaction_amount):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        expense_amount = float(expense[0].spent_amount) - float(updated_transfer_amount)
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        request.data.pop("amount")
+                    
+                if transaction.location_id is None: # create new location
+                    request.data["location"] = location.data.get('id')
                 
+                # if transaction.periodic_id is None:
+                #     request.data["periodic"] = periodic.data.get('id')
+                request.data.update({"transaction_amount":request.data["amount"]})
+                request.data.pop('amount')    
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        income_from.update(amount=income_from_amount)
-                        expense.update(spent_amount=expense_amount)
+                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                            income_from.update(amount=income_from_amount)
+                            expense.update(spent_amount=expense_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
                     return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Expense %s"%(pk, income_from[0].title, expense[0].title), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
@@ -2386,24 +2780,32 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 debt_amount = ''
                 updated_transfer_amount = ''
-
-                if float(request.data["amount"]) > float(transaction.amount):
-                    updated_transfer_amount = float(request.data["amount"]) - float(transaction.amount)
-                    income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
-                    debt_amount = float(debt[0].paid_amount) + float(updated_transfer_amount)
-                elif float(request.data["amount"]) < float(transaction.amount):
-                    updated_transfer_amount =  float(transaction.amount) - float(request.data["amount"])
-                    income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
-                    debt_amount = float(debt[0].paid_amount) - float(updated_transfer_amount)
-                elif request.data["amount"] == transaction.amount:
-                    request.data.pop("amount")
-
+                if 'amount' in request.data:
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        debt_amount = float(debt[0].paid_amount) + float(updated_transfer_amount)
+                    elif float(request.data["amount"]) < float(transaction.transaction_amount):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        debt_amount = float(debt[0].paid_amount) - float(updated_transfer_amount)
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        request.data.pop("amount")
+                    
+                if transaction.location_id is None: # create new location
+                    request.data["location"] = location.data.get('id')
+                
+                # if transaction.periodic_id is None:
+                #     request.data["periodic"] = periodic.data.get('id')
+                request.data.update({"transaction_amount":request.data["amount"]})
+                request.data.pop('amount')
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        income_from.update(amount=income_from_amount)
-                        debt.update(paid_amount=debt_amount)
+                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                            income_from.update(amount=income_from_amount)
+                            debt.update(paid_amount=debt_amount)
                     else:
                         return Response({"status":False, "message":"Transaction Update Fail by id %s"%(pk)}, status=status.HTTP_304_NOT_MODIFIED)
                     return Response({"status":True, "message":"%s Transaction Amount Update from Income %s to Debt %s"%(pk, income_from[0].title, debt[0].name), "data":transaction_serializer.data}, status=status.HTTP_200_OK)
@@ -2413,6 +2815,9 @@ class TransactionView(APIView):
             return Response({"status":False, "message":"Please Provide Transaction Id in url/<id>"}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         transcation = ''
         transaction_list = []
         main_list = []
@@ -2483,66 +2888,48 @@ class TransactionView(APIView):
                 return Response({"status":False, "message":"provide source, income_to, income_from, goal, expense, debt id in request query_params like url/?source=1"})
 
         for x in transcation:
-            if x.income_to_id is not None:
-                try:
-                    income_to = Income.objects.get(id=str(x.income_to_id)).title
-                except Income.DoesNotExist:
-                    return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                
-            if x.income_from_id is not None:
-                try:
-                    income_from = Income.objects.get(id=str(x.income_from_id)).title
-                except Income.DoesNotExist:
-                    return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
-
-            if x.source_id is not None:
-                try:
-                    source = SourceIncome.objects.get(id=str(x.source_id)).title
-                except SourceIncome.DoesNotExist:
-                    return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
-
-            if x.goal_id is not None:
-                try:
-                    goal = Goal.objects.get(id=str(x.goal_id)).title
-                except Goal.DoesNotExist:
-                    return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
-
-            if x.expense_id is not None:
-                try:
-                    expense = Expense.objects.get(id=str(x.expense_id)).title
-                except Expense.DoesNotExist:
-                    return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
-            
-            if x.periodic_id is not None:
-                periodic = Periodic.objects.get(id=str(x.periodic_id))
-
-            if x.location_id is not None:
-                location = Location.objects.get(id=str(x.location_id))
-
-            if x.debt_id is not None:
-                debt = Debt.objects.get(id=str(x.debt_id)).name
-            
-
-        for x in transcation:
             transaction_list.append(x)
-        transaction_serializer = TransactionSerializer(transaction_list, many=True)
+        transaction_serializer = TransactionSerializer(transaction_list, many=True)  
 
         for y in transaction_serializer.data:
             if y["income_to"] is not None:
+                try:
+                    income_to = Income.objects.get(id=str(y["income_to"])).title
+                except Income.DoesNotExist:
+                    return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
                 y["income_to_name"] = income_to
             if y["income_from"] is not None:
+                try:
+                    income_from = Income.objects.get(id=str(y["income_from"])).title
+                except Income.DoesNotExist:
+                    return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
                 y["income_from_name"] = income_from
             if y["source"] is not None:
+                try:
+                    source = SourceIncome.objects.get(id=str(y["source"])).title
+                except SourceIncome.DoesNotExist:
+                    return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
                 y["source_name"] = source
             if y["goal"] is not None:
+                try:
+                    goal = Goal.objects.get(id=str(y["goal"])).title
+                except Goal.DoesNotExist:
+                    return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
                 y["goal_name"] = goal
             if y["expense"] is not None:
+                try:
+                    expense = Expense.objects.get(id=str(y["expense"])).title
+                except Expense.DoesNotExist:
+                    return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
                 y["expense_name"] = expense
             if y["periodic"] is not None:
+                periodic = Periodic.objects.get(id=str(y["periodic"]))
                 y["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
             if y["location"] is not None:
+                location = Location.objects.get(id=str(y["location"]))
                 y["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
             if y["debt"] is not None:
+                debt = Debt.objects.get(id=str(y["debt"])).name
                 y["debt_name"] = debt
             
             main_list.append(y)
@@ -2550,7 +2937,19 @@ class TransactionView(APIView):
         
         return Response({"status":True, "message":"transaction data Fetched Succcessfully", "data":data_dict}, status=status.HTTP_200_OK)
 
-    def delete(self, request, pk=None, format=None):
+    def delete(self, request, pk=None, format=None): 
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST) 
+        expense = ""
+        transaction = ""
+        income_to = ""
+        income_from = ""
+        goal = ""
+        source = ""
+        debt = ""
+        location = ""
+        periodic = ""
         if pk is not None and pk != '':
             try:
                 user = User.objects.get(email=request.user).id
@@ -2570,23 +2969,31 @@ class TransactionView(APIView):
                 LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False,"message":"user have not any transaction data"}), email=request.user, status=False)
                 return Response({"status":False, "message":"user have not any transaction by id %s"%(pk)}, status=status.HTTP_400_BAD_REQUEST)
         
-            if transaction.income_to_id != "":
+            if transaction.income_to_id != "" and transaction.income_to_id is not None:
                 income_to = Income.objects.filter(id=transaction.income_to_id)
 
-            if transaction.income_from_id != "":
+            if transaction.income_from_id != "" and transaction.income_from_id is not None:
                 income_from = Income.objects.filter(id=transaction.income_from_id)
             
-            if transaction.expense_id != "":
+            if transaction.expense_id != "" and transaction.expense_id is not None:
                 expense = Expense.objects.filter(id=transaction.expense_id)    
             
-            if transaction.goal_id != "":
+            if transaction.goal_id != "" and transaction.goal_id is not None:
                 goal = Goal.objects.filter(id=transaction.goal_id)
 
-            if transaction.source_id != "":
+            if transaction.source_id != "" and transaction.source_id is not None:
                 source = SourceIncome.objects.filter(id=transaction.source_id)  
 
-            if transaction.debt_id is not None:
+            if transaction.debt_id is not None and transaction.debt_id != "":
                 debt = Debt.objects.filter(id=str(transaction.debt_id))
+            
+            if transaction.location_id != "" and transaction.location_id is not None:
+                location = Location.objects.filter(id=str(transaction.location_id))
+                location.delete()
+            
+            if transaction.periodic_id != "" and transaction.periodic_id is not None:
+                periodic = Periodic.objects.filter(id=str(transaction.periodic_id))
+                periodic.delete()
             
             if len(income_from) > 0 and len(expense) > 0 and len(income_to) <= 0 and len(goal) <= 0 and len(source) <= 0:
         
@@ -2596,6 +3003,7 @@ class TransactionView(APIView):
                 if len(str(deleted_transaction)) > 0:
                     income_from.update(amount=income_from_amount)
                     expense.update(spent_amount=expense_amount)
+
                 else:
                     header = {
                         "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -2616,6 +3024,7 @@ class TransactionView(APIView):
                 if len(str(deleted_transaction)) > 0: 
                     income_from.update(amount=income_from_amount)
                     income_to.update(amount=income_to_amount)
+
                 else:
                     header = {
                         "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -2637,6 +3046,7 @@ class TransactionView(APIView):
                 if len(str(deleted_transaction)) > 0:
                     source.update(spent_amount=source_amount)
                     income_to.update(amount=income_to_amount)
+
                 else:
                     header = {
                         "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -2658,6 +3068,7 @@ class TransactionView(APIView):
                 if len(str(deleted_transaction)) > 0:
                     income_from.update(amount=income_from_amount)
                     goal.update(added_amount=goal_amount) 
+
                 else:
                     header = {
                         "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -2680,7 +3091,9 @@ class TransactionView(APIView):
                     income_from.update(amount=income_from_amount)
                     if float(debt[0].paid_amount) == float(0.00):
                         debt.update(paid_amount=debt_amount, is_partial_paid=False, is_paid=False, is_completed=False) 
-                    debt.update(paid_amount=debt_amount) 
+                    else:
+                        debt.update(paid_amount=debt_amount) 
+
                 else:
                     header = {
                         "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
@@ -2704,7 +3117,9 @@ class TransactionView(APIView):
 class TagView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, pk=None, format=None):
-        
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = TagSerializer(data=request.data,context={'request':request})
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -2724,6 +3139,9 @@ class TagView(APIView):
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         tag =''
         try:
             user = User.objects.get(email=request.user).id
@@ -2762,6 +3180,9 @@ class TagView(APIView):
         return Response({"status":True, "message":"tag data Fetched Succcessfully", "data":tag_serializer.data},status=status.HTTP_200_OK)
 
     def put(self,request,pk=None,format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         if pk is not None:
             try:
                 user = User.objects.get(email=request.user).id
@@ -2806,6 +3227,9 @@ class TagView(APIView):
             return Response({"status":False, "message":"Please Provide Tag Id"}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self,request,pk=None, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         if pk is not None:
             try:
                 user = User.objects.get(email=request.user).id
@@ -2840,10 +3264,13 @@ class TagView(APIView):
             return Response({"status":False,"message":"Please Provide Tag Id in request like url/<id>"},status=status.HTTP_400_BAD_REQUEST) 
 # class TagView Code end #
 
-# class HomeVIEW Code Start #
+# class HomeVIEW Code Start With Reccustion Transaction #
 class HomeView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         user= ''
         balance = {}
         try:
@@ -2898,6 +3325,115 @@ class HomeView(APIView):
             "balance":balance['amount__sum']
         }
 
+        # Reccurence Transaction Code Start #
+        transacion = Transaction.objects.all().filter(user_id=user)
+        periodic = ''
+        transacion_amount = ""
+        repeat_dates = []
+        repeat_status = []
+        income_from = ""
+        income_to = ""
+        goal = ""
+        source = ""
+        expense = ""
+        debt = ""
+        if transacion != []:
+            for x in transacion:
+                amount = x.amount
+                
+                if x.income_from_id is not None and x.income_from_id != "":
+                    income_from = Income.objects.filter(user_id=user, id=x.income_from_id) 
+                
+                if x.income_to_id is not None and x.income_to_id != "":
+                    income_to = Income.objects.filter(user_id=user, id=x.income_to_id)
+
+                if x.goal_id is not None and x.goal_id != "":
+                    goal = Goal.objects.filter(user_id=user, id=x.goal_id)
+
+                if x.source_id is not None and x.source_id != "":
+                    source = SourceIncome.objects.filter(user_id=user, id=x.source_id)
+
+                if x.expense_id is not None and x.expense_id != "":
+                    expense = Expense.objects.filter(user_id=user, id=x.expense_id)
+
+                if x.debt_id is not None and x.debt_id != "":
+                    debt = Debt.objects.filter(user_id=user, id=x.debt_id)
+
+                if x.periodic_id is not None:
+                    try:
+                        periodic = Periodic.objects.get(id=str(x.periodic_id))
+                    except Periodic.DoesNotExist:
+                        pass
+                    
+                    if periodic.week_days is not None  and periodic.status_days != "":
+                        repeat_dates = str(periodic.week_days).split(',')
+                        repeat_status = str(periodic.status_days).split(',')
+                    
+                    for i, repeat_date in enumerate(repeat_dates):
+                        repeat = dt.strptime(str(repeat_date), '%Y-%m-%d').date()
+                        if repeat <= date.today():
+                            if repeat_status[i].encode('ascii') == "False":
+                                transacion_amount = float(amount) + float(x.transaction_amount)
+                                amount = transacion_amount
+                                repeat_status[i] = "True"
+                
+                            Transaction.objects.filter(id=str(x.id), periodic_id=str(x.periodic_id)).update(amount=float(amount ))
+                            
+                            if x.income_to_id is not None and x.income_to_id != "" and x.source_id is not None and x.source_id != "":
+                                source_amount = source[0].spent_amount
+                                income_to_amount = income_to[0].amount
+                        
+                                source_amount = float(source_amount) + float(x.transaction_amount)
+                                income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                        
+                                source.update(spent_amount=source_amount)
+                                income_to.update(amount=income_to_amount)
+                                    
+                            elif x.income_to_id is not None and x.income_to_id != "" and x.income_from_id is not None and x.income_from_id != "":
+                                income_from_amount = income_from[0].amount
+                                income_to_amount = income_to[0].amount
+                                
+                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                    
+                                income_from.update(amount=income_from_amount)
+                                income_to.update(amount=income_to_amount)
+                                
+                            elif x.income_from_id is not None and x.income_from_id != "" and x.goal_id is not None and x.goal_id != "":
+                                income_from_amount = income_from[0].amount
+                                goal_amount = goal[0].added_amount
+                        
+                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                goal_amount = float(goal_amount) + float(x.transaction_amount)
+                                    
+                                income_from.update(amount=income_from_amount)
+                                goal.update(added_amount=goal_amount)
+
+                            elif x.income_from_id is not None and x.income_from_id != "" and x.expense_id is not None and x.expense_id != "":
+                                income_from_amount = income_from[0].amount
+                                expense_amount = expense[0].spent_amount
+                            
+                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                expense_amount = float(expense_amount) + float(x.transaction_amount)
+                                    
+                                income_from.update(amount=income_from_amount)
+                                expense.update(spent_amount=expense_amount)
+                        
+                            elif x.income_from_id is not None and x.income_from_id != "" and x.debt_id is not None and x.debt_id != "":
+                                print("yes")
+                                income_from_amount = income_from[0].amount
+                                debt_amount = debt[0].paid_amount
+                                
+                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                debt_amount = float(debt_amount) + float(x.transaction_amount)
+                                   
+                                income_from.update(amount=income_from_amount)
+                                debt.update(paid_amount=debt_amount)
+    
+                    repeat_status = ','.join(repeat_status)   
+                    Periodic.objects.filter(id=str(x.periodic_id)).update(status_days=repeat_status)
+        # Reccurence Transaction Code End #
+
         return Response({"status":True, "message":"Fetch all data successfully", "data":User_Data_Dict}, status=status.HTTP_200_OK)
 # class HomeVIEW Code End #
 
@@ -2906,6 +3442,9 @@ class ReportView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
+        token_check = check_token(user=request.user)
+        if token_check != "":
+            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         transaction_data_dict = {}
         transaction_data_list = []
         try:
@@ -3194,3 +3733,69 @@ class ReportView(APIView):
         LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":True, "message":"report data Fetched Succcessfully"}), email=request.user, status=True)
         return Response({"status":True, "message":"report data Fetched Succcessfully", "data":data_dict},status=status.HTTP_201_CREATED)
 ### Report API VIEW CODE END ###
+
+
+########################################################################
+class LogoutAPIView(APIView):
+    serializer_class = LogoutSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"status":True, "message":"User Successfully Logged Out."}, status=status.HTTP_204_NO_CONTENT)
+########################################################################
+
+# User Reset / Forgot Password API Start #
+class ResetPassword(APIView):
+    # User Got The Reset Password Link on Email. #
+    def post(self, request):
+        if 'email' in request.data and request.data["email"] != "":
+            user = User.objects.get(email=request.data["email"])
+            if user:
+                expire = dt.now().date() + timedelta(days=1)
+                uid = urlsafe_base64_encode(force_bytes({"user":user.email, "expire":str(expire)}))
+                link = request.build_absolute_uri('?uid=%s'%(uid))
+            
+                subject = 'Password Reset Email'
+                message = render_to_string('reset.html', {'name': user.firstname, "link":link})
+                sender = settings.EMAIL_HOST_USER
+                receiver = (request.data["email"],)
+                mssg = EmailMessage(subject, message, sender, receiver)
+                mssg.content_subtype = "html"
+                mssg.send()
+            else:
+                return Response({"status":False, "message":"User doesn't exist."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"status":True, "message":"Email Send Successfully, Please check your Spam."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status":False, "message":"Please Enter Email Address."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # User Redirect to Reset Form. #
+    def get(self, request):
+        uid = request.query_params.get("uid")
+        user_data = urlsafe_base64_decode(uid)
+        user_data = eval(user_data)
+        expire = dt.strptime(str(user_data["expire"]), '%Y-%m-%d').date()
+        if dt.now().date() <= expire:
+            user = user_data["user"]
+            return render(request, "reset_password.html", {"user":user, "message":""})
+        else:
+            return render(request, "reset_password.html", {"message":"Reset Token Expiered."})  
+
+# Reset Password Post Method #
+def confirm(request):
+    if request.method == "POST":
+        if request.POST.get("password") != "" and request.POST.get("password2") != "":
+            if request.POST["password"] == request.POST.get("password2"):
+                user = User.objects.filter(email=str(request.POST.get("user")))
+                if user == []:
+                    return render(request, "reset_password.html", {"message":"user not found."})
+                password = make_password(request.POST.get("password"))
+                user.update(password=password)
+                return render(request, "reset_password.html", {"message":"Password Successfully Reset."})
+            else:
+                return render(request, "reset_password.html", {"message":"Password and Re-password doesn't match."})
+        else:
+            return render(request, "reset_password.html", {"message":"Password and Re-password cannot be blank."})
+# User Reset / Forgot Password API End #

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.contrib import admin
 from Account.models import User,Income,Expense,Goal, LogsAPI, Setting
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -11,19 +10,19 @@ class UserAdmin(BaseUserAdmin):
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
     # 
-    list_display = ('id', 'email', 'mobile', 'gender', 'country', 'country_code', 'is_active', 'is_admin', 'firstname', 'lastname', 'birthdate', 'registered_by', 'device_token', 'social_id', 'subscription', 'profile_pic', 'is_subscribed', 'is_verified', 'setup_count', 'is_setup', 'created_at', 'modified_at')
-    list_filter = ('is_admin',)
+    list_display = ('id', 'email', 'mobile', 'gender', 'country', 'country_code', 'is_active', 'is_admin', 'is_superuser', 'firstname', 'lastname', 'birthdate', 'registered_by', 'device_token', 'social_id', 'subscription', 'profile_pic', 'is_subscribed', 'is_verified', 'setup_count', 'is_setup', 'created_at', 'modified_at')
+    list_filter = ('is_superuser','is_admin','is_active',)
     fieldsets = (
         ('User Credentials', {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('gender', 'mobile', 'country', 'firstname', 'lastname', 'birthdate', 'registered_by', 'device_token', 'social_id', 'subscription', 'profile_pic', 'setup_count')}),
-        ('Permissions', {'fields': ('is_admin', 'is_subscribed', 'is_verified',)}),
+        ('Permissions', {'fields': ('is_superuser', 'is_subscribed', 'is_verified','is_admin','is_active',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'mobile', 'gender', 'country', 'is_active', 'is_admin', 'firstname', 'lastname', 'birthdate', 'registered_by', 'device_token', 'social_id', 'subscription', 'profile_pic', 'is_subscribed', 'country_code', 'is_verified', 'password1', 'password2'),
+            'fields': ('email', 'mobile', 'gender', 'country', 'is_active','is_admin', 'is_superuser', 'firstname', 'lastname', 'birthdate', 'registered_by', 'device_token', 'social_id', 'subscription', 'profile_pic', 'is_subscribed', 'country_code', 'is_verified', 'password1', 'password2'),
         }),
     )
     search_fields = ('email', 'id')
