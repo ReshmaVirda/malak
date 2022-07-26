@@ -1,12 +1,24 @@
 from rest_framework import serializers
 from Account.models import User, Subscription,Income,Expense,Goal, SourceIncome, Exchangerate, Location, Periodic, Tag, Transaction, Setting, Debt
 from datetime import datetime, date
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 # Registration Serializer Code Start #
 class UserRegistrationSerializer(serializers.ModelSerializer):
     ''' User Register by firstname, lastname, email, mobile, gender, country, birthdate, is_agree,
     registered_by,  password. Here, country and birthdate is optional fields'''
     profile_pic = serializers.ImageField(required=False, default="")
+    password = serializers.CharField(required=False)
+    # tokens = serializers.SerializerMethodField()
+
+    # def get_tokens(self, obj):
+    #     user = User.objects.get(email=obj['email'])
+
+    #     return {
+    #         'refresh': user.tokens()['refresh'],
+    #         'access': user.tokens()['access']
+    #     }
+
     class Meta:
         model = User
         fields = ['firstname', 'lastname', 'email', 'mobile', 'country', 'birthdate', 'gender', 'registered_by', 'device_token', 'social_id', 'profile_pic', 'is_agree', 'password', 'country_code','created_at','modified_at']
@@ -22,17 +34,46 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validate_data):
+        # print(validate_data)
         return User.objects.create(**validate_data)
 # Registration Serializer Code End #
 
 # Login Serializer Code Start #
 class UserLoginSerializer(serializers.ModelSerializer):
-    ''' User Login by email and password '''
+    ''' User Login by email and password and registered_by '''
     email = serializers.EmailField(max_length=255)
+    # tokens = serializers.SerializerMethodField()
+
+    # def get_tokens(self, obj):
+    #     user = User.objects.get(email=obj['email'])
+
+    #     return {
+    #         'refresh': user.tokens()['refresh'],
+    #         'access': user.tokens()['access']
+    #     }
+
     class Meta:
         model = User
-        fields = ['email', 'password']
+        fields = ['email', 'password', 'registered_by']
 # Login Serializer Code End #
+
+# Social Login Code Start #
+class UserSocialLoginSerializer(serializers.ModelSerializer):
+    ''' User Login by email and social_id and registered_by '''
+    email = serializers.EmailField(max_length=255)
+    tokens = serializers.SerializerMethodField()
+
+    def get_tokens(self, obj):
+        user = User.objects.get(email=obj['email'])
+
+        return {
+            'refresh': user.tokens()['refresh'],
+            'access': user.tokens()['access']
+        }
+    class Meta:
+        model = User
+        fields = ['email', 'social_id', 'registered_by', 'tokens']
+# Social Login Code End #
 
 # User Profile Serializer Code Start #
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -234,8 +275,8 @@ class LocationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         location = Location.objects.create(
-            latitude=validated_data['latitude'],
-            longitude=validated_data['longitude'])
+            latitude=float(validated_data['latitude']),
+            longitude=float(validated_data['longitude']))
         location.save()
         return location
 # User Location Serializer Code End #
@@ -287,7 +328,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['id', 'title','description','amount','income_to', 'income_from', 'expense', 'goal', 'source','debt', 'user', 'location','periodic', 'tag', 'is_completed', 'created_at', 'modified_at']
+        fields = ['id', 'title','description','transaction_amount','amount','income_to', 'income_from', 'expense', 'goal', 'source','debt', 'user', 'location','periodic', 'tag', 'is_completed', 'created_at', 'modified_at']
         extra_kwargs = {
             "id":{"read_only":True},
             "user":{'write_only':True},
@@ -297,6 +338,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             "created_at":{'required':False},
             "modified_at":{'required':False},
             "tag":{"required":False},
+            "transaction_amount":{"required":False},
             'is_completed':{"required":False}
         }
 
@@ -313,7 +355,8 @@ class TransactionSerializer(serializers.ModelSerializer):
             validated_data.update({"created_at":date.today()})
             validated_data.update({"modified_at":date.today()})
 
-
+        validated_data.update({"transaction_amount":validated_data["amount"]})
+        
         if 'is_completed' not in validated_data:
             validated_data.update({"is_completed":True})
 
@@ -370,4 +413,21 @@ class DebtSerializer(serializers.ModelSerializer):
         if 'date' in validated_data:
             validated_data.update({"date":datetime.strptime(str(validated_data["date"]), '%Y-%m-%d').date()})
         return Debt.objects.create(**validated_data)
-# User Debt Serializer Code End #
+# User Debt Serializer Code End #  
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    default_error_message = {
+        'bad_token': ('Token is expired or invalid')
+    }
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            RefreshToken(self.token).blacklist()
+        except TokenError:
+            self.fail('bad_token')

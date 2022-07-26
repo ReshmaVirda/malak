@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from datetime import date, datetime
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from datetime import date
 # Create your models here.
 
 class Subscription(models.Model):
@@ -19,26 +19,46 @@ class UserManager(BaseUserManager):
         """
         Creates and saves a User with the given email, mobile, gender and password.
         """
+        user = ""
         if not email:
             raise ValueError('Users must have an email address')
 
-        user = self.model(
-            email=self.normalize_email(email),
-            mobile=mobile,
-            gender=gender,
-            country=country,
-            firstname=firstname,
-            lastname=lastname,
-            birthdate=birthdate,
-            is_agree=is_agree,
-            device_token=device_token,
-            social_id=social_id,
-            subscription=subscription,
-            country_code=country_code,
-            profile_pic=profile_pic,
-            registered_by=registered_by
-        )
-        user.set_password(password)
+        if  registered_by != "manual":
+            user = self.model(
+                email=self.normalize_email(email),
+                mobile=mobile,
+                gender=gender,
+                country=country,
+                firstname=firstname,
+                lastname=lastname,
+                birthdate=birthdate,
+                is_agree=is_agree,
+                device_token=device_token,
+                social_id=social_id,
+                subscription=subscription,
+                country_code=country_code,
+                profile_pic=profile_pic,
+                registered_by=registered_by
+            )
+        else:
+            user = self.model(
+                email=self.normalize_email(email),
+                mobile=mobile,
+                gender=gender,
+                country=country,
+                firstname=firstname,
+                lastname=lastname,
+                birthdate=birthdate,
+                is_agree=is_agree,
+                device_token=device_token,
+                social_id=social_id,
+                subscription=subscription,
+                country_code=country_code,
+                profile_pic=profile_pic,
+                registered_by=registered_by,
+                password=password
+            )
+        # user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -64,21 +84,22 @@ class UserManager(BaseUserManager):
             registered_by=registered_by
         )
         user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
 def upload_to(instance, filename):
     return '/'.join([str(instance), filename])
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
+    lastname = models.CharField(max_length=255, default="", blank=True, null=True)
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,
         unique=True,
     )
-    mobile = models.CharField(max_length=255)
+    mobile = models.CharField(max_length=255, default="", blank=True, null=True)
     country = models.CharField(max_length=255, blank=True, null=True)
     birthdate = models.CharField(default='', blank=True, null=True, max_length=255)
     GENDER_CHOICES = (
@@ -89,7 +110,7 @@ class User(AbstractBaseUser):
     Register_Choices = (
         ('manual', 'manual'),
         ('facebook', 'facebook'),
-        ('gmail', 'gmail'),
+        ('google', 'google'),
         ('apple', 'apple')
     )
     registered_by = models.CharField(max_length=10, choices=Register_Choices)
@@ -105,7 +126,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     is_subscribed = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=True)
-    country_code = models.CharField(max_length=5, default="")
+    country_code = models.CharField(max_length=5, default="", blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     modified_at = models.DateField(auto_now_add=True)
     objects = UserManager()
@@ -268,6 +289,7 @@ class Debt(models.Model):
 class Transaction(models.Model):
     title = models.CharField(max_length=255, default=None, blank=True, null=True)
     description = models.CharField(max_length=255, default=None, blank=True, null=True)
+    transaction_amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
     amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     income_to = models.ForeignKey(Income, on_delete=models.CASCADE, blank=True, null=True, related_name="transaction_to_income")
