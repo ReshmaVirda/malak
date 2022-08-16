@@ -9,15 +9,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     registered_by,  password. Here, country and birthdate is optional fields'''
     profile_pic = serializers.ImageField(required=False, default="")
     password = serializers.CharField(required=False)
-    # tokens = serializers.SerializerMethodField()
-
-    # def get_tokens(self, obj):
-    #     user = User.objects.get(email=obj['email'])
-
-    #     return {
-    #         'refresh': user.tokens()['refresh'],
-    #         'access': user.tokens()['access']
-    #     }
 
     class Meta:
         model = User
@@ -42,15 +33,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     ''' User Login by email and password and registered_by '''
     email = serializers.EmailField(max_length=255)
-    # tokens = serializers.SerializerMethodField()
-
-    # def get_tokens(self, obj):
-    #     user = User.objects.get(email=obj['email'])
-
-    #     return {
-    #         'refresh': user.tokens()['refresh'],
-    #         'access': user.tokens()['access']
-    #     }
 
     class Meta:
         model = User
@@ -61,18 +43,10 @@ class UserLoginSerializer(serializers.ModelSerializer):
 class UserSocialLoginSerializer(serializers.ModelSerializer):
     ''' User Login by email and social_id and registered_by '''
     email = serializers.EmailField(max_length=255)
-    tokens = serializers.SerializerMethodField()
 
-    def get_tokens(self, obj):
-        user = User.objects.get(email=obj['email'])
-
-        return {
-            'refresh': user.tokens()['refresh'],
-            'access': user.tokens()['access']
-        }
     class Meta:
         model = User
-        fields = ['email', 'social_id', 'registered_by', 'tokens']
+        fields = ['email', 'social_id', 'registered_by']
 # Social Login Code End #
 
 # User Profile Serializer Code Start #

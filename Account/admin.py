@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from Account.models import User,Income,Expense,Goal, LogsAPI, Setting
+from Account.models import User,Income,Expense,Goal, LogsAPI, Setting, Tag, Transaction, SourceIncome, Debt, Subscription, Location, Periodic, Exchangerate
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
@@ -28,7 +28,6 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email', 'id')
     ordering = ('email', 'id')
     filter_horizontal = ()
-
 
 # Now register the new UserAdmin...
 admin.site.register(User, UserAdmin)
@@ -85,4 +84,114 @@ class LogAdmin(admin.ModelAdmin):
 
 admin.site.register(LogsAPI, LogAdmin)
 
-admin.site.register(Setting)
+class DebtAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'amount', 'paid_amount', 'is_paid', 'is_partial_paid', 'is_completed', 'date', 'created_at',  'modified_at')
+    list_filter = ('id','name')
+    search_fields = ('id','name')
+    ordering = ('id','name')
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(Debt,DebtAdmin)
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'user', 'created_at',  'modified_at')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    ordering = ('id','name')
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(Tag,TagAdmin)
+
+class TransactionAdmin(admin.ModelAdmin):
+    fields = ['tag']
+    list_display = ('id', 'title','description', 'transaction_amount', 'amount', 'income_to', 'income_from', 'expense', 'goal', 'source', 'user', 'location','periodic', 'get_tag', 'debt', 'is_completed', 'created_at', 'modified_at')
+    list_filter = ('amount','income_to', 'income_from', 'expense', 'goal', 'source',)
+    search_fields = ('title','amount', 'expense', 'goal', 'source', 'created_at',)
+    ordering = ('id','title',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_tag(self, obj):
+        return "\n".join([t.name for t in obj.tag.all()])
+
+admin.site.register(Transaction,TransactionAdmin)
+
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'amount', 'created_at', 'modified_at')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    ordering = ('id','name')
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return True
+
+admin.site.register(Subscription,SubscriptionAdmin)
+
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('id','latitude','longitude', 'created_at', 'modified_at')
+    list_filter = ('id','created_at',)
+    search_fields = ('created_at',)
+    ordering = ('id','created_at',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(Location,LocationAdmin)
+
+class PeriodicAdmin(admin.ModelAdmin):
+    list_display = ('id','start_date','end_date','week_days','status_days','prefix','prefix_value', 'created_at', 'modified_at')
+    list_filter = ('id','prefix',)
+    search_fields = ('created_at','id',)
+    ordering = ('id','created_at',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(Periodic,PeriodicAdmin)
+
+class SourceIncomeAdmin(admin.ModelAdmin):
+    list_display = ('id','icon','title','amount', 'spent_amount', 'user', 'created_at','modified_at')
+    list_filter = ('id','title',)
+    search_fields = ('created_at','title',)
+    ordering = ('id','created_at','title',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(SourceIncome,SourceIncomeAdmin)
+
+class ExchangerateAdmin(admin.ModelAdmin):
+    list_display = ('id', 'currency_name','is_default', 'created_at', 'modified_at', 'user')
+    list_filter = ('id','currency_name',)
+    search_fields = ('created_at','currency_name',)
+    ordering = ('id','created_at','currency_name',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(Exchangerate,ExchangerateAdmin)
+
+class SettingAdmin(admin.ModelAdmin):
+    list_display = ('id','notification','min_pass_3','language','currency','user','created_at','modified_at')
+    list_filter = ('id','language','currency',)
+    search_fields = ('language','currency',)
+    ordering = ('id','language','currency',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+
+admin.site.register(Setting,SettingAdmin)

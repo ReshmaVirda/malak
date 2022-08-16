@@ -23,6 +23,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+import csv
+from io import StringIO, BytesIO
+import xlwt
 # Create your views here.
 
 ## Date Control ##
@@ -31,6 +34,7 @@ def Get_Dates(prefix, prefix_value, enddate, startdate=None):
     month_dates = []
     year_dates = []
     days_date = []
+    dates = []
     start_date = ""
 
     if startdate is not None:
@@ -41,6 +45,7 @@ def Get_Dates(prefix, prefix_value, enddate, startdate=None):
     end_date = dt.strptime(str(enddate), '%Y-%m-%d').date()
 
     if prefix == "month":
+        del dates[:]
         del month_dates[:]
         while start_date <= end_date:
             mdate = start_date + relativedelta(months=prefix_value)
@@ -48,25 +53,42 @@ def Get_Dates(prefix, prefix_value, enddate, startdate=None):
             start_date = mdate
         month_dates.pop()
 
+        for x in month_dates:
+            x_date = dt.strptime(x, "%Y-%m-%d").date()
+            if x_date > dt.now().date():
+                dates.append(x)
+
     elif prefix == "year":
+        del dates[:]
         del year_dates[:]
         while start_date <= end_date:
             mdate = start_date + relativedelta(years=prefix_value)
             year_dates.append(mdate.strftime("%Y-%m-%d"))
             start_date = mdate
         year_dates.pop()
+    
+        for x in year_dates:
+            x_date = dt.strptime(x, "%Y-%m-%d").date()
+            if x_date > dt.now().date():
+                dates.append(x)
 
     elif prefix == "day":
+        del dates[:]
         del days_date[:]
         while start_date <= end_date:
             mdate = start_date + relativedelta(days=prefix_value)
             days_date.append(mdate.strftime("%Y-%m-%d"))
             start_date = mdate
         days_date.pop()
+
+        for x in days_date:
+            x_date = dt.strptime(x, "%Y-%m-%d").date()
+            if x_date > dt.now().date():
+                dates.append(x)
         
-    main_dict["Date_Days"] = ','.join(days_date)
-    main_dict["Date_Years"] = ','.join(year_dates)
-    main_dict["Date_Months"] = ','.join(month_dates)
+    main_dict["Date_Days"] = ','.join(dates)
+    main_dict["Date_Years"] = ','.join(dates)
+    main_dict["Date_Months"] = ','.join(dates)
     
     return main_dict
 ## Date Control End ##
@@ -184,6 +206,7 @@ class UserRegistrationView(APIView):
             
             if user.image_url != None:
                 profile_pic = request.build_absolute_uri(user.image_url)
+                profile_pic = profile_pic.replace('%40', '@')
             else:
                 profile_pic = None
             
@@ -305,6 +328,7 @@ class UserLoginView(APIView):
                         
                         if user.image_url != None:
                             profile_pic = request.build_absolute_uri(user.image_url)
+                            profile_pic = profile_pic.replace('%40', '@')
                         else:
                             profile_pic = None
 
@@ -362,115 +386,84 @@ class UserLoginView(APIView):
                 LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":serializer.errors}), email=request.data['email'], status=False)
                 return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            serializer = UserSocialLoginSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=False):
-                email = serializer.data.get('email')
-                password = serializer.data.get('password')
-                social_id = serializer.data.get('social_id')
-                registered_by = serializer.data.get('registered_by')
-                user = authenticate(email=email, registered_by=registered_by, social_id=social_id)
-                if user is not None:
-                    if not user.is_active:
-                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"Your account is not active, please contact admin"}), email=email, status=False)
-                        return Response({"status":False, "message":"Your account is not active, please contact admin"}, status=status.HTTP_400_BAD_REQUEST)
-                    elif user is not None:
-                        token = get_tokens_for_user(user)
-                        try:
-                            user = User.objects.get(email=serializer.data.get('email'))
-                        except User.DoesNotExist:
-                            LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User Detail Not Found"}), email=email, status=False)
-                            return Response({"status":False, "message":"User Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
+            try:
+                user = User.objects.get(email=request.data.get('email'), registered_by=request.data.get('registered_by'), social_id=request.data.get('social_id'))
+            except User.DoesNotExist:
+                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"User Detail Not Found"}), email=request.data.get('email'), status=False)
+                return Response({"status":False, "message":"User Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
+            token = get_tokens_for_user(user)
+            country = ''
+            birthdate = ''
+            device_token = ''
+            social_id = ''
+            subscription_id = ''
+            profile_pic = ''
 
-                        country = ''
-                        birthdate = ''
-                        device_token = ''
-                        social_id = ''
-                        subscription_id = ''
-                        profile_pic = ''
-
-                        if user.country != '':
-                            country = user.country
-                        else:
-                            country = None
-
-                        if user.birthdate != '':
-                            birthdate = user.birthdate
-                        else:
-                            birthdate = None
-
-                        if user.device_token != '':
-                            device_token = user.device_token
-                        else:
-                            device_token = None
-                        
-                        if user.social_id != '':
-                            social_id = user.social_id
-                        else:
-                            social_id = None
-
-                        if user.subscription != '':
-                            subscription_id = user.subscription
-                        else:
-                            subscription_id = None
-                        
-                        if user.image_url != None:
-                            profile_pic = request.build_absolute_uri(user.image_url)
-                        else:
-                            profile_pic = None
-
-                        try:
-                            settings = Setting.objects.get(user_id=str(user.id)).id
-                        except Setting.DoesNotExist:
-                            settings = "setting detail not found"
-                    
-                        User_data = {
-                            'id':user.id,
-                            'firstname':user.firstname,
-                            'lastname':user.lastname,
-                            'email':user.email,
-                            'mobile':user.mobile,
-                            'gender':user.gender,
-                            'country':country,
-                            'birthdate':birthdate,
-                            'is_agree':user.is_agree,
-                            'registered_by':user.registered_by,
-                            'profile_pic':profile_pic,
-                            'subscription_id':str(subscription_id),
-                            'social_id':social_id,
-                            'device_token':device_token,
-                            'is_verified':user.is_verified,
-                            'setupcount':int(user.setup_count),
-                            'is_setup':user.is_setup,
-                            'is_registered':user.is_registered,
-                            'is_active':user.is_active,
-                            'is_admin':user.is_admin,
-                            'country_code':user.country_code,
-                            'is_subscribed':user.is_subscribed,
-                            'access_token':token.get('access'),
-                            'refresh_token':token.get('refresh'),
-                            'settings_id':settings
-                        }
-                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":True, "message":"Login Successfully"}), email=email, status=True)
-                        return Response({"status":True, "message":"Login Successfully", "data":User_data}, status=status.HTTP_200_OK)
-                    else:
-                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":{"non_field_errors":["Email or Password is not valid"]}}), email=email, status=False)
-                        return Response({"status":False, "message":"Email or Password is not valid"}, status=status.HTTP_404_NOT_FOUND)
-                else:
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":"user credential not match"}), email=request.data['email'], status=False)
-                    return Response({"status":False, "message":"user credential not match"}, status=status.HTTP_400_BAD_REQUEST)
+            if user.country != '':
+                country = user.country
             else:
-                message = ''
-                if (('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank.") and ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank.")):
-                    message = "please enter your email and password to login" 
-                elif ('password' in serializer.errors and serializer.errors['password'][0] == "This field may not be blank."):
-                    message = "Please provide your login password"
-                elif ('email' in serializer.errors and serializer.errors['email'][0] == "This field may not be blank."):
-                    message = "please enter your email"
-                elif ('email' in serializer.errors and serializer.errors['email'][0] == "Enter a valid email address."):
-                    message = "Enter a valid email address."
+                country = None
 
-                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":False, "message":serializer.errors}), email=request.data['email'], status=False)
-                return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
+            if user.birthdate != '':
+                birthdate = user.birthdate
+            else:
+                birthdate = None
+
+            if user.device_token != '':
+                device_token = user.device_token
+            else:
+                device_token = None
+            
+            if user.social_id != '':
+                social_id = user.social_id
+            else:
+                social_id = None
+
+            if user.subscription != '':
+                subscription_id = user.subscription
+            else:
+                subscription_id = None
+            
+            if user.image_url != None:
+                profile_pic = request.build_absolute_uri(user.image_url)
+                profile_pic = profile_pic.replace('%40', '@')
+            else:
+                profile_pic = None
+
+            try:
+                settings = Setting.objects.get(user_id=str(user.id)).id
+            except Setting.DoesNotExist:
+                settings = "setting detail not found"
+        
+            User_data = {
+                'id':user.id,
+                'firstname':user.firstname,
+                'lastname':user.lastname,
+                'email':user.email,
+                'mobile':user.mobile,
+                'gender':user.gender,
+                'country':country,
+                'birthdate':birthdate,
+                'is_agree':user.is_agree,
+                'registered_by':user.registered_by,
+                'profile_pic':profile_pic,
+                'subscription_id':str(subscription_id),
+                'social_id':social_id,
+                'device_token':device_token,
+                'is_verified':user.is_verified,
+                'setupcount':int(user.setup_count),
+                'is_setup':user.is_setup,
+                'is_registered':user.is_registered,
+                'is_active':user.is_active,
+                'is_admin':user.is_admin,
+                'country_code':user.country_code,
+                'is_subscribed':user.is_subscribed,
+                'access_token':token.get('access'),
+                'refresh_token':token.get('refresh'),
+                'settings_id':settings
+            }
+            LogsAPI.objects.create(apiname=str(request.get_full_path()), request_data=json.dumps(request.data), response_data=json.dumps({"status":True, "message":"Login Successfully"}), email=request.data.get('email'), status=True)
+            return Response({"status":True, "message":"Login Successfully", "data":User_data}, status=status.HTTP_200_OK)
 # User Login Api Code End #
 
 # User Profile API Code Start #                 Done with logs
@@ -502,6 +495,7 @@ class UserProfileView(APIView):
     
         if serializer.data.get('profile_pic') != None:
             profile_pic = request.build_absolute_uri(serializer.data.get('profile_pic'))
+            profile_pic = profile_pic.replace('%40', '@')
         else:
             profile_pic = None
 
@@ -557,9 +551,6 @@ class UserProfileView(APIView):
         return Response({"status":True, "message":"Fetch UserData Successfully", "data":user_profile}, status=status.HTTP_200_OK)
     
     def put(self, request, format=None):
-	token_check = check_token(user=request.user)
-        if token_check != "":
-            return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
         country = ''
         birthdate = ''
         profile_pic = ''
@@ -581,8 +572,9 @@ class UserProfileView(APIView):
         serializer = UserProfileSerializer(user, data=request.data)
         if serializer.is_valid(raise_exception=True):
             if user.profile_pic != "" and request.FILES:
+                profile = str(user.profile_pic).replace("%40", "@")
                 fs = FileSystemStorage()
-                fs.delete(user.profile_pic)
+                fs.delete(profile)
             serializer.save()
             if serializer.data.get('country') != '':
                 country = serializer.data.get('country')
@@ -596,6 +588,7 @@ class UserProfileView(APIView):
         
             if serializer.data.get('profile_pic') != None:
                 profile_pic = request.build_absolute_uri(serializer.data.get('profile_pic'))
+                profile_pic = profile_pic.replace("%40", "@")
             else:
                 profile_pic = None
     
@@ -618,7 +611,7 @@ class UserProfileView(APIView):
                 settings = Setting.objects.get(user_id=str(serializer.data.get('id'))).id
             except Setting.DoesNotExist:
                 settings = "setting detail not found"
-    
+            
             serializer = {
                 'id':serializer.data.get('id'),
                 'firstname':serializer.data.get('firstname'),
@@ -1820,28 +1813,36 @@ class TransactionView(APIView):
                     return Response({"status":False, "message":message},status=status.HTTP_400_BAD_REQUEST)   
         
             if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
-
                 if 'week_days' in request.data and request.data["week_days"] != "":
-                    Date_List = str(request.data["week_days"]).split(",")
-                    for x in Date_List:
-                        x_date = dt.strptime(str(x), '%Y-%m-%d').date()
-                        if x_date == dt.now().date():
-                            Date_List.remove(x)
-                            
-                    for x in data:
-                        x_date = dt.strptime(str(x), '%Y-%m-%d').date()
-                        if x_date > dt.now().date():
-                            status_list.append(False)
+                    dates = []
+                    end_date = dt.strptime(str(request.data['end_date']), "%Y-%m-%d").date()
+                    if end_date > dt.now().date():
+                        Date_List = str(request.data["week_days"]).split(",")
+                        for x in Date_List:
+                            x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                            if x_date > dt.now().date():
+                                dates.append(x)
 
-                    status_days = ','.join(status_list)
-                    data = {
-                        "start_date":request.data['start_date'],
-                        "end_date":request.data['end_date'],
-                        "prefix":request.data['prefix'],
-                        "prefix_value":request.data['prefix_value'],
-                        "week_days":request.data["week_days"],
-                        "status_days":status_days
-                    }  
+                        if "" not in dates:        
+                            for x in dates:
+                                x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                                if x_date > dt.now().date():
+                                    x = False
+                                    status_list.append(str(x))
+
+                        status_days = ','.join(status_list)
+                        week_dates = ','.join(dates)
+                        request.data.update({"week_days":week_dates})
+                        data = {
+                            "start_date":request.data['start_date'],
+                            "end_date":request.data['end_date'],
+                            "prefix":request.data['prefix'],
+                            "prefix_value":request.data['prefix_value'],
+                            "week_days":request.data["week_days"],
+                            "status_days":status_days
+                        }  
+                    else:
+                        return Response({"status":False, "message":"Recurrence should be prior to the end date"}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     # Changes Server #
                     start_date = None
@@ -1851,76 +1852,112 @@ class TransactionView(APIView):
                         start_date = date.today()
 
                     if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
-                        del status_list[:]
-                        Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict["Date_Months"].split(",")
-                        for x in Date_List:
-                            x = False
-                            status_list.append(str(x))
-                        status_days = ','.join(status_list)
-                        data = {
-                            "start_date":start_date,
-                            "end_date":request.data['end_date'],
-                            "prefix":request.data['prefix'],
-                            "prefix_value":request.data['prefix_value'],
-                            "week_days":Date_Dict["Date_Months"],
-                            "status_days":status_days
-                        }
+                        end_date = dt.strptime(str(request.data['end_date']), "%Y-%m-%d").date()
+                        if end_date > dt.now().date():
+                            del status_list[:]
+                            Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                            Date_List = Date_Dict["Date_Months"].split(",")
+                            
+                            for x in Date_List:
+                                x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                                if x_date <= dt.now().date():
+                                    Date_List.remove(x)
 
+                            if "" not in Date_List:
+                                for x in Date_List:
+                                    x = False
+                                    status_list.append(str(x))
+                                status_days = ','.join(status_list)
+                            data = {
+                                "start_date":start_date,
+                                "end_date":request.data['end_date'],
+                                "prefix":request.data['prefix'],
+                                "prefix_value":request.data['prefix_value'],
+                                "week_days":Date_Dict["Date_Months"],
+                                "status_days":status_days
+                            }
+                        else:
+                            return Response({"status":False, "message":"Recurrence should be prior to the end date"}, status=status.HTTP_400_BAD_REQUEST)
                     elif "year" in request.data['prefix'] and request.data['prefix_value'] != 0:
-                        del status_list[:]
-                        Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict["Date_Years"].split(",")
-                        for x in Date_List:
-                            x = False
-                            status_list.append(str(x))
-                        status_days = ','.join(status_list)
-                        data = {
-                            "start_date":start_date,
-                            "end_date":request.data['end_date'],
-                            "prefix":request.data['prefix'],
-                            "prefix_value":request.data['prefix_value'],
-                            "week_days":Date_Dict["Date_Years"],
-                            "status_days":status_days
-                        }
+                        end_date = dt.strptime(str(request.data['end_date']), "%Y-%m-%d").date()
+                        if end_date > dt.now().date():
+                            del status_list[:]
+                            Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                            Date_List = Date_Dict["Date_Years"].split(",")
+                            
+                            for x in Date_List:
+                                x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                                if x_date <= dt.now().date():
+                                    Date_List.remove(x)
+
+                            if "" not in Date_List:
+                                for x in Date_List:
+                                    x = False
+                                    status_list.append(str(x))
+                                status_days = ','.join(status_list)
+                            data = {
+                                "start_date":start_date,
+                                "end_date":request.data['end_date'],
+                                "prefix":request.data['prefix'],
+                                "prefix_value":request.data['prefix_value'],
+                                "week_days":Date_Dict["Date_Years"],
+                                "status_days":status_days
+                            }
+                        else:
+                            return Response({"status":False, "message":"Recurrence should be prior to the end date"}, status=status.HTTP_400_BAD_REQUEST)
 
                     elif "day" in request.data['prefix'] and request.data['prefix_value'] != 0:
-                        del status_list[:]
-                        Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                        Date_List = Date_Dict["Date_Days"].split(",")
-                        for x in Date_List:
-                            x = False
-                            status_list.append(str(x))
-                        status_days = ','.join(status_list)
-                        data = {
-                            "start_date":start_date,
-                            "end_date":request.data['end_date'],
-                            "prefix":request.data['prefix'],
-                            "prefix_value":request.data['prefix_value'],
-                            "week_days":Date_Dict["Date_Days"],
-                            "status_days":status_days
-                        }
+                        end_date = dt.strptime(str(request.data['end_date']), "%Y-%m-%d").date()
+                        if end_date > dt.now().date():
+                            del status_list[:]
+                            Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+                            Date_List = Date_Dict["Date_Days"].split(",")
+                           
+                            for x in Date_List:
+                                x_date = dt.strptime(str(x), '%Y-%m-%d').date()
+                                if x_date <= dt.now().date():
+                                    Date_List.remove(x)
+                            
+                            if "" not in Date_List:
+                                for x in Date_List:
+                                    x = False
+                                    status_list.append(str(x))
+                                status_days = ','.join(status_list)
+                            data = {
+                                "start_date":start_date,
+                                "end_date":request.data['end_date'],
+                                "prefix":request.data['prefix'],
+                                "prefix_value":request.data['prefix_value'],
+                                "week_days":Date_Dict["Date_Days"],
+                                "status_days":status_days
+                            }
+                        else:
+                            return Response({"status":False, "message":"Recurrence should be prior to the end date"}, status=status.HTTP_400_BAD_REQUEST)
                     else:
                         return Response({"status":False, "message":"prefix_value cannot be blank must be integer"}, status=status.HTTP_400_BAD_REQUEST)
-                    # Changes on server # 
-                periodicSerializer = PeriodicSerializer(data=data) 
-                if periodicSerializer.is_valid(raise_exception=False):
-                    periodicSerializer.save()
-                else:
-                    message = ""
-                    if 'start_date' in periodicSerializer.errors:
-                        message = "provide valid date yyyy-mm-dd."
-                    if 'end_date' in periodicSerializer.errors:
-                        message = "provide valid date yyyy-mm-dd."
-                    if 'week_days' in periodicSerializer.errors:
-                        message = "week_days cannot be blank and must be comma saparated string like 2022-07-12,2022-07-13."
-                    if 'prefix' in periodicSerializer.errors:
-                        message = "prefix cannot be blank must be string choice like day,month,year,week."
-                    if 'prefix_value' in periodicSerializer.errors:
-                        message="prefix_value must be integer."
-                    if 'status_days' in periodicSerializer.errors:
-                        message = "status_days cannot be blank must be comma saparated string like false,false,false."
-                    return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
+                # Changes on server # 
+                start_date = dt.strptime(str(data["start_date"]), "%Y-%m-%d").date()
+                end_date = dt.strptime(str(data["end_date"]), "%Y-%m-%d").date()
+                
+                if end_date > start_date and data['week_days'] != "" and data["status_days"] != "":
+                    periodicSerializer = PeriodicSerializer(data=data) 
+                    if periodicSerializer.is_valid(raise_exception=False):
+                        periodicSerializer.save()
+                    else:
+                        message = ""
+                        if 'start_date' in periodicSerializer.errors:
+                            message = "provide valid date yyyy-mm-dd."
+                        if 'end_date' in periodicSerializer.errors:
+                            message = "provide valid date yyyy-mm-dd."
+                        if 'week_days' in periodicSerializer.errors:
+                            message = "week_days cannot be blank and must be comma saparated string like 2022-07-12,2022-07-13."
+                        if 'prefix' in periodicSerializer.errors:
+                            message = "prefix cannot be blank must be string choice like day,month,year,week."
+                        if 'prefix_value' in periodicSerializer.errors:
+                            message="prefix_value must be integer."
+                        if 'status_days' in periodicSerializer.errors:
+                            message = "status_days cannot be blank must be comma saparated string like false,false,false."
+                        return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
 
             if (('amount' in request.data and 'source' in request.data and 'income_to' in request.data) and ('income_from' not in request.data) and ('expense' not in request.data) and ('goal' not in request.data)):
                 if (request.data["amount"] != "" and request.data["source"] != ""  and request.data["income_to"] != ""):
@@ -2303,7 +2340,7 @@ class TransactionView(APIView):
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
                         transaction_id = transaction_serializer.save()
-                        if transaction_id > 0 and transaction_id is not None:
+                        if len(str(transaction_id)) > 0 and transaction_id is not None:
                             Income.objects.filter(title=income.title, id=income.id, user_id=user).update(amount=income_amount)
                             Expense.objects.filter(title=expense.title, id=expense.id, user_id=user).update(spent_amount=expense_amount)
                         else:
@@ -2406,7 +2443,7 @@ class TransactionView(APIView):
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
                         transaction_id = transaction_serializer.save()
-                        if transaction_id > 0 and transaction_id is not None:
+                        if len(str(transaction_id)) > 0 and transaction_id is not None:
                             Income.objects.filter(title=income.title, id=income.id, user_id=user).update(amount=income_amount)
                             if float(debt.amount) == float(request.data["amount"]):
                                 Debt.objects.filter(name=debt.name, id=debt.id, user_id=user).update(paid_amount=debt_amount)
@@ -2519,142 +2556,54 @@ class TransactionView(APIView):
             # Server Update #
 
             if transaction.periodic_id is not None and transaction.periodic_id != "":
-                periodic = Periodic.objects.get(id=str(transaction.periodic_id))
-            # else:
-            #     print("A")
-            #     periodic_dict = {}
-            #     if ('start_date' in request.data and 'end_date' in request.data and 'prefix' in request.data and 'prefix_value' in request.data and request.data["start_date"] != 0 and request.data["end_date"] != 0 and request.data["prefix"] != 0 and request.data["prefix_value"] != 0):
-            #         print("B")
-            #         if 'week_days' in request.data and request.data["week_days"] != "":
-            #             print("C")
-            #             Date_List = str(request.data["week_days"]).split(",")
-            #             for x in Date_List:
-            #                 x_date = dt.strptime(str(x), '%Y-%m-%d').date()
-            #                 if x_date == dt.now().date():
-            #                     Date_List.remove(x)
-
-            #             for x in Date_List:
-            #                 x_date = dt.strptime(str(x), '%Y-%m-%d').date()
-            #                 if x_date > dt.now().date():
-            #                     status_list.append(False)
-            #             status_days = ','.join(status_list)
-            #             periodic_dict = {
-            #                 "start_date":request.data['start_date'],
-            #                 "end_date":request.data['end_date'],
-            #                 "prefix":request.data['prefix'],
-            #                 "prefix_value":request.data['prefix_value'],
-            #                 "week_days":request.data["week_days"],
-            #                 "status_days":status_days
-            #             }  
-            #         else:
-            #             print("D")
-            #             # Changes Server #
-            #             start_date = None
-            #             if request.data['start_date'] != "":
-            #                 start_date = request.data['start_date']
-            #             else:
-            #                 start_date = date.today()
-
-            #             if "month" in request.data['prefix'] and request.data['prefix_value'] != 0:
-            #                 del status_list[:]
-            #                 Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-                            
-            #                 Date_List = Date_Dict["Date_Months"].split(",")
-            #                 for x in Date_List:
-            #                     x = False
-            #                     status_list.append(str(x))
-            #                 status_days = ','.join(status_list)
-            #                 periodic_dict = {
-            #                     "start_date":start_date,
-            #                     "end_date":request.data['end_date'],
-            #                     "prefix":request.data['prefix'],
-            #                     "prefix_value":request.data['prefix_value'],
-            #                     "week_days":Date_Dict["Date_Months"],
-            #                     "status_days":status_days
-            #                 }
-
-            #             elif "year" in request.data['prefix'] and request.data['prefix_value'] != 0:
-            #                 del status_list[:]
-            #                 Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-            #                 Date_List = Date_Dict["Date_Years"].split(",")
-            #                 for x in Date_List:
-            #                     x = False
-            #                     status_list.append(str(x))
-            #                 status_days = ','.join(status_list)
-            #                 periodic_dict = {
-            #                     "start_date":start_date,
-            #                     "end_date":request.data['end_date'],
-            #                     "prefix":request.data['prefix'],
-            #                     "prefix_value":request.data['prefix_value'],
-            #                     "week_days":Date_Dict["Date_Years"],
-            #                     "status_days":status_days
-            #                 }
-
-            #             elif "day" in request.data['prefix'] and request.data['prefix_value'] != 0:
-            #                 print("yes1")
-            #                 del status_list[:]
-            #                 Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
-            #                 Date_List = Date_Dict["Date_Days"].split(",")
-            #                 for x in Date_List:
-            #                     x = False
-            #                     status_list.append(str(x))
-            #                 status_days = ','.join(status_list)
-            #                 periodic_dict = {
-            #                     "start_date":start_date,
-            #                     "end_date":request.data['end_date'],
-            #                     "prefix":request.data['prefix'],
-            #                     "prefix_value":request.data['prefix_value'],
-            #                     "week_days":Date_Dict["Date_Days"],
-            #                     "status_days":status_days
-            #                 }
-            #             else:
-            #                 return Response({"status":False, "message":"prefix_value cannot be blank must be integer"}, status=status.HTTP_400_BAD_REQUEST)
-            #             # Changes on server # 
-            #             periodic = PeriodicSerializer(data=periodic_dict) 
-            #             if periodic.is_valid(raise_exception=False):
-            #                 print("yes2")
-            #                 periodic.save()
-            #             else:
-            #                 print(periodic.errors, "yes3")
-            #                 message = ""
-            #                 if 'start_date' in periodic.errors:
-            #                     message = "provide valid date yyyy-mm-dd."
-            #                 if 'end_date' in periodic.errors:
-            #                     message = "provide valid date yyyy-mm-dd."
-            #                 if 'week_days' in periodic.errors:
-            #                     message = "week_days cannot be blank and must be comma saparated string like 2022-07-12,2022-07-13."
-            #                 if 'prefix' in periodic.errors:
-            #                     message = "prefix cannot be blank must be string choice like day,month,year,week."
-            #                 if 'prefix_value' in periodic.errors:
-            #                     message="prefix_value must be integer."
-            #                 if 'status_days' in periodic.errors:
-            #                     message = "status_days cannot be blank must be comma saparated string like false,false,false."
-            #                 return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)
-                
+                periodic = Periodic.objects.get(id=str(transaction.periodic_id))        
 
             if (len(source) > 0 and len(income_to) > 0 and len(goal) <= 0 and len(income_from) <= 0 and len(expense) <= 0):
                 source_amount = ''
                 income_to_amount = ''
                 updated_transfer_amount = ''
+                amount = ''
+                transaction_amount = ''
                 if 'amount' in request.data:
+                    transaction_amount = float(request.data["amount"])
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         source_amount = float(source[0].spent_amount) + float(updated_transfer_amount)
                         income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    source_amount = float(source_amount) + float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount) + float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) < float(transaction.transaction_amount):
                         updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
                         source_amount = float(source[0].spent_amount) - float(updated_transfer_amount)
                         income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    source_amount = float(source_amount) - float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount) - float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
                 # Server Update #
-                if transaction.location_id is None: # create new location
+                if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
                 # Server Update #
-                # if transaction.periodic_id is None:
-                #     request.data["periodic"] = periodic.data.get('id')
-                request.data.update({"transaction_amount":request.data["amount"]})
-                request.data.pop('amount')
+                
+                request.data.update({"transaction_amount":transaction_amount})
+                request.data.update({"amount":amount})
+                
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
@@ -2672,25 +2621,46 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 income_to_amount = ''
                 updated_transfer_amount = ''
+                amount = ''
+                transaction_amount = ''
                 if 'amount' in request.data:
+                    transaction_amount = float(request.data["amount"])
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
                         income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount)+float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) < float(transaction.transaction_amount):
                         updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
 
-                if transaction.location_id is None: # create new location
+                if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
 
-                # if transaction.periodic_id is None:
-                #     request.data["periodic"] = periodic.data.get('id')
-                request.data.update({"transaction_amount":request.data["amount"]})
-                request.data.pop('amount')
+                request.data.update({"transaction_amount":transaction_amount})
+                request.data.update({"amount":amount})
+                
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
@@ -2708,25 +2678,45 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 goal_amount = ''
                 updated_transfer_amount = ''
+                amount = ''
+                transaction_amount = ''
                 if 'amount' in request.data:
+                    transaction_amount = float(request.data["amount"])
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
                         goal_amount = float(goal[0].added_amount) + float(updated_transfer_amount)
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
+                                    goal_amount = float(goal_amount)+float(updated_transfer_amount)
                     elif float(request.data["amount"]) < float(transaction.transaction_amount):
                         updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         goal_amount = float(goal[0].added_amount) - float(updated_transfer_amount)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
+                                    goal_amount = float(goal_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
                     
-                if transaction.location_id is None: # create new location
+                if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
 
-                # if transaction.periodic_id is None:
-                #     request.data["periodic"] = periodic.data.get('id')
-                request.data.update({"transaction_amount":request.data["amount"]})
-                request.data.pop('amount')
+                request.data.update({"transaction_amount":transaction_amount})
+                request.data.update({"amount":amount})
+                
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
@@ -2744,25 +2734,47 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 expense_amount = ''
                 updated_transfer_amount = ''
+                amount = ''
+                transaction_amount = ''
                 if 'amount' in request.data:
-                    if float(request.data["amount"]) > float(transaction.transaction_amount):
-                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
-                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
-                        expense_amount = float(expense[0].spent_amount) + float(updated_transfer_amount)
+                    transaction_amount = float(request.data["amount"])
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):   # 3 > 2
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount) # 1 = 3 - 2
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)  # 9 = 10-1
+                        expense_amount = float(expense[0].spent_amount) + float(updated_transfer_amount) # 11 = 10+1
+                        amount = float(transaction.amount) + float(updated_transfer_amount) # 7 = 6+ 1
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) - float(updated_transfer_amount)
+                                    expense_amount = float(expense_amount) + float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) < float(transaction.transaction_amount):
                         updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         expense_amount = float(expense[0].spent_amount) - float(updated_transfer_amount)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) + float(updated_transfer_amount)
+                                    expense_amount = float(expense_amount) - float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
                     
-                if transaction.location_id is None: # create new location
+                if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
-                
-                # if transaction.periodic_id is None:
-                #     request.data["periodic"] = periodic.data.get('id')
-                request.data.update({"transaction_amount":request.data["amount"]})
-                request.data.pop('amount')    
+
+                request.data.update({"transaction_amount":transaction_amount})
+                request.data.update({"amount":amount})
+        
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
@@ -2780,25 +2792,46 @@ class TransactionView(APIView):
                 income_from_amount = ''
                 debt_amount = ''
                 updated_transfer_amount = ''
+                amount = ''
+                transaction_amount = ''
                 if 'amount' in request.data:
+                    transaction_amount = float(request.data["amount"])
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
                         debt_amount = float(debt[0].paid_amount) + float(updated_transfer_amount)
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) - float(updated_transfer_amount)
+                                    debt_amount = float(debt_amount) + float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) < float(transaction.transaction_amount):
                         updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         debt_amount = float(debt[0].paid_amount) - float(updated_transfer_amount)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) + float(updated_transfer_amount)
+                                    debt_amount = float(debt_amount) - float(updated_transfer_amount)
+
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
                     
-                if transaction.location_id is None: # create new location
+                if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
                 
-                # if transaction.periodic_id is None:
-                #     request.data["periodic"] = periodic.data.get('id')
-                request.data.update({"transaction_amount":request.data["amount"]})
-                request.data.pop('amount')
+                request.data.update({"transaction_amount":transaction_amount})
+                request.data.update({"amount":amount})
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
@@ -2924,7 +2957,7 @@ class TransactionView(APIView):
                 y["expense_name"] = expense
             if y["periodic"] is not None:
                 periodic = Periodic.objects.get(id=str(y["periodic"]))
-                y["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
+                y["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'status_days':str(periodic.status_days).lower(),'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
             if y["location"] is not None:
                 location = Location.objects.get(id=str(y["location"]))
                 y["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
@@ -3370,65 +3403,69 @@ class HomeView(APIView):
                         repeat_status = str(periodic.status_days).split(',')
                     
                     for i, repeat_date in enumerate(repeat_dates):
-                        repeat = dt.strptime(str(repeat_date), '%Y-%m-%d').date()
+                        repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
                         if repeat <= date.today():
-                            if repeat_status[i].encode('ascii') == "False":
+                            if repeat_status[i].encode('ascii').decode('UTF-8') == "False":
                                 transacion_amount = float(amount) + float(x.transaction_amount)
                                 amount = transacion_amount
                                 repeat_status[i] = "True"
-                
-                            Transaction.objects.filter(id=str(x.id), periodic_id=str(x.periodic_id)).update(amount=float(amount ))
+                           
+                                Transaction.objects.filter(id=str(x.id), periodic_id=str(x.periodic_id)).update(amount=float(amount))
+                                
+                                if x.income_to_id is not None and x.income_to_id != "" and x.source_id is not None and x.source_id != "":
+                                
+                                    source_amount = source[0].spent_amount
+                                    income_to_amount = income_to[0].amount
                             
-                            if x.income_to_id is not None and x.income_to_id != "" and x.source_id is not None and x.source_id != "":
-                                source_amount = source[0].spent_amount
-                                income_to_amount = income_to[0].amount
-                        
-                                source_amount = float(source_amount) + float(x.transaction_amount)
-                                income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                    source_amount = float(source_amount) + float(x.transaction_amount)
+                                    income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                            
+                                    source.update(spent_amount=source_amount)
+                                    income_to.update(amount=income_to_amount)
                                         
-                                source.update(spent_amount=source_amount)
-                                income_to.update(amount=income_to_amount)
-                                    
-                            elif x.income_to_id is not None and x.income_to_id != "" and x.income_from_id is not None and x.income_from_id != "":
-                                income_from_amount = income_from[0].amount
-                                income_to_amount = income_to[0].amount
-                                
-                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                income_to_amount = float(income_to_amount) + float(x.transaction_amount)
-                                    
-                                income_from.update(amount=income_from_amount)
-                                income_to.update(amount=income_to_amount)
-                                
-                            elif x.income_from_id is not None and x.income_from_id != "" and x.goal_id is not None and x.goal_id != "":
-                                income_from_amount = income_from[0].amount
-                                goal_amount = goal[0].added_amount
-                        
-                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                goal_amount = float(goal_amount) + float(x.transaction_amount)
-                                    
-                                income_from.update(amount=income_from_amount)
-                                goal.update(added_amount=goal_amount)
+                                elif x.income_to_id is not None and x.income_to_id != "" and x.income_from_id is not None and x.income_from_id != "":
 
-                            elif x.income_from_id is not None and x.income_from_id != "" and x.expense_id is not None and x.expense_id != "":
-                                income_from_amount = income_from[0].amount
-                                expense_amount = expense[0].spent_amount
-                            
-                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                expense_amount = float(expense_amount) + float(x.transaction_amount)
+                                    income_from_amount = income_from[0].amount
+                                    income_to_amount = income_to[0].amount
                                     
-                                income_from.update(amount=income_from_amount)
-                                expense.update(spent_amount=expense_amount)
-                        
-                            elif x.income_from_id is not None and x.income_from_id != "" and x.debt_id is not None and x.debt_id != "":
-                                print("yes")
-                                income_from_amount = income_from[0].amount
-                                debt_amount = debt[0].paid_amount
+                                    income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                    income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                        
+                                    income_from.update(amount=income_from_amount)
+                                    income_to.update(amount=income_to_amount)
+                                    
+                                elif x.income_from_id is not None and x.income_from_id != "" and x.goal_id is not None and x.goal_id != "":
+
+                                    income_from_amount = income_from[0].amount
+                                    goal_amount = goal[0].added_amount
+                            
+                                    income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                    goal_amount = float(goal_amount) + float(x.transaction_amount)
+                                        
+                                    income_from.update(amount=income_from_amount)
+                                    goal.update(added_amount=goal_amount)
+
+                                elif x.income_from_id is not None and x.income_from_id != "" and x.expense_id is not None and x.expense_id != "":
+
+                                    income_from_amount = income_from[0].amount
+                                    expense_amount = expense[0].spent_amount
                                 
-                                income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                debt_amount = float(debt_amount) + float(x.transaction_amount)
-                                   
-                                income_from.update(amount=income_from_amount)
-                                debt.update(paid_amount=debt_amount)
+                                    income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                    expense_amount = float(expense_amount) + float(x.transaction_amount)
+                                        
+                                    income_from.update(amount=income_from_amount)
+                                    expense.update(spent_amount=expense_amount)
+                            
+                                elif x.income_from_id is not None and x.income_from_id != "" and x.debt_id is not None and x.debt_id != "":
+
+                                    income_from_amount = income_from[0].amount
+                                    debt_amount = debt[0].paid_amount
+                                    
+                                    income_from_amount = float(income_from_amount) - float(x.transaction_amount)
+                                    debt_amount = float(debt_amount) + float(x.transaction_amount)
+                                    
+                                    income_from.update(amount=income_from_amount)
+                                    debt.update(paid_amount=debt_amount)
     
                     repeat_status = ','.join(repeat_status)   
                     Periodic.objects.filter(id=str(x.periodic_id)).update(status_days=repeat_status)
@@ -3485,9 +3522,12 @@ class ReportView(APIView):
                 transaction = Transaction.objects.filter(user_id=user, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]]) 
                 for x in transaction:
                     transaction_data_list.append(x)
-                
             
-                    
+            else:
+                transaction = Transaction.objects.all().filter(user_id=user, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                for x in transaction:
+                    transaction_data_list.append(x)
+                
         if 'filter' in request.query_params and request.query_params['filter'] is not None:
             if len(transaction_data_list) > 0:
                 del transaction_data_list[:]
@@ -3545,6 +3585,15 @@ class ReportView(APIView):
                             transaction = Transaction.objects.filter(user_id=user, income_to_id=income.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
                             for x in transaction:
                                 transaction_data_list.append(x)
+                        
+                        else:
+                            transaction = Transaction.objects.all().filter(user_id=user, income_from_id=income.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
+                            
+                            transaction = Transaction.objects.all().filter(user_id=user, income_to_id=income.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
                               
             
             elif request.query_params['filter'] == "goal":
@@ -3579,6 +3628,11 @@ class ReportView(APIView):
                             transaction = Transaction.objects.all().filter(user_id=user, goal_id=goal.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
                             for x in transaction:
                                 transaction_data_list.append(x)
+                                
+                        else:
+                            transaction = Transaction.objects.all().filter(user_id=user, goal_id=goal.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
             
             elif request.query_params['filter'] == "expense":
                 expense_id = Expense.objects.filter(user_id=user)
@@ -3610,6 +3664,11 @@ class ReportView(APIView):
                             transaction = Transaction.objects.all().filter(user_id=user, expense_id=expense.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
                             for x in transaction:
                                 transaction_data_list.append(x)
+                                
+                        else:
+                            transaction = Transaction.objects.all().filter(user_id=user, expense_id=expense.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
 
             elif request.query_params['filter'] == "source":
                 source_id = SourceIncome.objects.filter(user_id=user)
@@ -3638,6 +3697,11 @@ class ReportView(APIView):
                                 transaction_data_list.append(x)
 
                         elif request.query_params['subfilter'] == "Year":
+                            transaction = Transaction.objects.all().filter(user_id=user, source_id=source.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
+                        
+                        else:
                             transaction = Transaction.objects.all().filter(user_id=user, source_id=source.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
                             for x in transaction:
                                 transaction_data_list.append(x)
@@ -3674,6 +3738,50 @@ class ReportView(APIView):
 
                         elif request.query_params['subfilter'] == "Year":
                             transaction = Transaction.objects.all().filter(user_id=user, tag__id=tag.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
+                            
+                        else:
+                            transaction = Transaction.objects.all().filter(user_id=user, tag__id=tag.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
+            
+            else:
+                debts = Debt.objects.filter(user_id=user)
+
+                for debt in debts:
+                    if 'subfilter' not in request.query_params:
+                        transaction = Transaction.objects.filter(user_id=user,debt_id=debt.id)
+                        for x in transaction:
+                            transaction_data_list.append(x)    
+                    else:
+                        if request.query_params['subfilter'] == "Today":
+                            if request.query_params["startdate"] == request.query_params["enddate"]:
+                                transaction = Transaction.objects.filter(user_id=user, debt_id=debt.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                                for x in transaction:
+                                    transaction_data_list.append(x)
+                            else:
+                                return Response({"status":False, "message":"please provide same start and end date when user subfilter 'Today'"}, status=status.HTTP_404_NOT_FOUND)    
+                                
+                        elif request.query_params['subfilter'] == "Week":
+                            transaction = Transaction.objects.all().filter(user_id=user, debt_id=debt.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
+                            
+
+                        elif request.query_params['subfilter'] == "Month":
+                            transaction = Transaction.objects.all().filter(user_id=user, debt_id=debt.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x)
+                            
+
+                        elif request.query_params['subfilter'] == "Year":
+                            transaction = Transaction.objects.all().filter(user_id=user, debt_id=debt.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                            for x in transaction:
+                                transaction_data_list.append(x) 
+
+                        else:
+                            transaction = Transaction.objects.all().filter(user_id=user, debt_id=debt.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
                             for x in transaction:
                                 transaction_data_list.append(x)
                             
@@ -3776,7 +3884,7 @@ class ResetPassword(APIView):
         uid = request.query_params.get("uid")
         user_data = urlsafe_base64_decode(uid)
         user_data = eval(user_data)
-        expire = dt.strptime(str(user_data["expire"]), '%Y-%m-%d').date()
+        expire = dt.strptime(str(user_data["expire"]), "%Y-%m-%d").date()
         if dt.now().date() <= expire:
             user = user_data["user"]
             return render(request, "reset_password.html", {"user":user, "message":""})
@@ -3799,3 +3907,438 @@ def confirm(request):
         else:
             return render(request, "reset_password.html", {"message":"Password and Re-password cannot be blank."})
 # User Reset / Forgot Password API End #
+
+# Export Data in CSV or XLS #
+class Export(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        data = ""
+        if 'export' in request.query_params and request.query_params["export"] != "None" and len(request.query_params["export"]) > 2:
+            token_check = check_token(user=request.user)
+            if token_check != "":
+                return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
+
+            transaction_data_list = []
+            data_list = []
+            try:
+                user = User.objects.get(email=request.user).id
+            except User.DoesNotExist:
+                header = {
+                    "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                }
+                LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"User Detail Doesn't Exist"}), email=request.user, status=False)
+                return Response({"status":False, "message":"User Detail Doesn't Exist"},status=status.HTTP_404_NOT_FOUND)
+            
+            
+            transaction = Transaction.objects.filter(user_id=user)
+            if transaction != []:
+                for x in transaction:
+                    transaction_data_list.append(x)
+            else:
+                return Response({"status":False, "message":"Transaction Data Doesn't Exist."}, status=status.HTTP_404_NOT_FOUND)
+            
+            if (('filter' in request.query_params and request.query_params['filter'] is None) and ('startdate' in request.query_params and request.query_params['startdate'] is not None) and ('enddate' in request.query_params and request.query_params['enddate'] is not None)):
+                transaction = Transaction.objects.all().filter(user_id=user, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                for x in transaction:
+                    transaction_data_list.append(x)
+                 
+            if 'filter' in request.query_params and request.query_params['filter'] is not None:
+                if len(transaction_data_list) > 0:
+                    del transaction_data_list[:]
+                if request.query_params['filter'] == "income":
+                    income_id = Income.objects.filter(user_id=user)
+                    
+                    for income in income_id:
+                        transaction = Transaction.objects.all().filter(user_id=user, income_from_id=income.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+                        
+                        transaction = Transaction.objects.all().filter(user_id=user, income_to_id=income.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+                        
+                elif request.query_params['filter'] == "goal":
+                    goal_id = Goal.objects.filter(user_id=user)
+
+                    for goal in goal_id: 
+                        transaction = Transaction.objects.all().filter(user_id=user, goal_id=goal.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+                
+                elif request.query_params['filter'] == "expense":
+                    expense_id = Expense.objects.filter(user_id=user)
+
+                    for expense in expense_id:
+                        transaction = Transaction.objects.all().filter(user_id=user, expense_id=expense.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+
+                elif request.query_params['filter'] == "source":
+                    source_id = SourceIncome.objects.filter(user_id=user)
+
+                    for source in source_id:
+                        transaction = Transaction.objects.all().filter(user_id=user, source_id=source.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+
+                elif request.query_params['filter'] == "tag":
+                    tag_id = Tag.objects.filter(user_id=user)
+
+                    for tag in tag_id:
+                        transaction = Transaction.objects.all().filter(user_id=user, tag__id=tag.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+                
+                else:
+                    debts = Debt.objects.filter(user_id=user)
+
+                    for debt in debts:
+                        transaction = Transaction.objects.all().filter(user_id=user, debt_id=debt.id, created_at__range=[request.query_params["startdate"], request.query_params["enddate"]])
+                        for x in transaction:
+                            transaction_data_list.append(x)
+                                
+            transaction_data_list = [i for n, i in enumerate(transaction_data_list) if i not in transaction_data_list[:n]]             
+           
+            transaction_serializer = TransactionSerializer(transaction_data_list, many=True)
+            data_dict = transaction_serializer.data
+        
+            for x in data_dict:
+                x["amount"] = float(x["amount"])
+                if x["income_to"] is not None:
+                    try:
+                        income_to = Income.objects.get(id=str(x["income_to"])).title
+                    except Income.DoesNotExist:
+                        return Response({"status":False, "message":"income_to data not found"}, status=status.HTTP_404_NOT_FOUND)
+                    x["income_to_name"] = income_to
+                else:
+                    x["income_to_name"] = None
+
+                if x["income_from"] is not None:
+                    try:
+                        income_from = Income.objects.get(id=str(x["income_from"])).title
+                    except Income.DoesNotExist:
+                        return Response({"status":False, "message":"income_from data not found"}, status=status.HTTP_404_NOT_FOUND)
+                    x["income_from_name"] = income_from
+                else:
+                    x["income_from_name"] = None
+
+                if x["source"] is not None:
+                    try:
+                        source = SourceIncome.objects.get(id=str(x["source"])).title
+                    except SourceIncome.DoesNotExist:
+                        return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
+                    x["source_name"] = source
+                else:
+                    x["source_name"] = None
+                
+                if x["goal"] is not None:
+                    try:
+                        goal = Goal.objects.get(id=str(x["goal"])).title
+                    except Goal.DoesNotExist:
+                        return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
+                    x["goal_name"] = goal
+                else:
+                    x["goal_name"] = None
+
+                if x["expense"] is not None:
+                    try:
+                        expense = Expense.objects.get(id=str(x["expense"])).title
+                    except Expense.DoesNotExist:
+                        return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
+                    x["expense_name"] = expense
+                else:
+                    x["expense_name"] = None
+                
+                if x["periodic"] is not None:
+                    periodic = Periodic.objects.get(id=str(x["periodic"]))
+                    x["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
+                else:
+                    x["periodic_data"] = None
+                
+                if x["location"] is not None:
+                    location = Location.objects.get(id=str(x["location"]))
+                    x["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
+                else:
+                    x["location_data"] = None
+                
+                if x["debt"] is not None:
+                    try:
+                        debt = Debt.objects.get(id=str(x["debt"])).name
+                    except Debt.DoesNotExist:
+                        return Response({"status":False, "message":"debt data not found"}, status=status.HTTP_404_NOT_FOUND)
+                    x["debt_name"] = debt
+                else:
+                    x["debt_name"] = None
+            
+            if request.query_params["export"] == "csv":
+                del data_list[:]
+                for y in data_dict:
+                    if y["source"] is not None and y["income_to"] is not None and x["income_from"] is None and x["expense"] is None and x["goal"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Source To Income.",
+                                "from":y["source_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Source To Income.",
+                                "from":y["source_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    elif y["income_from"] is not None and y["income_to"] is not None and x["source"] is None and x["expense"] is None and x["goal"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Income.",
+                                "from":y["income_from_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Income.",
+                                "from":y["income_from_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    elif y["income_from"] is not None and y["expense"] is not None and x["source"] is None and x["income_to"] is None and x["goal"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Expense.",
+                                "from":y["income_from_name"],
+                                "to":y["expense_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Expense.",
+                                "from":y["income_from_name"],
+                                "to":y["expense_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    elif y["income_from"] is not None and y["goal"] is not None and x["source"] is None and x["income_to"] is None and x["expense"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Goal.",
+                                "from":y["income_from_name"],
+                                "to":y["goal_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Goal.",
+                                "from":y["income_from_name"],
+                                "to":y["goal_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    else:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Debt.",
+                                "from":y["income_from_name"],
+                                "to":y["debt_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Debt.",
+                                "from":y["income_from_name"],
+                                "to":y["debt_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+            
+                    data_list.append(data)
+
+                response = StringIO()
+                writer = csv.writer(response)
+                writer.writerow(["Date", "Type", "From", "To", "Amount", "Recurrence", "Note"])
+
+                for x in data_list:
+                    writer.writerow([x["date"], x["type"], x["from"], x["to"], x["amount"], x["recurrence"], x["note"]])
+                
+                # Send Email Code Start #
+                email = EmailMessage()
+                subject = 'Transaction Statement From Date %s To %s'%(request.query_params["startdate"], request.query_params["enddate"])
+                email.subject = subject
+                email.body = "Statement Attachment is Below"
+                email.from_email = settings.EMAIL_HOST_USER
+                email.to = [request.user,]
+                email.attach('statement.csv', response.getvalue(), 'text/csv')
+                email.send(fail_silently=False)
+                # Send Email Code End #
+            else:
+                del data_list[:]
+                for y in data_dict:
+                    if y["source"] is not None and y["income_to"] is not None and x["income_from"] is None and x["expense"] is None and x["goal"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Source To Income.",
+                                "from":y["source_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Source To Income.",
+                                "from":y["source_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    elif y["income_from"] is not None and y["income_to"] is not None and x["source"] is None and x["expense"] is None and x["goal"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Income.",
+                                "from":y["income_from_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Income.",
+                                "from":y["income_from_name"],
+                                "to":y["income_to_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    elif y["income_from"] is not None and y["expense"] is not None and x["source"] is None and x["income_to"] is None and x["goal"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Expense.",
+                                "from":y["income_from_name"],
+                                "to":y["expense_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Expense.",
+                                "from":y["income_from_name"],
+                                "to":y["expense_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    elif y["income_from"] is not None and y["goal"] is not None and x["source"] is None and x["income_to"] is None and x["expense"] is None and x["debt"] is None:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Goal.",
+                                "from":y["income_from_name"],
+                                "to":y["goal_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Goal.",
+                                "from":y["income_from_name"],
+                                "to":y["goal_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    else:
+                        if y["periodic"] is not None:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Debt.",
+                                "from":y["income_from_name"],
+                                "to":y["debt_name"],
+                                "amount":y["amount"],
+                                "recurrence":y["periodic_data"]["week_days"],
+                                "note":y["description"]
+                            }
+                        else:
+                            data = {
+                                "date":y["created_at"],
+                                "type":"Income To Debt.",
+                                "from":y["income_from_name"],
+                                "to":y["debt_name"],
+                                "amount":y["amount"],
+                                "recurrence":None,
+                                "note":y["description"]
+                            }
+                    data_list.append(tuple(data.values()))
+
+                response = BytesIO()
+                wb = xlwt.Workbook(encoding="utf-8")
+                ws = wb.add_sheet("statement")
+                row_num = 0
+                font_style=xlwt.XFStyle()
+                font_style.font.bold= True
+
+                columns = ["Date", "Type", "From", "To", "Amount", "Recurrence", "Note"]
+                for col_num in range(len(columns)):
+                    ws.write(row_num, col_num, columns[col_num], font_style)
+
+                font_style = xlwt.XFStyle()
+
+                
+                rows = data_list
+                
+                for row in rows:
+                    row_num += 1
+                    for col_num in range(len(row)):
+                        ws.write(row_num, col_num, str(row[col_num]), font_style)
+                wb.save(response)
+                # Send Email Code Start #
+                email = EmailMessage()
+                subject = 'Transaction Statement From Date %s To %s'%(request.query_params["startdate"], request.query_params["enddate"])
+                email.subject = subject
+                email.body = "Statement Attachment is Below"
+                email.from_email = settings.EMAIL_HOST_USER
+                email.to = [request.user,]
+                email.attach('statement.xlsx', response.getvalue(), 'application/vnd.ms-excel')
+                email.send(fail_silently=False)
+                # Send Email Code End #
+            return Response({"status":True, "message":"Exported successfully and sent to your registered email."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status":False, "message":"Please provide export choice as like csv, excel."}, status=status.HTTP_400_BAD_REQUEST)

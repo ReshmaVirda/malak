@@ -52,8 +52,6 @@ AUTHENTICATION_BACKENDS = [
     'Account.backends.UserAuthenticationBackend',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -64,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_TRUSTED_ORIGINS=['https://malakapp.vmjsoftware.in']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
@@ -152,9 +152,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
-    'ROTATE_REFRESH_TOKENS': True,
+    'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,
 
@@ -173,11 +173,12 @@ SIMPLE_JWT = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'mail.vmjsoftware.in'
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "pragneshvmjs@gmail.com"
-EMAIL_HOST_PASSWORD = "mxjxdiloeqiuqgqd"
+EMAIL_HOST_USER = "pragnesh@vmjsoftware.in"
+EMAIL_HOST_PASSWORD = "PR@vmjs@3214"
 
 
 # Default primary key field type

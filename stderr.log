@@ -1,0 +1,2209 @@
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f82f508f740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f1b6f2c3740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007fd7bde74740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f50388c5740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007fd465dd9740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f8e1881e740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f8ca3fc4740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f5b8398d740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f42d03eb740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python3.8'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007ff8d7f48740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f683abfb740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007fe9c5939740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f533aea0740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f14f91e5740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f2b09777740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f11c12b7740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007fc713b65740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f1054014740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Python path configuration:
+  PYTHONHOME = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  PYTHONPATH = '.:/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/'
+  program name = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.base_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.base_exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.executable = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.8/bin/python'
+  sys.prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.exec_prefix = '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7'
+  sys.path = [
+    '.',
+    '/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python38.zip',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8',
+    '/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/lib64/python3.8/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007faec9096740 (most recent call first):
+<no Python frame>
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Fatal Python error: initfsencoding: unable to load the file system codec
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f7989817740 (most recent call first):
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Fatal Python error: initfsencoding: unable to load the file system codec
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007f3757c6e740 (most recent call first):
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 8: cd: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7: No such file or directory
+/usr/local/lsws/fcgi-bin/lswsgi_wrapper: line 9: /home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/2.7/bin/set_env_vars.py: No such file or directory
+Fatal Python error: initfsencoding: unable to load the file system codec
+ModuleNotFoundError: No module named 'encodings'
+
+Current thread 0x00007fb1ce5af740 (most recent call first):
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 167, in _get_response
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 290, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 560, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 602, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 595, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python37/lib64/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/MalakApp/urls.py", line 24, in <module>
+    re_path(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python37/lib64/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/urls.py", line 2, in <module>
+    from . import views
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 560
+    token_check = check_token(user=request.user)
+                                               ^
+TabError: inconsistent use of tabs and spaces in indentation
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 167, in _get_response
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 290, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 560, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 602, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 595, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python37/lib64/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/MalakApp/urls.py", line 24, in <module>
+    re_path(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python37/lib64/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/urls.py", line 2, in <module>
+    from . import views
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 561
+    if token_check != "":
+                        ^
+IndentationError: unindent does not match any outer indentation level
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /
+Forbidden (CSRF cookie not set.): /admin/login/
+Forbidden (CSRF cookie not set.): /admin/login/
+Forbidden (CSRF cookie not set.): /admin/login/
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+[UID:1557][24176] Child process with pid: 24267 was killed by signal: 15, core dump: 0
+Not Found: /
+Not Found: /
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send(fail_silently=False,)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Unauthorized: /home
+Unauthorized: /setting
+Not Found: /media/vicky%40gmail.com/image_cropper_1658048844693.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1658048844693.jpg
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Internal Server Error: /reset/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3767, in post
+    mssg.send()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/message.py", line 284, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 735, in login
+    raise last_exception
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 726, in login
+    initial_response_ok=initial_response_ok)
+  File "/opt/alt/python37/lib64/python3.7/smtplib.py", line 647, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'Incorrect authentication data')
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Unauthorized: /login
+Unauthorized: /login
+Unauthorized: /login
+Unauthorized: /login
+Unauthorized: /login
+Unauthorized: /login
+Unauthorized: /login
+Bad Request: /login
+Unauthorized: /login
+Not Found: /
+Not Found: /
+Unauthorized: /login
+Unauthorized: /login
+Forbidden (CSRF cookie not set.): /admin/login/
+Not Found: /
+Forbidden (CSRF cookie not set.): /admin/login/
+Forbidden (CSRF cookie not set.): /admin/login/
+Bad Request: /transaction/
+Not Found: /favicon.ico
+Not Found: /
+Bad Request: /profile
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 2306, in post
+    if transaction_id > 0 and transaction_id is not None:
+TypeError: '>' not supported between instances of 'Transaction' and 'int'
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), '%Y-%m-%d').date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Bad Request: /profile
+Bad Request: /login
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), '%Y-%m-%d').date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), '%Y-%m-%d').date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3373, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 1889, in post
+    Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 63, in Get_Dates
+    days_date.append(mdate.strptime("%Y-%m-%d"))
+AttributeError: 'datetime.date' object has no attribute 'strptime'
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 1889, in post
+    Date_Dict = Get_Dates(prefix=request.data['prefix'], prefix_value=int(request.data['prefix_value']), enddate=request.data['end_date'], startdate=start_date)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 63, in Get_Dates
+    days_date.append(mdate.strptime("%Y-%m-%d"))
+AttributeError: 'datetime.date' object has no attribute 'strptime'
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /
+Not Found: /favicon.ico
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Internal Server Error: /transaction/
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 426, in finalize_response
+    % type(response)
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+Unauthorized: /setting
+Unauthorized: /home
+Unauthorized: /home
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3325, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Bad Request: /transaction/
+Bad Request: /transaction/
+Bad Request: /login
+Not Found: /media/vicky%40gmail.com/image_cropper_1658048844693.jpg
+Unauthorized: /setting
+Unauthorized: /home
+Bad Request: /register
+Unauthorized: /home
+Unauthorized: /setting
+Not Found: /media/vicky%40gmail.com/image_cropper_1658048844693.jpg
+Internal Server Error: /login
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 386, in post
+    email = serializer.data.get('email')
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 555, in data
+    ret = super().data
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 255, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/fields.py", line 1886, in to_representation
+    return method(value)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/serializers.py", line 70, in get_tokens
+    'refresh': user.tokens()['refresh'],
+AttributeError: 'User' object has no attribute 'tokens'
+Internal Server Error: /login
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 386, in post
+    email = serializer.data.get('email')
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 555, in data
+    ret = super().data
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 255, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/fields.py", line 1886, in to_representation
+    return method(value)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/serializers.py", line 70, in get_tokens
+    'refresh': user.tokens()['refresh'],
+AttributeError: 'User' object has no attribute 'tokens'
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Internal Server Error: /login
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 385, in post
+    if serializer.is_valid(raise_exception=False):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 1077, in get_fields
+    source, info, model, depth
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/serializers.py", line 1342, in build_unknown_field
+    (field_name, model_class.__name__)
+django.core.exceptions.ImproperlyConfigured: Field name `tokens` is not valid for model `User`.
+Bad Request: /login
+Bad Request: /login
+Not Found: /media/vicky%40gmail.com/image_cropper_1658048844693.jpg
+Unauthorized: /home
+Unauthorized: /setting
+Not Found: /media/vicky%40gmail.com/image_cropper_1658048844693.jpg
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3325, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Bad Request: /login
+Bad Request: /login
+Not Found: /favicon.ico
+Forbidden (CSRF cookie not set.): /admin/login/
+Not Found: /favicon.ico
+Not Found: /login
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /
+Not Found: /login
+Not Found: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Not Found: /favicon.ico
+Bad Request: /login
+Bad Request: /source
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 572, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 572, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 572, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 572, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 572, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3293, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Unauthorized: /report
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Unauthorized: /setting
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Unauthorized: /home
+Unauthorized: /home
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 572, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/pragnesh5996raval%40gmail.com/download.jpg
+Not Found: /favicon.ico
+Not Found: /media/test%40gmail.com/image_cropper_1658986051554.jpg
+Not Found: /register
+Not Found: /media/hiren.vmj%40gmail.com/image_cropper_1658931810098.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /media/admin%40gmail.com/image_cropper_1658985009369.jpg
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 576, in put
+    fs.delete(user.profile_pic)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 312, in delete
+    name = self.path(name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/files/storage.py", line 338, in path
+    return safe_join(self.location, name)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/_os.py", line 17, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/opt/alt/python37/lib64/python3.7/posixpath.py", line 94, in join
+    genericpath._check_arg_types('join', a, *p)
+  File "/opt/alt/python37/lib64/python3.7/genericpath.py", line 153, in _check_arg_types
+    (funcname, s.__class__.__name__)) from None
+TypeError: join() argument must be str or bytes, not 'ImageFieldFile'
+Internal Server Error: /profile
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 575, in put
+    profile = user.profile_pic.replace("%40", "@")
+AttributeError: 'ImageFieldFile' object has no attribute 'replace'
+Not Found: /login
+Not Found: /login
+Not Found: /login
+Not Found: /profile
+Not Found: /profile
+Bad Request: /login
+Unauthorized: /profile
+Unauthorized: /profile
+Bad Request: /login
+Unauthorized: /profile
+Unauthorized: /profile
+Unauthorized: /profile
+Unauthorized: /profile
+Unauthorized: /profile
+Unauthorized: /profile
+Bad Request: /login
+Bad Request: /login
+Not Found: /register
+Bad Request: /source
+Bad Request: /source
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Internal Server Error: /transaction/13
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 2687, in put
+    request.data.update({"transaction_amount":request.data["amount"]})
+KeyError: 'amount'
+Bad Request: /transaction/13
+Bad Request: /transaction/13
+Not Found: /login
+Not Found: /login
+Bad Request: /transaction/13
+Bad Request: /transaction/13
+Bad Request: /transaction/
+Not Found: /login
+Internal Server Error: /home
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 3403, in get
+    repeat = dt.strptime(str(repeat_date), "%Y-%m-%d").date()
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/opt/alt/python37/lib64/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '' does not match format '%Y-%m-%d'
+Not Found: /favicon.ico
+Not Found: /export/
+ASD
+ASD
+ASD
+ASD
+ASD
+Bad Request: /transaction/15
+Bad Request: /transaction/15
+Bad Request: /transaction/13
+ASD
+Internal Server Error: /export
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 4311, in get
+    wb = xlwt.Workbook(encoding="utf-8")
+NameError: name 'xlwt' is not defined
+Not Found: /favicon.ico
+Internal Server Error: /export
+Traceback (most recent call last):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/deprecation.py", line 116, in __call__
+    response = self.process_request(request)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/middleware/common.py", line 53, in process_request
+    if self.should_redirect_with_slash(request):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/middleware/common.py", line 70, in should_redirect_with_slash
+    if not is_valid_path(request.path_info, urlconf):
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/base.py", line 153, in is_valid_path
+    return resolve(path, urlconf)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/base.py", line 24, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 560, in resolve
+    for pattern in self.url_patterns:
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 602, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/resolvers.py", line 595, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/opt/alt/python37/lib64/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/MalakApp/urls.py", line 24, in <module>
+    re_path(r'', include('Account.urls')),
+  File "/home/vmjsoftw/virtualenv/malakapp.vmjsoftware.in/Malak_Backend/3.7/lib/python3.7/site-packages/django/urls/conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/opt/alt/python37/lib64/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/urls.py", line 2, in <module>
+    from . import views
+  File "/home/vmjsoftw/malakapp.vmjsoftware.in/Malak_Backend/Account/views.py", line 28, in <module>
+    import xlwt
+ModuleNotFoundError: No module named 'xlwt'
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /
+Not Found: /register
+Not Found: /transaction/
+Bad Request: /transaction/
+Bad Request: /transaction/
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Not Found: /favicon.ico
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Not Found: /media/pragnesh596%40gmail.com/Sample-png-image-3mb.png
+Not Found: /media/vicky%40gmail.com/image_cropper_1657760895513.jpg
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
+Bad Request: /login
