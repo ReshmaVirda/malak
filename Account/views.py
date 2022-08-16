@@ -3312,34 +3312,34 @@ class HomeView(APIView):
             return Response({"status":False, "message":"User Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
         try:
-            income = Income.objects.all().filter(user_id=user)
+            income = Income.objects.all().filter(user_id=user, created_at__month=dt.today().month)
         except Income.DoesNotExist:
             return Response({"status":False, "message":"User Income Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
         
         try:
-            expense = Expense.objects.all().filter(user_id=user)
+            expense = Expense.objects.all().filter(user_id=user, created_at__month=dt.today().month)
         except Expense.DoesNotExist:
             return Response({"status":False, "message":"User Expense Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
         try:
-            source_income = SourceIncome.objects.all().filter(user_id=user)
+            source_income = SourceIncome.objects.all().filter(user_id=user, created_at__month=dt.today().month)
         except SourceIncome.DoesNotExist:
             return Response({"status":False, "message":"User SourceIncome Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
         try:
-            goal = Goal.objects.all().filter(user_id=user)
+            goal = Goal.objects.all().filter(user_id=user, created_at__month=dt.today().month)
         except Goal.DoesNotExist:
             return Response({"status":False, "message":"User Goal Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
         try:
-            balance = SourceIncome.objects.filter(user_id=user).aggregate(Sum('amount'))
+            balance = SourceIncome.objects.filter(user_id=user, created_at__month=dt.today().month).aggregate(Sum('amount'))
             if balance['amount__sum'] is None:
                 balance['amount__sum'] = 0
         except SourceIncome.DoesNotExist:
             balance['amount__sum'] = 0
 
         try:
-            debt = Debt.objects.all().filter(user_id=user)
+            debt = Debt.objects.all().filter(user_id=user, created_at__month=dt.today().month)
         except Debt.DoesNotExist:
             return Response({"status":False, "message":"User Debt Detail Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
