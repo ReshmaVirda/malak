@@ -36,7 +36,7 @@ class IncomeAdmin(admin.ModelAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('id', 'title', 'amount', 'icon', 'created_at', 'modified_at', 'user')
+    list_display = ('id', 'title', 'amount', 'icon', 'created_at','currency', 'modified_at', 'user')
     list_filter = ('amount', 'created_at',)
     search_fields = ('title', 'id')
     ordering = ('title', 'id')
@@ -48,7 +48,7 @@ class ExpenseAdmin(admin.ModelAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('id', 'title', 'spent_amount', 'amount_limit', 'icon', 'time_range', 'created_at', 'modified_at', 'user')
+    list_display = ('id', 'title', 'spent_amount', 'amount_limit', 'icon', 'time_range','currency', 'created_at', 'modified_at', 'user')
     list_filter = ('amount_limit', 'created_at',)
     search_fields = ('title', 'id')
     ordering = ('title', 'id')
@@ -61,7 +61,7 @@ class GoalAdmin(admin.ModelAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('id', 'title', 'added_amount', 'amount', 'icon', 'created_at', 'modified_at', 'user')
+    list_display = ('id', 'title', 'added_amount', 'amount', 'icon', 'currency', 'created_at', 'modified_at', 'user')
     list_filter = ('title', 'created_at',)
     search_fields = ('title', 'id')
     ordering = ('title', 'id')
@@ -85,7 +85,7 @@ class LogAdmin(admin.ModelAdmin):
 admin.site.register(LogsAPI, LogAdmin)
 
 class DebtAdmin(admin.ModelAdmin):
-    list_display = ('id','name', 'amount', 'paid_amount', 'is_paid', 'is_partial_paid', 'is_completed', 'date', 'created_at',  'modified_at')
+    list_display = ('id','name', 'amount', 'paid_amount', 'is_paid', 'is_partial_paid', 'is_completed', 'currency', 'date', 'created_at',  'modified_at')
     list_filter = ('id','name')
     search_fields = ('id','name')
     ordering = ('id','name')
@@ -161,7 +161,7 @@ class PeriodicAdmin(admin.ModelAdmin):
 admin.site.register(Periodic,PeriodicAdmin)
 
 class SourceIncomeAdmin(admin.ModelAdmin):
-    list_display = ('id','icon','title','amount', 'spent_amount', 'user', 'created_at','modified_at')
+    list_display = ('id','icon','title','amount', 'spent_amount', 'currency', 'user', 'created_at','modified_at')
     list_filter = ('id','title',)
     search_fields = ('created_at','title',)
     ordering = ('id','created_at','title',)

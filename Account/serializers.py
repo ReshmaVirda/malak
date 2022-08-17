@@ -1,3 +1,4 @@
+from locale import currency
 from rest_framework import serializers
 from Account.models import User, Subscription,Income,Expense,Goal, SourceIncome, Exchangerate, Location, Periodic, Tag, Transaction, Setting, Debt
 from datetime import datetime, date
@@ -119,14 +120,15 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
 class IncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
-        fields = ['id','icon','title','amount','created_at','modified_at']
+        fields = ['id','icon','title','amount','currency','created_at','modified_at']
         extra_kwargs = {
             "user":{'write_only':True},
             'icon':{'required':False},
             'title':{'required':False},
             'amount':{'required':False},
             "created_at":{'read_only':True, 'required':False},
-            "modified_at":{'required':False}
+            "modified_at":{'required':False},
+            "currency":{"required":False}
         }
 
     def create(self, validated_data):
@@ -134,7 +136,8 @@ class IncomeSerializer(serializers.ModelSerializer):
             user=self.context['request'].user, 
             icon=validated_data['icon'], 
             title=validated_data['title'],
-            amount=validated_data['amount'])
+            amount=validated_data['amount'],
+            currency=validated_data['currency'])
         income.save()
         return income
 # User Income Serializer Code End #
@@ -144,7 +147,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(read_only=True,slug_field='email')
     class Meta:
         model = Expense
-        fields = ['id','icon','title','spent_amount', 'amount_limit','time_range', 'created_at', 'modified_at', 'user']
+        fields = ['id','icon','title','spent_amount', 'amount_limit','time_range','currency','created_at', 'modified_at', 'user']
         extra_kwargs = {
             'id':{'read_only':True},
             "user":{'read_only':True},
@@ -154,7 +157,8 @@ class ExpenseSerializer(serializers.ModelSerializer):
             'amount_limit':{'required':False},
             'time_range':{'required':False},
             "created_at":{'read_only':True, 'required':False},
-            "modified_at":{'required':False}
+            "modified_at":{'required':False},
+            "currency":{"required":False}
         }
 
     def create(self, validated_data):
@@ -163,7 +167,9 @@ class ExpenseSerializer(serializers.ModelSerializer):
             icon=validated_data['icon'],
             title=validated_data['title'],
             amount_limit=validated_data['amount_limit'],
-            time_range=validated_data['time_range'])
+            time_range=validated_data['time_range'],
+            currency=validated_data['currency']
+            )
         expense.save()
         return expense
 # User Expense Serializer Code End #
@@ -174,7 +180,7 @@ class GoalsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ['id','icon','title', 'added_amount', 'amount','is_completed', 'created_at', 'modified_at', 'user']
+        fields = ['id','icon','title', 'added_amount', 'amount','is_completed','currency', 'created_at', 'modified_at', 'user']
         extra_kwargs = {
             'id':{'read_only':True},
             "user":{'write_only':True},
@@ -184,7 +190,8 @@ class GoalsSerializer(serializers.ModelSerializer):
             "created_at":{'read_only':True, 'required':False},
             "is_completed":{'read_only':True, 'required':False},
             "modified_at":{'required':False},
-            "added_amount":{"required":False}
+            "added_amount":{"required":False},
+            "currency":{"required":False}
         }
 
     def create(self, validated_data):
@@ -192,7 +199,8 @@ class GoalsSerializer(serializers.ModelSerializer):
             user=self.context['request'].user,  
             icon=validated_data['icon'],
             title=validated_data['title'],
-            amount=validated_data['amount'])
+            amount=validated_data['amount'],
+            currency=validated_data['currency'])
         goals.save()
         return goals   
 # User goal Serializer Code End #
@@ -202,13 +210,14 @@ class SourceIncomeSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(read_only=True, slug_field="email")
     class Meta:
         model = SourceIncome
-        fields = ['id','icon','title','spent_amount', 'amount', 'user', 'created_at','modified_at']
+        fields = ['id','icon','title','spent_amount', 'amount', 'currency', 'user', 'created_at','modified_at']
         extra_kwargs = {
             "id":{"read_only":True},
             "icon":{"required":False},
             "title":{"required":False},
             "spent_amount":{"required":False},
-            "amount":{"required":False}
+            "amount":{"required":False},
+            "currency":{"required":False}
         }
 
     def create(self, validated_data):
@@ -290,7 +299,7 @@ class TagSerializer(serializers.ModelSerializer):
         return Tag.objects.create(**validated_data)
 # User Tag Serializer Code end # 
 
-# User Transaction Serializer Code Start #
+# User Transaction Serializer Code Start #      Update
 class TransactionSerializer(serializers.ModelSerializer):
     income_to = serializers.SlugRelatedField(slug_field="id", queryset=Income.objects.all(), required=False)
     income_from = serializers.SlugRelatedField(slug_field="id", queryset=Income.objects.all(), required=False)
@@ -302,7 +311,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['id', 'title','description','transaction_amount','amount','income_to', 'income_from', 'expense', 'goal', 'source','debt', 'user', 'location','periodic', 'tag', 'is_completed', 'created_at', 'modified_at']
+        fields = ['id', 'title','description','transaction_amount','converted_transaction','amount','income_to', 'income_from', 'expense', 'goal', 'source','debt', 'user', 'location','periodic', 'tag', 'is_completed', 'created_at', 'modified_at']
         extra_kwargs = {
             "id":{"read_only":True},
             "user":{'write_only':True},
@@ -313,11 +322,13 @@ class TransactionSerializer(serializers.ModelSerializer):
             "modified_at":{'required':False},
             "tag":{"required":False},
             "transaction_amount":{"required":False},
+            "converted_transaction":{"required":False},
             'is_completed':{"required":False}
         }
 
     def create(self, validated_data):
         validated_data["user_id"] = self.context["user"]
+        print(validated_data, "V")
         tags = ""
         if 'tag' in validated_data and validated_data['tag'] is not None:
             tags = (validated_data.pop('tag'))
@@ -333,7 +344,6 @@ class TransactionSerializer(serializers.ModelSerializer):
         
         if 'is_completed' not in validated_data:
             validated_data.update({"is_completed":True})
-
         Transaction_Data = Transaction.objects.create(**validated_data)
         
         if tags != None:
@@ -367,7 +377,7 @@ class DebtSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Debt
-        fields = ['id','icon','name','date','amount','paid_amount','is_paid','is_partial_paid','is_completed','created_at','modified_at','user']
+        fields = ['id','icon','name','date','amount','paid_amount','is_paid','is_partial_paid','is_completed', 'currency','created_at','modified_at','user']
         extra_kwargs = {
             "id":{"read_only":True},
             "user":{"read_only":True},
@@ -378,7 +388,8 @@ class DebtSerializer(serializers.ModelSerializer):
             "paid_amount":{"required":False},
             "is_paid":{"required":False},
             "is_partial_paid":{"required":False},
-            "is_completed":{"required":False}
+            "is_completed":{"required":False},
+            "currency":{"required":False}
         }
 
 

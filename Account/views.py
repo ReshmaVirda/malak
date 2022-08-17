@@ -26,6 +26,7 @@ from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, Bl
 import csv
 from io import StringIO, BytesIO
 import xlwt
+from .currency_convert import Currency_Exchange
 # Create your views here.
 
 ## Date Control ##
@@ -849,6 +850,10 @@ class IncomeCreate(APIView):
         token_check = check_token(user=request.user)
         if token_check != "":
             return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if 'currency' not in request.data or request.data["currency"] == "":
+            request.data["currency"] = Setting.objects.get(user_id=request.user.id).currency
+            
         serializer = IncomeSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=True):
             if (('is_setup'in request.data and request.data['is_setup'] != "") and ('setupcount' in request.data and request.data['setupcount'] != "")):
@@ -863,7 +868,8 @@ class IncomeCreate(APIView):
                 message = "title cannot be blank must and it's required field."
             if 'icon' in serializer.errors:
                 message = "icon cannot be blank."
-            return Response({'status':False, 'message':message}, status=status.HTTP_400_BAD_REQUEST)  
+            return Response({'status':False, 'message':message}, status=status.HTTP_400_BAD_REQUEST) 
+        
 
     def get(self, request):
         user = request.user
@@ -998,6 +1004,10 @@ class ExpenseCreate(APIView):
         token_check = check_token(user=request.user)
         if token_check != "":
             return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if 'currency' not in request.data or request.data["currency"] == "":
+            request.data["currency"] = Setting.objects.get(user_id=request.user.id).currency
+        
         serializer = ExpenseSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=True):
             if (('setupcount' in request.data and request.data['setupcount'] != "")):
@@ -1067,6 +1077,8 @@ class ExpenseDetailView(APIView):
             expense = Expense.objects.get(id=pk, user_id=user)
         except:
             return Response({'status':False, 'message':'Expense data not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        
         serializer = ExpenseSerializer(expense,data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -1125,6 +1137,10 @@ class GoalsCreate(APIView):
         token_check = check_token(user=request.user)
         if token_check != "":
             return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if 'currency' not in request.data or request.data["currency"] == "":
+            request.data["currency"] = Setting.objects.get(user_id=request.user.id).currency
+        
         serializer = GoalsSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=True):
             if (('setupcount' in request.data and request.data['setupcount'] != "")):
@@ -1196,6 +1212,7 @@ class GoalsDetailView(APIView):
             Goals = Goal.objects.get(id=pk, user_id=user)
         except:
             return Response({'status':False, 'message':'Goal data not found'}, status=status.HTTP_404_NOT_FOUND)
+        
         serializer = GoalsSerializer(Goals,data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -1209,7 +1226,6 @@ class GoalsDetailView(APIView):
             if 'icon' in serializer.errors:
                 message = "icon cannot be blank."
             return Response({"status":False, "message":message}, status=status.HTTP_400_BAD_REQUEST)  
-
 
     def delete(self,request,pk):
         token_check = check_token(user=request.user)
@@ -1255,6 +1271,10 @@ class SourceIncomeView(APIView):
         token_check = check_token(user=request.user)
         if token_check != "":
             return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if 'currency' not in request.data or request.data["currency"] == "":
+            request.data["currency"] = Setting.objects.get(user_id=request.user.id).currency
+        
         serializer = SourceIncomeSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -1659,6 +1679,9 @@ class DebtView(APIView):
         except:
             return Response({"status":False, "message":"User Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
         
+        if 'currency' not in request.data or request.data["currency"] == "":
+            request.data["currency"] = Setting.objects.get(user_id=request.user.id).currency
+
         serializer = DebtSerializer(data=request.data, context={'request':request})
         if serializer.is_valid(raise_exception=False):
 
@@ -1981,11 +2004,19 @@ class TransactionView(APIView):
                     except Income.DoesNotExist:
                         return Response({"status":False, "message":"User haven't any income by id %s"%(request.data["income_to"])}, status=status.HTTP_404_NOT_FOUND)
                     
-                    source_amount = float(source.spent_amount) + float(request.data["amount"])
-                    income_amount = float(income.amount) + float(request.data["amount"])
+                    ## Update Code ## 
+                    if 'converted' in request.data:
+                        print("A")
+                        source_amount = float(source.spent_amount) + float(request.data["amount"])
+                        income_amount = float(income.amount) + float(request.data["converted"])
+                    else:
+                        print("B")
+                        source_amount = float(source.spent_amount) + float(request.data["amount"])
+                        income_amount = float(income.amount) + float(request.data["amount"])
+                    ## Update Code ##
 
                     if location_serializer != "" and periodicSerializer == "":
-                        data_dict ={
+                        data_dict = {
                             "title":title,
                             "description":description,
                             "amount":request.data["amount"],
@@ -2030,7 +2061,15 @@ class TransactionView(APIView):
 
                     if 'is_completed' in request.data:
                         data_dict.update({"is_completed":request.data["is_completed"]})
+
+                    ## Update Code ##
+                    if 'converted' not in request.data:
+                        print("C")
+                        request.data["converted"] = request.data["amount"]
                     
+                    data_dict.update({"converted_transaction":request.data["converted"]})
+                    ## Update Code ##
+
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
                         transaction_id = transaction_serializer.save()
@@ -2082,8 +2121,14 @@ class TransactionView(APIView):
                     except Income.DoesNotExist:
                         return Response({"status":False, "message":"To Income detail not found by id %s"%(request.data['income_to'])}, status=status.HTTP_404_NOT_FOUND)
 
-                    income_from_amount = float(income_from.amount) - float(request.data["amount"])
-                    income_to_amount = float(income_to.amount) + float(request.data["amount"])
+                    ########
+                    if 'converted' in request.data:
+                        income_from_amount = float(income_from.amount) - float(request.data["amount"])
+                        income_to_amount = float(income_to.amount) + float(request.data["converted"])
+                    else:
+                        income_from_amount = float(income_from.amount) - float(request.data["amount"])
+                        income_to_amount = float(income_to.amount) + float(request.data["amount"])
+                    ########
 
                     if location_serializer != "" and periodicSerializer == "":
                         data_dict ={
@@ -2131,7 +2176,14 @@ class TransactionView(APIView):
                         
                     if 'is_completed' in request.data:
                         data_dict.update({"is_completed":request.data["is_completed"]})
-                
+
+                    ## Update Code ##
+                    if 'converted' not in request.data:
+                        request.data["converted"] = request.data["amount"]
+                    
+                    data_dict.update({"converted_transaction":request.data["converted"]})
+                    ## Update Code ##
+
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
                         transaction_id = transaction_serializer.save()
@@ -2183,8 +2235,12 @@ class TransactionView(APIView):
                     except Goal.DoesNotExist:
                         return Response({"status":False, "message":"Goal detail not found by id %s"%(request.data["goal"])}, status=status.HTTP_404_NOT_FOUND)
 
-                    income_amount = float(income.amount) - float(request.data["amount"])
-                    goal_amount = float(goal.added_amount) + float(request.data["amount"])
+                    if 'converted' in request.data:
+                        income_amount = float(income.amount) - float(request.data["amount"])
+                        goal_amount = float(goal.added_amount) + float(request.data["converted"])
+                    else:
+                        income_amount = float(income.amount) - float(request.data["amount"])
+                        goal_amount = float(goal.added_amount) + float(request.data["amount"])
 
                     if location_serializer != "" and periodicSerializer == "":
                         data_dict ={
@@ -2233,6 +2289,13 @@ class TransactionView(APIView):
                     if 'is_completed' in request.data:
                         data_dict.update({"is_completed":request.data["is_completed"]})
 
+                    ## Update Code ##
+                    if 'converted' not in request.data:
+                        request.data["converted"] = request.data["amount"]
+                    
+                    data_dict.update({"converted_transaction":request.data["converted"]})
+                    ## Update Code ##
+
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
                         if goal.amount != goal.added_amount and not goal.is_completed:
@@ -2265,6 +2328,7 @@ class TransactionView(APIView):
                     return Response({"status":False, "message":"amount, income_from, goal are required fields. title and description is optional"}, status=status.HTTP_400_BAD_REQUEST)
             
             elif (('amount' in request.data and 'income_from' in request.data and 'expense' in request.data) and ('source' not in request.data) and ('goal' not in request.data) and ('income_to' not in request.data)):
+
                 if (request.data["amount"] != "" and request.data["income_from"] != "" and request.data["expense"] != ""):
                     
                     if 'title' not in request.data or request.data['title'] == "":
@@ -2287,8 +2351,12 @@ class TransactionView(APIView):
                     except Expense.DoesNotExist:
                         return Response({"status":False, "message":"Expense doesn't exist with id %s"%(request.data["expense"])}, status=status.HTTP_404_NOT_FOUND)
 
-                    income_amount = float(income.amount) - float(request.data["amount"])
-                    expense_amount = float(expense.spent_amount) + float(request.data["amount"])
+                    if 'converted' in request.data:
+                        income_amount = float(income.amount) - float(request.data["amount"])
+                        expense_amount = float(expense.spent_amount) + float(request.data["converted"])
+                    else:
+                        income_amount = float(income.amount) - float(request.data["amount"])
+                        expense_amount = float(expense.spent_amount) + float(request.data["amount"])
 
                     if location_serializer != "" and periodicSerializer == "":
                         data_dict ={
@@ -2336,6 +2404,13 @@ class TransactionView(APIView):
                         
                     if 'is_completed' in request.data:
                         data_dict.update({"is_completed":request.data["is_completed"]})
+
+                    ## Update Code ##
+                    if 'converted' not in request.data:
+                        request.data["converted"] = request.data["amount"]
+                    
+                    data_dict.update({"converted_transaction":request.data["converted"]})
+                    ## Update Code ##
 
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
@@ -2388,17 +2463,28 @@ class TransactionView(APIView):
                         debt = Debt.objects.get(user_id=user, id=str(request.data["debt"]))
                     except Debt.DoesNotExist:
                         return Response({"status":False, "message":"Debt doesn't exist with id %s"%(request.data["debt"])}, status=status.HTTP_404_NOT_FOUND)
-
-                    income_amount = float(income.amount) - float(request.data["amount"])
-                    debt_amount = ""
-                    if float(debt.amount) == float(request.data["amount"]):
-                        debt_amount = float(debt.paid_amount) + float(request.data["amount"])
+                    #####
+                    if 'converted' in request.data:
+                        income_amount = float(income.amount) - float(request.data["amount"])
+                        debt_amount = ""
+                        if float(debt.amount) == float(request.data["converted"]):
+                            debt_amount = float(debt.paid_amount) + float(request.data["converted"])
+                        else:
+                            if float(request.data["converted"]) < float(debt.amount):
+                                debt_amount = float(debt.paid_amount) + float(request.data["converted"])
+                            else:
+                                return Response({"status":False, "message":"Paid amount %s is grater then the Debt amount %s"%(request.data["converted"], debt.amount)}, status=status.HTTP_400_BAD_REQUEST)
                     else:
-                        if float(request.data["amount"]) < float(debt.amount):
+                        income_amount = float(income.amount) - float(request.data["amount"])
+                        debt_amount = ""
+                        if float(debt.amount) == float(request.data["amount"]):
                             debt_amount = float(debt.paid_amount) + float(request.data["amount"])
                         else:
-                            return Response({"status":False, "message":"Paid amount %s is grater then the Debt amount %s"%(request.data["amount"], debt.amount)}, status=status.HTTP_400_BAD_REQUEST)
-
+                            if float(request.data["amount"]) < float(debt.amount):
+                                debt_amount = float(debt.paid_amount) + float(request.data["amount"])
+                            else:
+                                return Response({"status":False, "message":"Paid amount %s is grater then the Debt amount %s"%(request.data["amount"], debt.amount)}, status=status.HTTP_400_BAD_REQUEST)
+                    #####
                     if location_serializer != "" and periodicSerializer == "":
                         data_dict ={
                             "title":title,
@@ -2439,6 +2525,13 @@ class TransactionView(APIView):
                     if 'created_at' in request.data and "modified_at" in request.data:
                         data_dict.update({"created_at":request.data["created_at"]})
                         data_dict.update({"modified_at":request.data["modified_at"]})
+
+                    ## Update Code ##
+                    if 'converted' not in request.data:
+                        request.data["converted"] = request.data["amount"]
+                    
+                    data_dict.update({"converted_transaction":request.data["converted"]})
+                    ## Update Code ##
 
                     transaction_serializer = TransactionSerializer(data=data_dict, context={"user":user})
                     if transaction_serializer.is_valid(raise_exception=False):
