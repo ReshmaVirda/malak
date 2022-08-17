@@ -2595,8 +2595,9 @@ class TransactionView(APIView):
                                     income_to_amount = float(income_to_amount) - float(updated_transfer_amount)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        request.data.pop("amount")
-                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
+                        transaction_amount = request.data.pop("amount")
+                        amount = transaction.amount
+        
                 # Server Update #
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2654,8 +2655,8 @@ class TransactionView(APIView):
                                     income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
                                     income_to_amount = float(income_to_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        request.data.pop("amount")
-                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
+                        transaction_amount = request.data.pop("amount")
+                        amount = transaction.amount
 
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2711,8 +2712,8 @@ class TransactionView(APIView):
                                     income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
                                     goal_amount = float(goal_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        request.data.pop("amount")
-                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
+                        transaction_amount = request.data.pop("amount")
+                        amount = transaction.amount
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2770,8 +2771,8 @@ class TransactionView(APIView):
                                     expense_amount = float(expense_amount) - float(updated_transfer_amount)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        request.data.pop("amount")
-                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
+                        transaction_amount = request.data.pop("amount")
+                        amount = transaction.amount
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2829,8 +2830,8 @@ class TransactionView(APIView):
                                     debt_amount = float(debt_amount) - float(updated_transfer_amount)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        request.data.pop("amount")
-                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
+                        transaction_amount = request.data.pop("amount")
+                        amount = transaction.amount
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
