@@ -2596,6 +2596,7 @@ class TransactionView(APIView):
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
+                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
                 # Server Update #
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2654,6 +2655,7 @@ class TransactionView(APIView):
                                     income_to_amount = float(income_to_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
+                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
 
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2710,6 +2712,7 @@ class TransactionView(APIView):
                                     goal_amount = float(goal_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
+                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2768,6 +2771,7 @@ class TransactionView(APIView):
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
+                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
@@ -2826,6 +2830,7 @@ class TransactionView(APIView):
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         request.data.pop("amount")
+                        return Response({"status":False, "message":"The update amount is same as transaction amount"},status=status.HTTP_400_BAD_REQUEST)
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
