@@ -296,6 +296,7 @@ class Transaction(models.Model):
     description = models.CharField(max_length=255, default=None, blank=True, null=True)
     transaction_amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
     converted_transaction = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
+    converted_amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
     amount = models.DecimalField(max_digits=15, decimal_places=2, default="0.00")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     income_to = models.ForeignKey(Income, on_delete=models.CASCADE, blank=True, null=True, related_name="transaction_to_income")

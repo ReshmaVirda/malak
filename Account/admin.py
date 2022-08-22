@@ -110,8 +110,8 @@ admin.site.register(Tag,TagAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
     fields = ['tag']
-    list_display = ('id', 'title','description', 'transaction_amount', 'amount', 'income_to', 'income_from', 'expense', 'goal', 'source', 'user', 'location','periodic', 'get_tag', 'debt', 'is_completed', 'created_at', 'modified_at')
-    list_filter = ('amount','income_to', 'income_from', 'expense', 'goal', 'source',)
+    list_display = ('id', 'title','description', 'transaction_amount', 'converted_transaction', 'converted_amount', 'amount', 'income_to', 'income_from', 'expense', 'goal', 'source', 'user', 'location','periodic', 'get_tag', 'debt', 'is_completed', 'created_at', 'modified_at')
+    list_filter = ('amount','income_to', 'income_from', 'expense', 'goal', 'source', 'debt')
     search_fields = ('title','amount', 'expense', 'goal', 'source', 'created_at',)
     ordering = ('id','title',)
     list_per_page = 10

@@ -311,7 +311,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['id', 'title','description','transaction_amount','converted_transaction','amount','income_to', 'income_from', 'expense', 'goal', 'source','debt', 'user', 'location','periodic', 'tag', 'is_completed', 'created_at', 'modified_at']
+        fields = ['id', 'title','description','transaction_amount','converted_transaction','converted_amount','amount','income_to', 'income_from', 'expense', 'goal', 'source','debt', 'user', 'location','periodic', 'tag', 'is_completed', 'created_at', 'modified_at']
         extra_kwargs = {
             "id":{"read_only":True},
             "user":{'write_only':True},
@@ -323,12 +323,13 @@ class TransactionSerializer(serializers.ModelSerializer):
             "tag":{"required":False},
             "transaction_amount":{"required":False},
             "converted_transaction":{"required":False},
-            'is_completed':{"required":False}
+            'is_completed':{"required":False},
+            "converted_amount":{"required":False}
         }
 
     def create(self, validated_data):
         validated_data["user_id"] = self.context["user"]
-        print(validated_data, "V")
+ 
         tags = ""
         if 'tag' in validated_data and validated_data['tag'] is not None:
             tags = (validated_data.pop('tag'))
@@ -341,6 +342,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             validated_data.update({"modified_at":date.today()})
 
         validated_data.update({"transaction_amount":validated_data["amount"]})
+        validated_data.update({"converted_amount":validated_data["converted_transaction"]})
         
         if 'is_completed' not in validated_data:
             validated_data.update({"is_completed":True})

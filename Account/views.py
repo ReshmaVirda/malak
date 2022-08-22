@@ -1797,7 +1797,7 @@ class DebtDetailView(APIView):
         return Response({"status":True, "message":"data was successfully delete"}, status=status.HTTP_200_OK) 
 # Debt View Code End #
 
-# Transaction View Code Start #
+# Transaction View Code Start # Done
 class TransactionView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -2657,13 +2657,59 @@ class TransactionView(APIView):
                 updated_transfer_amount = ''
                 amount = ''
                 transaction_amount = ''
-                if 'amount' in request.data:
+                actual_transaction_amount = transaction.transaction_amount
+                if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
+                    converted_amount = float(request.data["converted"])
+
+                    if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        updated_converted_transaction = float(request.data["converted"]) - float(transaction.converted_transaction)
+
+                        source_amount = float(source[0].spent_amount) + float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) + float(updated_converted_transaction)
+                        
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True": 
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    source_amount = float(source_amount) + float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount) + float(updated_converted_transaction)
+
+                    elif (float(request.data["amount"]) < float(transaction.transaction_amount)) and (float(request.data["converted"]) < float(transaction.converted_transaction)):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        updated_converted_transaction = float(transaction.converted_transaction) - float(request.data["converted"])
+                        
+                        source_amount = float(source[0].spent_amount) - float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) - float(updated_converted_transaction)
+                        
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    source_amount = float(source_amount) - float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount) - float(updated_converted_transaction)
+
+                    elif (float(request.data["amount"]) == float(transaction.transaction_amount)) and (float(request.data["converted"]) == float(transaction.converted_transaction)):
+                        updated_transfer_amount = request.data.pop("amount")
+                        amount = transaction.amount
+                else:
+                    transaction_amount = float(request.data["amount"])
+
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         source_amount = float(source[0].spent_amount) + float(updated_transfer_amount)
                         income_to_amount = float(income_to[0].amount) + float(updated_transfer_amount)
                         amount = float(transaction.amount) + float(updated_transfer_amount)
+        
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
@@ -2678,6 +2724,7 @@ class TransactionView(APIView):
                         source_amount = float(source[0].spent_amount) - float(updated_transfer_amount)
                         income_to_amount = float(income_to[0].amount) - float(updated_transfer_amount)
                         amount = float(transaction.amount) - float(updated_transfer_amount)
+                        
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
@@ -2688,22 +2735,31 @@ class TransactionView(APIView):
                                     income_to_amount = float(income_to_amount) - float(updated_transfer_amount)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        transaction_amount = request.data.pop("amount")
+                        updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
+                    
         
                 # Server Update #
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
                 # Server Update #
-                
-                request.data.update({"transaction_amount":transaction_amount})
-                request.data.update({"amount":amount})
+                if 'converted' in request.data:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_amount":converted_amount})
+                else:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":transaction_amount})
+                    request.data.update({"converted_amount":transaction_amount})
                 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                        if ('amount' in request.data) and (float(actual_transaction_amount) != float(transaction_amount)):
+                            print("True")
                             source.update(spent_amount=source_amount)
                             income_to.update(amount=income_to_amount)
                     else:
@@ -2718,7 +2774,52 @@ class TransactionView(APIView):
                 updated_transfer_amount = ''
                 amount = ''
                 transaction_amount = ''
-                if 'amount' in request.data:
+                actual_transaction_amount = transaction.transaction_amount
+
+                if 'converted' in request.data:
+                    transaction_amount = float(request.data["amount"])
+                    converted_amount = float(request.data["converted"])
+
+                    if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        updated_converted_transaction = float(request.data["converted"]) - float(transaction.converted_transaction)
+                        
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) + float(updated_converted_transaction)
+
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+                    
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount)+float(updated_converted_transaction)
+
+                    elif (float(request.data["amount"]) < float(transaction.transaction_amount)) and (float(request.data["converted"]) < float(transaction.converted_transaction)):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        updated_converted_transaction = float(transaction.converted_transaction) - float(request.data["converted"]) 
+                        
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        income_to_amount = float(income_to[0].amount) - float(updated_converted_transaction)
+
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
+                                    income_to_amount = float(income_to_amount)-float(updated_converted_transaction)
+                    
+                    elif (float(request.data["amount"]) == float(transaction.transaction_amount)) and (float(request.data["converted"]) == float(transaction.converted_transaction)):
+                        updated_transfer_amount  = request.data.pop("amount")
+                        amount = transaction.amount 
+                else:
                     transaction_amount = float(request.data["amount"])
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
@@ -2747,21 +2848,31 @@ class TransactionView(APIView):
                                     amount = float(amount) - float(updated_transfer_amount)
                                     income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
                                     income_to_amount = float(income_to_amount)-float(updated_transfer_amount)
+                    
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        transaction_amount = request.data.pop("amount")
+                        updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
 
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
 
-                request.data.update({"transaction_amount":transaction_amount})
-                request.data.update({"amount":amount})
+                
+                if 'converted' in request.data:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_amount":converted_amount})
+                else:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":transaction_amount})
+                    request.data.update({"converted_amount":transaction_amount})
                 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                        if ('amount' in request.data) and (float(actual_transaction_amount) != float(transaction_amount)):
                             income_from.update(amount=income_from_amount)
                             income_to.update(amount=income_to_amount)
                     else:
@@ -2776,8 +2887,51 @@ class TransactionView(APIView):
                 updated_transfer_amount = ''
                 amount = ''
                 transaction_amount = ''
-                if 'amount' in request.data:
+                actual_transaction_amount = transaction.transaction_amount
+                if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
+                    converted_amount = float(request.data["converted"])
+
+                    if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        updated_converted_transaction = float(request.data["converted"]) - float(transaction.converted_transaction)
+                        
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        goal_amount = float(goal[0].added_amount) + float(updated_converted_transaction)
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
+                                    goal_amount = float(goal_amount)+float(updated_converted_transaction)
+                    
+                    elif (float(request.data["amount"]) < float(transaction.transaction_amount)) and (float(request.data["converted"]) < float(transaction.converted_transaction)):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        updated_converted_transaction = float(transaction.converted_transaction) - float(request.data["converted"])
+                        
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        goal_amount = float(goal[0].added_amount) - float(updated_converted_transaction)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
+                                    goal_amount = float(goal_amount)-float(updated_converted_transaction)
+
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        updated_transfer_amount = request.data.pop("amount")
+                        amount = transaction.amount
+                else:
+                    transaction_amount = float(request.data["amount"])
+
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
@@ -2791,6 +2945,7 @@ class TransactionView(APIView):
                                     amount = float(amount) + float(updated_transfer_amount)
                                     income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
                                     goal_amount = float(goal_amount)+float(updated_transfer_amount)
+                    
                     elif float(request.data["amount"]) < float(transaction.transaction_amount):
                         updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
@@ -2805,20 +2960,27 @@ class TransactionView(APIView):
                                     income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
                                     goal_amount = float(goal_amount)-float(updated_transfer_amount)
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        transaction_amount = request.data.pop("amount")
+                        updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
 
-                request.data.update({"transaction_amount":transaction_amount})
-                request.data.update({"amount":amount})
+                if 'converted' in request.data:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":converted_amount})
+                else:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":transaction_amount})
+
                 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                        if ('amount' in request.data) and (float(actual_transaction_amount) != float(transaction_amount)):
                             income_from.update(amount=income_from_amount)
                             goal.update(added_amount=goal_amount)
                     else:
@@ -2833,13 +2995,58 @@ class TransactionView(APIView):
                 updated_transfer_amount = ''
                 amount = ''
                 transaction_amount = ''
-                if 'amount' in request.data:
+                actual_transaction_amount = transaction.transaction_amount
+
+                if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
-                    if float(request.data["amount"]) > float(transaction.transaction_amount):   # 3 > 2
-                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount) # 1 = 3 - 2
-                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)  # 9 = 10-1
-                        expense_amount = float(expense[0].spent_amount) + float(updated_transfer_amount) # 11 = 10+1
-                        amount = float(transaction.amount) + float(updated_transfer_amount) # 7 = 6+ 1
+                    converted_amount = float(request.data["converted"])
+
+                    if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):   
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount) 
+                        updated_converted_transaction = float(request.data["converted"]) - float(transaction.converted_transaction)
+
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)  
+                        expense_amount = float(expense[0].spent_amount) + float(updated_converted_transaction) 
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) - float(updated_transfer_amount)
+                                    expense_amount = float(expense_amount) + float(updated_converted_transaction)
+
+                    elif (float(request.data["amount"]) < float(transaction.transaction_amount)) and (float(request.data["converted"]) < float(transaction.converted_transaction)):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        updated_converted_transaction = float(transaction.converted_transaction) - float(request.data["converted"])
+
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        expense_amount = float(expense[0].spent_amount) - float(updated_converted_transaction)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) + float(updated_transfer_amount)
+                                    expense_amount = float(expense_amount) - float(updated_converted_transaction)
+
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        updated_transfer_amount = request.data.pop("amount")
+                        amount = transaction.amount
+                else:
+                    transaction_amount = float(request.data["amount"])
+
+                    if float(request.data["amount"]) > float(transaction.transaction_amount):   
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount) 
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)  
+                        expense_amount = float(expense[0].spent_amount) + float(updated_transfer_amount) 
+                        amount = float(transaction.amount) + float(updated_transfer_amount) 
+                        
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
@@ -2864,20 +3071,27 @@ class TransactionView(APIView):
                                     expense_amount = float(expense_amount) - float(updated_transfer_amount)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
-                        transaction_amount = request.data.pop("amount")
+                        updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
                     
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
 
-                request.data.update({"transaction_amount":transaction_amount})
-                request.data.update({"amount":amount})
+                if 'converted' in request.data:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":converted_amount})
+                else:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":transaction_amount})
         
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                        if ('amount' in request.data) and (float(actual_transaction_amount) != float(transaction_amount)):
+                            print("True")
                             income_from.update(amount=income_from_amount)
                             expense.update(spent_amount=expense_amount)
                     else:
@@ -2892,8 +3106,52 @@ class TransactionView(APIView):
                 updated_transfer_amount = ''
                 amount = ''
                 transaction_amount = ''
-                if 'amount' in request.data:
+                actual_transaction_amount = transaction.transaction_amount
+
+                if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
+                    converted_amount = float(request.data["converted"])
+
+                    if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
+                        updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
+                        updated_converted_transaction = float(request.data["converted"]) - float(transaction.converted_transaction)
+                        
+                        income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
+                        debt_amount = float(debt[0].paid_amount) + float(updated_converted_transaction)
+                        amount = float(transaction.amount) + float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) + float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) - float(updated_transfer_amount)
+                                    debt_amount = float(debt_amount) + float(updated_converted_transaction)
+
+                    elif (float(request.data["amount"]) < float(transaction.transaction_amount)) and (float(request.data["converted"]) < float(transaction.converted_transaction)):
+                        updated_transfer_amount =  float(transaction.transaction_amount) - float(request.data["amount"])
+                        updated_converted_transaction = float(transaction.converted_transaction) - float(request.data["converted"])
+                        
+                        income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
+                        debt_amount = float(debt[0].paid_amount) - float(updated_converted_transaction)
+                        amount = float(transaction.amount) - float(updated_transfer_amount)
+
+                        if periodic:
+                            week_days = str(periodic.week_days).split(',')
+                            status_days = str(periodic.status_days).split(',')
+                            for i, repeat_date in enumerate(week_days):
+                                if status_days[i] == "True":
+                                    amount = float(amount) - float(updated_transfer_amount)
+                                    income_from_amount = float(income_from_amount) + float(updated_transfer_amount)
+                                    debt_amount = float(debt_amount) - float(updated_converted_transaction)
+
+                    elif float(request.data["amount"]) == float(transaction.transaction_amount):
+                        updated_transfer_amount = request.data.pop("amount")
+                        amount = transaction.amount
+                else:
+                    transaction_amount = float(request.data["amount"])
+
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
@@ -2929,13 +3187,21 @@ class TransactionView(APIView):
                 if transaction.location_id is None and 'latitude' in request.data and 'longitude' in request.data: # create new location
                     request.data["location"] = location.data.get('id')
                 
-                request.data.update({"transaction_amount":transaction_amount})
-                request.data.update({"amount":amount})
+                if 'converted' in request.data:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":converted_amount})
+                else:
+                    request.data.update({"transaction_amount":transaction_amount})
+                    request.data.update({"amount":amount})
+                    request.data.update({"converted_transaction":transaction_amount})
+
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
                     transaction_id = transaction_serializer.save()
                     if len(str(transaction_id)) > 0:
-                        if ('amount' in request.data and float(request.data["amount"]) != float(transaction.transaction_amount)):
+                        if ('amount' in request.data) and (float(actual_transaction_amount) != float(transaction_amount)):
+                            print("True")
                             income_from.update(amount=income_from_amount)
                             debt.update(paid_amount=debt_amount)
                     else:
@@ -3073,6 +3339,7 @@ class TransactionView(APIView):
         token_check = check_token(user=request.user)
         if token_check != "":
             return Response({"status":False, "message":"Invalid Token / Token was Blocked."}, status=status.HTTP_400_BAD_REQUEST) 
+        
         expense = ""
         transaction = ""
         income_to = ""
@@ -3082,6 +3349,7 @@ class TransactionView(APIView):
         debt = ""
         location = ""
         periodic = ""
+
         if pk is not None and pk != '':
             try:
                 user = User.objects.get(email=request.user).id
@@ -3128,20 +3396,35 @@ class TransactionView(APIView):
                 periodic.delete()
             
             if len(income_from) > 0 and len(expense) > 0 and len(income_to) <= 0 and len(goal) <= 0 and len(source) <= 0:
-        
-                income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
-                expense_amount = float(expense[0].spent_amount) - float(transaction.amount)
-                deleted_transaction = transaction.delete()   
-                if len(str(deleted_transaction)) > 0:
-                    income_from.update(amount=income_from_amount)
-                    expense.update(spent_amount=expense_amount)
-
+                if income_from[0].currency != expense[0].currency:
+                    
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
+                    expense_amount = float(expense[0].spent_amount) - float(transaction.converted_transaction)
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        expense.update(spent_amount=expense_amount)
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)
                 else:
-                    header = {
-                        "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
-                    }
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
-                    return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN) 
+                    
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
+                    expense_amount = float(expense[0].spent_amount) - float(transaction.amount)
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        expense.update(spent_amount=expense_amount)
+
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN) 
                 header = {
                     "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
                 }
@@ -3149,20 +3432,39 @@ class TransactionView(APIView):
                 return Response({"status":True, "message":"transaction data was successfully delete by id %s"%(pk)}, status=status.HTTP_200_OK)
             
             elif len(income_from) > 0 and len(expense) <= 0 and len(income_to) > 0 and len(goal) <= 0 and len(source) <= 0:
-                income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
-                income_to_amount = float(income_to[0].amount) - float(transaction.amount)
-                
-                deleted_transaction = transaction.delete()   
-                if len(str(deleted_transaction)) > 0: 
-                    income_from.update(amount=income_from_amount)
-                    income_to.update(amount=income_to_amount)
+                if income_from[0].currency != income_to[0].currency:
+                    
+                   
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
+                    income_to_amount = float(income_to[0].amount) - float(transaction.converted_transaction)
+                    
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0: 
+                        income_from.update(amount=income_from_amount)
+                        income_to.update(amount=income_to_amount)
 
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)
                 else:
-                    header = {
-                        "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
-                    }
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
-                    return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)     
+                    
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
+                    income_to_amount = float(income_to[0].amount) - float(transaction.amount)
+                    
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0: 
+                        income_from.update(amount=income_from_amount)
+                        income_to.update(amount=income_to_amount)
+
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)     
                 header = {
                     "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
                 }
@@ -3170,21 +3472,38 @@ class TransactionView(APIView):
                 return Response({"status":True, "message":"transaction data was successfully delete by id %s"%(pk)}, status=status.HTTP_200_OK)
             
             elif len(income_from) <= 0 and len(expense) <= 0 and len(income_to) > 0 and len(goal) <= 0 and len(source) > 0:
-                
-                source_amount = float(source[0].spent_amount) - float(transaction.amount) 
-                income_to_amount = float(income_to[0].amount) - float(transaction.amount)
-                 
-                deleted_transaction = transaction.delete()   
-                if len(str(deleted_transaction)) > 0:
-                    source.update(spent_amount=source_amount)
-                    income_to.update(amount=income_to_amount)
+                if source[0].currency != income_to[0].currency:
+                    
+                    source_amount = float(source[0].spent_amount) - float(transaction.amount) 
+                    income_to_amount = float(income_to[0].amount) - float(transaction.converted_transaction)
+                    
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        source.update(spent_amount=source_amount)
+                        income_to.update(amount=income_to_amount)
 
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)
                 else:
-                    header = {
-                        "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
-                    }
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
-                    return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)         
+                    
+                    source_amount = float(source[0].spent_amount) - float(transaction.amount) 
+                    income_to_amount = float(income_to[0].amount) - float(transaction.amount)
+                    
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        source.update(spent_amount=source_amount)
+                        income_to.update(amount=income_to_amount)
+
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)         
                 header = {
                     "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
                 }
@@ -3192,21 +3511,38 @@ class TransactionView(APIView):
                 return Response({"status":True, "message":"transaction data was successfully delete by id %s"%(pk)}, status=status.HTTP_200_OK)
             
             elif len(income_from) > 0 and len(expense) <= 0 and len(income_to) <= 0 and len(goal) > 0 and len(source) <= 0:
-               
-                income_from_amount = float(income_from[0].amount) + float(transaction.amount)
-                goal_amount = float(goal[0].added_amount) - float(transaction.amount)
+                if income_from[0].currency != goal[0].currency:
+                
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount)
+                    goal_amount = float(goal[0].added_amount) - float(transaction.converted_transaction)
 
-                deleted_transaction = transaction.delete()   
-                if len(str(deleted_transaction)) > 0:
-                    income_from.update(amount=income_from_amount)
-                    goal.update(added_amount=goal_amount) 
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        goal.update(added_amount=goal_amount) 
 
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)
                 else:
-                    header = {
-                        "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
-                    }
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
-                    return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)   
+                    
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount)
+                    goal_amount = float(goal[0].added_amount) - float(transaction.amount)
+
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        goal.update(added_amount=goal_amount) 
+
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)   
                 header = {
                     "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
                 }
@@ -3214,24 +3550,44 @@ class TransactionView(APIView):
                 return Response({"status":True, "message":"transaction data was successfully delete by id %s"%(pk)}, status=status.HTTP_200_OK)
 
             elif len(income_from) > 0 and len(expense) <= 0 and len(income_to) <= 0 and len(goal) <= 0 and len(source) <= 0 and len(debt) > 0:
-               
-                income_from_amount = float(income_from[0].amount) + float(transaction.amount)
-                debt_amount = float(debt[0].paid_amount) - float(transaction.amount)
+                if income_from[0].currency != debt[0].currency:
+                    
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount)
+                    debt_amount = float(debt[0].paid_amount) - float(transaction.converted_transaction)
 
-                deleted_transaction = transaction.delete()   
-                if len(str(deleted_transaction)) > 0:
-                    income_from.update(amount=income_from_amount)
-                    if float(debt[0].paid_amount) == float(0.00):
-                        debt.update(paid_amount=debt_amount, is_partial_paid=False, is_paid=False, is_completed=False) 
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        if float(debt[0].paid_amount) == float(0.00):
+                            debt.update(paid_amount=debt_amount, is_partial_paid=False, is_paid=False, is_completed=False) 
+                        else:
+                            debt.update(paid_amount=debt_amount) 
+
                     else:
-                        debt.update(paid_amount=debt_amount) 
-
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)
                 else:
-                    header = {
-                        "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
-                    }
-                    LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
-                    return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)   
+                    
+                    income_from_amount = float(income_from[0].amount) + float(transaction.amount)
+                    debt_amount = float(debt[0].paid_amount) - float(transaction.amount)
+
+                    deleted_transaction = transaction.delete()   
+                    if len(str(deleted_transaction)) > 0:
+                        income_from.update(amount=income_from_amount)
+                        if float(debt[0].paid_amount) == float(0.00):
+                            debt.update(paid_amount=debt_amount, is_partial_paid=False, is_paid=False, is_completed=False) 
+                        else:
+                            debt.update(paid_amount=debt_amount) 
+
+                    else:
+                        header = {
+                            "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
+                        }
+                        LogsAPI.objects.create(apiname=str(request.get_full_path()), request_header=json.dumps(header), response_data=json.dumps({"status":False, "message":"transaction data was not delete by id %s"%(pk)}), email=request.user, status=True)
+                        return Response({"status":False, "message":"transaction data was not delete by id %s"%(pk)}, status=status.HTTP_403_FORBIDDEN)   
                 header = {
                     "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
                 }
