@@ -3359,12 +3359,12 @@ class TransactionView(APIView):
             if y["debt"] is not None:
                 debt = Debt.objects.get(id=str(y["debt"])).name
                 y["debt_name"] = debt
-            if y["tags"] != []:
+            if y["tag"] != []:
                 tags_name = []
-                for t in y["tags"]:
+                for t in y["tag"]:
                     tag_name = Tag.objects.get(id=t)
                     tags_name.append({"id":tag_name.id, "name":tag_name.name})
-                y["tags"] = tags_name
+                y["tag"] = tags_name
             
             main_list.append(y)
         data_dict = main_list
@@ -4328,12 +4328,12 @@ class ReportView(APIView):
                 except Debt.DoesNotExist:
                     return Response({"status":False, "message":"debt data not found"}, status=status.HTTP_404_NOT_FOUND)
                 x["debt_name"] = debt
-            if x["tags"] != []:
+            if x["tag"] != []:
                 tags_name = []
-                for t in x["tags"]:
+                for t in x["tag"]:
                     tag_name = Tag.objects.get(id=t)
                     tags_name.append({"id":tag_name.id, "name":tag_name.name})
-                x["tags"] = tags_name
+                x["tag"] = tags_name
         header = {
             "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
         }
