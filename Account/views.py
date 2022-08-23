@@ -956,17 +956,17 @@ class IncomeDetailView(APIView):
         for x in transactions:
             if x.income_to_id is not None:
                 income_to_data = Income.objects.filter(id=x.income_to_id)
-                update_amount = float(income_to_data[0].amount) - float(x.amount)
+                update_amount = float(income_to_data[0].amount) - float(x.converted_amount)
                 income_to_data.update(amount=update_amount)
 
             if x.expense_id is not None:
                 expense = Expense.objects.filter(id=x.expense_id)
-                update_amount = float(expense[0].amount_limit) - float(x.amount)
+                update_amount = float(expense[0].amount_limit) - float(x.converted_amount)
                 expense.update(amount_limit=update_amount)
 
             if x.goal_id is not None:
                 goal_data = Goal.objects.filter(id=x.goal_id)
-                update_amount = float(goal_data[0].amount) - float(x.amount)
+                update_amount = float(goal_data[0].amount) - float(x.converted_amount)
                 goal_data.update(amount=update_amount)
 
             if x.location_id is not None:
@@ -981,7 +981,7 @@ class IncomeDetailView(APIView):
         for x in transactions:
             if x.source_id is not None:
                 source_data = SourceIncome.objects.filter(id=x.source_id)
-                update_amount = float(source_data[0].amount) + float(x.amount)
+                update_amount = float(source_data[0].amount) + float(x.converted_amount)
                 source_data.update(amount=update_amount)
             
             if x.location_id is not None:
@@ -1114,7 +1114,7 @@ class ExpenseDetailView(APIView):
         for x in transactions:
             if x.income_from_id is not None:
                 income_from_id_data = Income.objects.filter(id=x.income_from_id)
-                update_amount = float(income_from_id_data[0].amount) + float(x.amount)
+                update_amount = float(income_from_id_data[0].amount) + float(x.converted_amount)
                 income_from_id_data.update(amount=update_amount)
             
             if x.location_id is not None:
@@ -1249,7 +1249,7 @@ class GoalsDetailView(APIView):
 
             if x.income_from_id is not None:
                 income_data = Income.objects.filter(id=x.income_from_id)
-                update_amount = float(income_data[0].amount) + float(x.amount)
+                update_amount = float(income_data[0].amount) + float(x.converted_amount)
                 income_data.update(amount=update_amount)
 
             if x.location_id is not None:
@@ -1368,7 +1368,7 @@ class SourceIncomeDetailView(APIView):
         for x in transactions:
             if x.income_to_id is not None:
                 income_to_id_data = Income.objects.filter(id=x.income_to_id)
-                update_amount = float(income_to_id_data[0].amount) - float(x.amount)
+                update_amount = float(income_to_id_data[0].amount) - float(x.converted_amount)
                 income_to_id_data.update(amount=update_amount)
         
         sourceincome.delete()
@@ -1779,10 +1779,9 @@ class DebtDetailView(APIView):
         
         transactions = Transaction.objects.filter(debt_id=debt.id)
         for x in transactions:
-
             if x.income_from_id is not None:
                 income_data = Income.objects.filter(id=x.income_from_id)
-                update_amount = float(income_data[0].amount) + float(x.amount)
+                update_amount = float(income_data[0].amount) + float(x.converted_amount)
                 income_data.update(amount=update_amount)
 
             if x.location_id is not None:
@@ -2660,7 +2659,7 @@ class TransactionView(APIView):
                 actual_transaction_amount = transaction.transaction_amount
                 if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
-                    converted_amount = float(request.data["converted"])
+                    converted_transaction = float(request.data["converted"])
 
                     if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
@@ -2670,6 +2669,7 @@ class TransactionView(APIView):
                         income_to_amount = float(income_to[0].amount) + float(updated_converted_transaction)
                         
                         amount = float(transaction.amount) + float(updated_transfer_amount)
+                        converted_amount = float(transacion.converted_amount) + float(updated_converted_transaction)
 
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
@@ -2677,6 +2677,7 @@ class TransactionView(APIView):
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True": 
                                     amount = float(amount) + float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) + float(updated_converted_transaction)
                                     source_amount = float(source_amount) + float(updated_transfer_amount)
                                     income_to_amount = float(income_to_amount) + float(updated_converted_transaction)
 
@@ -2688,19 +2689,23 @@ class TransactionView(APIView):
                         income_to_amount = float(income_to[0].amount) - float(updated_converted_transaction)
                         
                         amount = float(transaction.amount) - float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) - float(updated_converted_transaction)
+                       
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) - float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) - float(updated_converted_transaction)
                                     source_amount = float(source_amount) - float(updated_transfer_amount)
                                     income_to_amount = float(income_to_amount) - float(updated_converted_transaction)
 
                     elif (float(request.data["amount"]) == float(transaction.transaction_amount)) and (float(request.data["converted"]) == float(transaction.converted_transaction)):
                         updated_transfer_amount = request.data.pop("amount")
+                        updated_converted_transaction = request.data.pop("converted")
                         amount = transaction.amount
+                        converted_amount = transacion.converted_amount
                 else:
                     transaction_amount = float(request.data["amount"])
 
@@ -2746,13 +2751,13 @@ class TransactionView(APIView):
                 if 'converted' in request.data:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
-                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_transaction":converted_transaction})
                     request.data.update({"converted_amount":converted_amount})
                 else:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
                     request.data.update({"converted_transaction":transaction_amount})
-                    request.data.update({"converted_amount":transaction_amount})
+                    request.data.update({"converted_amount":amount})
                 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
@@ -2778,7 +2783,7 @@ class TransactionView(APIView):
 
                 if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
-                    converted_amount = float(request.data["converted"])
+                    converted_transaction = float(request.data["converted"])
 
                     if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
@@ -2788,13 +2793,14 @@ class TransactionView(APIView):
                         income_to_amount = float(income_to[0].amount) + float(updated_converted_transaction)
 
                         amount = float(transaction.amount) + float(updated_transfer_amount)
-                    
+                        converted_amount = float(transacion.converted_amount) + float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) + float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) + float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
                                     income_to_amount = float(income_to_amount)+float(updated_converted_transaction)
 
@@ -2806,19 +2812,22 @@ class TransactionView(APIView):
                         income_to_amount = float(income_to[0].amount) - float(updated_converted_transaction)
 
                         amount = float(transaction.amount) - float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) - float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) - float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) - float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
                                     income_to_amount = float(income_to_amount)-float(updated_converted_transaction)
                     
                     elif (float(request.data["amount"]) == float(transaction.transaction_amount)) and (float(request.data["converted"]) == float(transaction.converted_transaction)):
                         updated_transfer_amount  = request.data.pop("amount")
                         amount = transaction.amount 
+                        updated_converted_transaction = request.data.pop("converted")
+                        converted_amount = transacion.converted_amount
                 else:
                     transaction_amount = float(request.data["amount"])
                     if float(request.data["amount"]) > float(transaction.transaction_amount):
@@ -2860,13 +2869,13 @@ class TransactionView(APIView):
                 if 'converted' in request.data:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
-                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_transaction":converted_transaction})
                     request.data.update({"converted_amount":converted_amount})
                 else:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
                     request.data.update({"converted_transaction":transaction_amount})
-                    request.data.update({"converted_amount":transaction_amount})
+                    request.data.update({"converted_amount":amount})
                 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
@@ -2890,7 +2899,7 @@ class TransactionView(APIView):
                 actual_transaction_amount = transaction.transaction_amount
                 if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
-                    converted_amount = float(request.data["converted"])
+                    converted_transaction = float(request.data["converted"])
 
                     if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
@@ -2899,13 +2908,14 @@ class TransactionView(APIView):
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
                         goal_amount = float(goal[0].added_amount) + float(updated_converted_transaction)
                         amount = float(transaction.amount) + float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) + float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) + float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) + float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount)-float(updated_transfer_amount)
                                     goal_amount = float(goal_amount)+float(updated_converted_transaction)
                     
@@ -2916,19 +2926,22 @@ class TransactionView(APIView):
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         goal_amount = float(goal[0].added_amount) - float(updated_converted_transaction)
                         amount = float(transaction.amount) - float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) - float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) - float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) - float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount)+float(updated_transfer_amount)
                                     goal_amount = float(goal_amount)-float(updated_converted_transaction)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
+                        updated_converted_transaction = request.data.pop("converted")
+                        converted_amount = transacion.converted_amount
                 else:
                     transaction_amount = float(request.data["amount"])
 
@@ -2969,11 +2982,13 @@ class TransactionView(APIView):
                 if 'converted' in request.data:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
-                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_transaction":converted_transaction})
+                    request.data.update({"converted_amount":converted_amount})
                 else:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
                     request.data.update({"converted_transaction":transaction_amount})
+                    request.data.update({"converted_amount":amount})
 
                 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
@@ -2999,7 +3014,7 @@ class TransactionView(APIView):
 
                 if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
-                    converted_amount = float(request.data["converted"])
+                    converted_transaction = float(request.data["converted"])
 
                     if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):   
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount) 
@@ -3008,13 +3023,14 @@ class TransactionView(APIView):
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)  
                         expense_amount = float(expense[0].spent_amount) + float(updated_converted_transaction) 
                         amount = float(transaction.amount) + float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) + float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) + float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) + float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount) - float(updated_transfer_amount)
                                     expense_amount = float(expense_amount) + float(updated_converted_transaction)
 
@@ -3025,19 +3041,23 @@ class TransactionView(APIView):
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         expense_amount = float(expense[0].spent_amount) - float(updated_converted_transaction)
                         amount = float(transaction.amount) - float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) - float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) - float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) - float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount) + float(updated_transfer_amount)
                                     expense_amount = float(expense_amount) - float(updated_converted_transaction)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
+                        updated_converted_transaction = request.data.pop("converted")
+                        converted_amount = transacion.converted_amount
+
                 else:
                     transaction_amount = float(request.data["amount"])
 
@@ -3080,11 +3100,14 @@ class TransactionView(APIView):
                 if 'converted' in request.data:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
-                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_transaction":converted_transaction})
+                    request.data.update({"converted_amount":converted_amount})
                 else:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
                     request.data.update({"converted_transaction":transaction_amount})
+                    request.data.update({"converted_amount":amount})
+
         
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
@@ -3110,7 +3133,7 @@ class TransactionView(APIView):
 
                 if 'converted' in request.data:
                     transaction_amount = float(request.data["amount"])
-                    converted_amount = float(request.data["converted"])
+                    converted_transaction = float(request.data["converted"])
 
                     if (float(request.data["amount"]) > float(transaction.transaction_amount)) and (float(request.data["converted"]) > float(transaction.converted_transaction)):
                         updated_transfer_amount = float(request.data["amount"]) - float(transaction.transaction_amount)
@@ -3119,6 +3142,7 @@ class TransactionView(APIView):
                         income_from_amount = float(income_from[0].amount) - float(updated_transfer_amount)
                         debt_amount = float(debt[0].paid_amount) + float(updated_converted_transaction)
                         amount = float(transaction.amount) + float(updated_transfer_amount)
+                        converted_amount = float(transacion.converted_amount) + float(updated_converted_transaction)
 
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
@@ -3126,6 +3150,7 @@ class TransactionView(APIView):
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) + float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) + float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount) - float(updated_transfer_amount)
                                     debt_amount = float(debt_amount) + float(updated_converted_transaction)
 
@@ -3136,19 +3161,22 @@ class TransactionView(APIView):
                         income_from_amount = float(income_from[0].amount) + float(updated_transfer_amount)
                         debt_amount = float(debt[0].paid_amount) - float(updated_converted_transaction)
                         amount = float(transaction.amount) - float(updated_transfer_amount)
-
+                        converted_amount = float(transacion.converted_amount) - float(updated_converted_transaction)
                         if periodic:
                             week_days = str(periodic.week_days).split(',')
                             status_days = str(periodic.status_days).split(',')
                             for i, repeat_date in enumerate(week_days):
                                 if status_days[i] == "True":
                                     amount = float(amount) - float(updated_transfer_amount)
+                                    converted_amount = float(converted_amount) - float(updated_converted_transaction)
                                     income_from_amount = float(income_from_amount) + float(updated_transfer_amount)
                                     debt_amount = float(debt_amount) - float(updated_converted_transaction)
 
                     elif float(request.data["amount"]) == float(transaction.transaction_amount):
                         updated_transfer_amount = request.data.pop("amount")
                         amount = transaction.amount
+                        updated_converted_transaction = request.data.pop("converted")
+                        converted_amount = transacion.converted_amount
                 else:
                     transaction_amount = float(request.data["amount"])
 
@@ -3190,11 +3218,13 @@ class TransactionView(APIView):
                 if 'converted' in request.data:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
-                    request.data.update({"converted_transaction":converted_amount})
+                    request.data.update({"converted_transaction":converted_transaction})
+                    request.data.update({"converted_amount":converted_amount})
                 else:
                     request.data.update({"transaction_amount":transaction_amount})
                     request.data.update({"amount":amount})
                     request.data.update({"converted_transaction":transaction_amount})
+                    request.data.update({"converted_amount":amount})
 
                 transaction_serializer = TransactionSerializer(transaction, data=request.data)
                 if transaction_serializer.is_valid(raise_exception=False):
@@ -3329,6 +3359,12 @@ class TransactionView(APIView):
             if y["debt"] is not None:
                 debt = Debt.objects.get(id=str(y["debt"])).name
                 y["debt_name"] = debt
+            if y["tags"] != []:
+                tags_name = []
+                for t in y["tags"]:
+                    tag_name = Tag.objects.get(id=t)
+                    tags_name.append({"id":tag_name.id, "name":tag_name.name})
+                y["tags"] = tags_name
             
             main_list.append(y)
         data_dict = main_list
@@ -3399,7 +3435,7 @@ class TransactionView(APIView):
                 if income_from[0].currency != expense[0].currency:
                     
                     income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
-                    expense_amount = float(expense[0].spent_amount) - float(transaction.converted_transaction)
+                    expense_amount = float(expense[0].spent_amount) - float(transaction.converted_amount)
                     deleted_transaction = transaction.delete()   
                     if len(str(deleted_transaction)) > 0:
                         income_from.update(amount=income_from_amount)
@@ -3436,7 +3472,7 @@ class TransactionView(APIView):
                     
                    
                     income_from_amount = float(income_from[0].amount) + float(transaction.amount) 
-                    income_to_amount = float(income_to[0].amount) - float(transaction.converted_transaction)
+                    income_to_amount = float(income_to[0].amount) - float(transaction.converted_amount)
                     
                     deleted_transaction = transaction.delete()   
                     if len(str(deleted_transaction)) > 0: 
@@ -3475,7 +3511,7 @@ class TransactionView(APIView):
                 if source[0].currency != income_to[0].currency:
                     
                     source_amount = float(source[0].spent_amount) - float(transaction.amount) 
-                    income_to_amount = float(income_to[0].amount) - float(transaction.converted_transaction)
+                    income_to_amount = float(income_to[0].amount) - float(transaction.converted_amount)
                     
                     deleted_transaction = transaction.delete()   
                     if len(str(deleted_transaction)) > 0:
@@ -3514,7 +3550,7 @@ class TransactionView(APIView):
                 if income_from[0].currency != goal[0].currency:
                 
                     income_from_amount = float(income_from[0].amount) + float(transaction.amount)
-                    goal_amount = float(goal[0].added_amount) - float(transaction.converted_transaction)
+                    goal_amount = float(goal[0].added_amount) - float(transaction.converted_amount)
 
                     deleted_transaction = transaction.delete()   
                     if len(str(deleted_transaction)) > 0:
@@ -3553,7 +3589,7 @@ class TransactionView(APIView):
                 if income_from[0].currency != debt[0].currency:
                     
                     income_from_amount = float(income_from[0].amount) + float(transaction.amount)
-                    debt_amount = float(debt[0].paid_amount) - float(transaction.converted_transaction)
+                    debt_amount = float(debt[0].paid_amount) - float(transaction.converted_amount)
 
                     deleted_transaction = transaction.delete()   
                     if len(str(deleted_transaction)) > 0:
@@ -3828,6 +3864,7 @@ class HomeView(APIView):
         if transacion != []:
             for x in transacion:
                 amount = x.amount
+                converted = x.converted_amount
                 
                 if x.income_from_id is not None and x.income_from_id != "":
                     income_from = Income.objects.filter(user_id=user, id=x.income_from_id) 
@@ -3862,18 +3899,21 @@ class HomeView(APIView):
                         if repeat <= date.today():
                             if repeat_status[i].encode('ascii').decode('UTF-8') == "False":
                                 transacion_amount = float(amount) + float(x.transaction_amount)
+                                converted_amount = float(converted) + float(x.converted_transaction)
                                 amount = transacion_amount
+                                converted = converted_amount
+
                                 repeat_status[i] = "True"
                            
-                                Transaction.objects.filter(id=str(x.id), periodic_id=str(x.periodic_id)).update(amount=float(amount))
+                                Transaction.objects.filter(id=str(x.id), periodic_id=str(x.periodic_id)).update(amount=float(amount), converted_amount=float(converted))
                                 
                                 if x.income_to_id is not None and x.income_to_id != "" and x.source_id is not None and x.source_id != "":
-                                
+                                    
                                     source_amount = source[0].spent_amount
                                     income_to_amount = income_to[0].amount
-                            
+                                    
                                     source_amount = float(source_amount) + float(x.transaction_amount)
-                                    income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                    income_to_amount = float(income_to_amount) + float(x.converted_transaction)
                                             
                                     source.update(spent_amount=source_amount)
                                     income_to.update(amount=income_to_amount)
@@ -3884,7 +3924,7 @@ class HomeView(APIView):
                                     income_to_amount = income_to[0].amount
                                     
                                     income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                    income_to_amount = float(income_to_amount) + float(x.transaction_amount)
+                                    income_to_amount = float(income_to_amount) + float(x.converted_transaction)
                                         
                                     income_from.update(amount=income_from_amount)
                                     income_to.update(amount=income_to_amount)
@@ -3895,7 +3935,7 @@ class HomeView(APIView):
                                     goal_amount = goal[0].added_amount
                             
                                     income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                    goal_amount = float(goal_amount) + float(x.transaction_amount)
+                                    goal_amount = float(goal_amount) + float(x.converted_transaction)
                                         
                                     income_from.update(amount=income_from_amount)
                                     goal.update(added_amount=goal_amount)
@@ -3906,7 +3946,7 @@ class HomeView(APIView):
                                     expense_amount = expense[0].spent_amount
                                 
                                     income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                    expense_amount = float(expense_amount) + float(x.transaction_amount)
+                                    expense_amount = float(expense_amount) + float(x.converted_transaction)
                                         
                                     income_from.update(amount=income_from_amount)
                                     expense.update(spent_amount=expense_amount)
@@ -3917,7 +3957,7 @@ class HomeView(APIView):
                                     debt_amount = debt[0].paid_amount
                                     
                                     income_from_amount = float(income_from_amount) - float(x.transaction_amount)
-                                    debt_amount = float(debt_amount) + float(x.transaction_amount)
+                                    debt_amount = float(debt_amount) + float(x.converted_transaction)
                                     
                                     income_from.update(amount=income_from_amount)
                                     debt.update(paid_amount=debt_amount)
@@ -4288,7 +4328,12 @@ class ReportView(APIView):
                 except Debt.DoesNotExist:
                     return Response({"status":False, "message":"debt data not found"}, status=status.HTTP_404_NOT_FOUND)
                 x["debt_name"] = debt
-            
+            if x["tags"] != []:
+                tags_name = []
+                for t in x["tags"]:
+                    tag_name = Tag.objects.get(id=t)
+                    tags_name.append({"id":tag_name.id, "name":tag_name.name})
+                x["tags"] = tags_name
         header = {
             "HTTP_AUTHORIZATION":request.META['HTTP_AUTHORIZATION']
         }
