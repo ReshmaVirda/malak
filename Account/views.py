@@ -26,7 +26,6 @@ from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, Bl
 import csv
 from io import StringIO, BytesIO
 import xlwt
-from .currency_convert import Currency_Exchange
 # Create your views here.
 
 ## Date Control ##
