@@ -327,8 +327,7 @@ class Setting(models.Model):
 class notification(models.Model):
     title = models.CharField(max_length=255)
     message = models.TextField()
-    android_r_token = models.TextField(blank=True, null=True, default="")
-    ios_r_token = models.TextField(blank=True, null=True, default="")
+    receiver_token = models.TextField(blank=True, null=True, default="")
     payload = models.TextField()
     created_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now_add=True)

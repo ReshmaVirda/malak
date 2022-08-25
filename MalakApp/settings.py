@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Account',
     'rest_framework',
     'corsheaders',
+    "django_cron",
     'rest_framework_simplejwt.token_blacklist',
 ]
 
@@ -50,6 +51,10 @@ AUTH_USER_MODEL = 'Account.User'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'Account.backends.UserAuthenticationBackend',
+]
+
+CRON_CLASSES = [
+    'Account.cron.MyCronJob'
 ]
 
 MIDDLEWARE = [
