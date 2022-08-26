@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .models import User, Subscription, Income, Expense, Goal, LogsAPI, SourceIncome, Exchangerate, Location, Periodic, Setting, Transaction, Tag, Debt
+from .models import User, Subscription, Income, Expense, Goal, LogsAPI, SourceIncome, Exchangerate, Location, Periodic, Setting, Transaction, Tag, Debt, notification
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from Account.serializers import LogoutSerializer, UserRegistrationSerializer, UserLoginSerializer, UserSocialLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, UserSubscriptionSerializer, IncomeSerializer,ExpenseSerializer,GoalsSerializer, SourceIncomeSerializer, ExchangerateSerializer, LocationSerializer, PeriodicSerializer, SettingSerializer, TagSerializer, DebtSerializer, TransactionSerializer
+from Account.serializers import NotificationSerializer, LogoutSerializer, UserRegistrationSerializer, UserLoginSerializer, UserSocialLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, UserSubscriptionSerializer, IncomeSerializer,ExpenseSerializer,GoalsSerializer, SourceIncomeSerializer, ExchangerateSerializer, LocationSerializer, PeriodicSerializer, SettingSerializer, TagSerializer, DebtSerializer, TransactionSerializer
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.contrib.auth.hashers import make_password
 import json
@@ -4341,7 +4341,6 @@ class ReportView(APIView):
         return Response({"status":True, "message":"report data Fetched Succcessfully", "data":data_dict},status=status.HTTP_201_CREATED)
 ### Report API VIEW CODE END ###
 
-
 ########################################################################
 class LogoutAPIView(APIView):
     serializer_class = LogoutSerializer
@@ -4406,6 +4405,22 @@ def confirm(request):
         else:
             return render(request, "reset_password.html", {"message":"Password and Re-password cannot be blank."})
 # User Reset / Forgot Password API End #
+
+# Notification API Code Start #
+class Notifications(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = ''
+        try:
+            user = User.objects.get(email=request.user).id
+        except User.DoesNotExist:
+            return Response({"status":False, "message":"User Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
+
+        notify = notification.objects.filter(user_id=user)
+        serializer = NotificationSerializer(notify, many=True)
+        return Response({"status":True, "message":"Notification Fetched Successfully", "data":serializer.data}, status=status.HTTP_200_OK)
+# Notification API Code End #
 
 # Export Data in CSV or XLS #
 class Export(APIView):

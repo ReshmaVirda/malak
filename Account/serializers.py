@@ -1,6 +1,5 @@
-from locale import currency
 from rest_framework import serializers
-from Account.models import User, Subscription,Income,Expense,Goal, SourceIncome, Exchangerate, Location, Periodic, Tag, Transaction, Setting, Debt
+from Account.models import User, Subscription,Income,Expense,Goal, SourceIncome, Exchangerate, Location, Periodic, Tag, Transaction, Setting, Debt, notification
 from datetime import datetime, date
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
@@ -418,3 +417,8 @@ class LogoutSerializer(serializers.Serializer):
             RefreshToken(self.token).blacklist()
         except TokenError:
             self.fail('bad_token')
+
+class NotificationSerializer(serializers.Serializer):
+    class Meta:
+        model = notification
+        fields = '__all__'

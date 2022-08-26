@@ -29,6 +29,21 @@ class Notification:
             'priority': 'high', 
         }
         response = requests.post("https://fcm.googleapis.com/fcm/send",headers=headers, data=json.dumps(body))
-        print(response.status_code)
-
-        print(response.json())
+        if response.status_code == 200:
+            response = json.loads(response.text) 
+        else:
+            response = ""
+        data_dict = dict()
+        if response != "":
+            data_dict["response"] = response
+            data_dict["data"] = {
+                'title': title,
+                'body': message,
+                'content-available': True,
+                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                'status':notify_status
+            }
+        else:
+            data_dict["response"] = response
+            data_dict["data"] = {} 
+        return data_dict
