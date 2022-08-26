@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from Account.serializers import NotificationSerializer, LogoutSerializer, UserRegistrationSerializer, UserLoginSerializer, UserSocialLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, UserSubscriptionSerializer, IncomeSerializer,ExpenseSerializer,GoalsSerializer, SourceIncomeSerializer, ExchangerateSerializer, LocationSerializer, PeriodicSerializer, SettingSerializer, TagSerializer, DebtSerializer, TransactionSerializer
+from Account.serializers import LogoutSerializer, UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, UserSubscriptionSerializer, IncomeSerializer,ExpenseSerializer,GoalsSerializer, SourceIncomeSerializer, ExchangerateSerializer, LocationSerializer, PeriodicSerializer, SettingSerializer, TagSerializer, DebtSerializer, TransactionSerializer
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.contrib.auth.hashers import make_password
 import json
@@ -4412,14 +4412,27 @@ class Notifications(APIView):
 
     def get(self, request):
         user = ''
+        notifications_dict = dict()
+        notification_list = list()
         try:
             user = User.objects.get(email=request.user).id
         except User.DoesNotExist:
             return Response({"status":False, "message":"User Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
 
         notify = notification.objects.filter(user_id=user)
-        serializer = NotificationSerializer(notify, many=True)
-        return Response({"status":True, "message":"Notification Fetched Successfully", "data":serializer.data}, status=status.HTTP_200_OK)
+        for n in notify:
+            data = {
+                "id":n.id,
+                "title":n.title,
+                "message":n.message,
+                "receiver_token":n.receiver_token,
+                "payload":json.loads(n.payload),
+                "created_date":n.created_date,
+                "modified_date":n.modified_date
+            }
+            notification_list.append(data)
+        notifications_dict["notifications"] = notification_list
+        return Response({"status":True, "message":"Notification Fetched Successfully", "data":notifications_dict}, status=status.HTTP_200_OK)
 # Notification API Code End #
 
 # Export Data in CSV or XLS #

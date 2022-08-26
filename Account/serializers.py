@@ -417,8 +417,3 @@ class LogoutSerializer(serializers.Serializer):
             RefreshToken(self.token).blacklist()
         except TokenError:
             self.fail('bad_token')
-
-class NotificationSerializer(serializers.Serializer):
-    class Meta:
-        model = notification
-        fields = '__all__'
