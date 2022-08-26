@@ -43,4 +43,5 @@ urlpatterns = [
     re_path(r'^admin/subscription/(?P<pk>\d+)$', views.AdminSubscriptionView.as_view(), name="admin_subscription"),
     re_path(r'^report$', views.ReportView.as_view(), name="report"),
     re_path(r'^export$', views.Export.as_view(), name="export"),
+    re_path(r'^notifications$', views.Notifications.as_view(), name="notifications")
 ]
