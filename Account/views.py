@@ -3321,34 +3321,40 @@ class TransactionView(APIView):
         for y in transaction_serializer.data:
             if y["income_to"] is not None:
                 try:
-                    income_to = Income.objects.get(id=str(y["income_to"])).title
+                    income_to = Income.objects.get(id=str(y["income_to"]))
                 except Income.DoesNotExist:
                     return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                y["income_to_name"] = income_to
+                y["income_to_name"] = income_to.title
+                y["income_to_currency"] = income_to.currency
             if y["income_from"] is not None:
                 try:
-                    income_from = Income.objects.get(id=str(y["income_from"])).title
+                    income_from = Income.objects.get(id=str(y["income_from"]))
                 except Income.DoesNotExist:
                     return Response({"status":False, "message":"income detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                y["income_from_name"] = income_from
+                y["income_from_name"] = income_from.title
+                y["income_from_currency"] = income_from.currency
             if y["source"] is not None:
                 try:
-                    source = SourceIncome.objects.get(id=str(y["source"])).title
+                    source = SourceIncome.objects.get(id=str(y["source"]))
                 except SourceIncome.DoesNotExist:
                     return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                y["source_name"] = source
+                y["source_name"] = source.title
+                y["source_currency"] = source.currency
+
             if y["goal"] is not None:
                 try:
-                    goal = Goal.objects.get(id=str(y["goal"])).title
+                    goal = Goal.objects.get(id=str(y["goal"]))
                 except Goal.DoesNotExist:
                     return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                y["goal_name"] = goal
+                y["goal_name"] = goal.title
+                y["goal_currency"] = goal.currency
             if y["expense"] is not None:
                 try:
-                    expense = Expense.objects.get(id=str(y["expense"])).title
+                    expense = Expense.objects.get(id=str(y["expense"]))
                 except Expense.DoesNotExist:
                     return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                y["expense_name"] = expense
+                y["expense_name"] = expense.title
+                y["expense_currency"] = expense.currency
             if y["periodic"] is not None:
                 periodic = Periodic.objects.get(id=str(y["periodic"]))
                 y["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'status_days':str(periodic.status_days).lower(),'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
@@ -3356,8 +3362,9 @@ class TransactionView(APIView):
                 location = Location.objects.get(id=str(y["location"]))
                 y["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
             if y["debt"] is not None:
-                debt = Debt.objects.get(id=str(y["debt"])).name
-                y["debt_name"] = debt
+                debt = Debt.objects.get(id=str(y["debt"]))
+                y["debt_name"] = debt.name
+                y["debt_currency"] = debt.currency
             if y["tag"] != []:
                 tags_name = []
                 for t in y["tag"]:
@@ -4287,34 +4294,39 @@ class ReportView(APIView):
             x["amount"] = float(x["amount"])
             if x["income_to"] is not None:
                 try:
-                    income_to = Income.objects.get(id=str(x["income_to"])).title
+                    income_to = Income.objects.get(id=str(x["income_to"]))
                 except Income.DoesNotExist:
                     return Response({"status":False, "message":"income_to data not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["income_to_name"] = income_to
+                x["income_to_name"] = income_to.title
+                x["income_to_currency"] = income_to.currency
             if x["income_from"] is not None:
                 try:
-                    income_from = Income.objects.get(id=str(x["income_from"])).title
+                    income_from = Income.objects.get(id=str(x["income_from"]))
                 except Income.DoesNotExist:
                     return Response({"status":False, "message":"income_from data not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["income_from_name"] = income_from
+                x["income_from_name"] = income_from.title
+                x["income_from_currency"] = income_from.currency
             if x["source"] is not None:
                 try:
-                    source = SourceIncome.objects.get(id=str(x["source"])).title
+                    source = SourceIncome.objects.get(id=str(x["source"]))
                 except SourceIncome.DoesNotExist:
                     return Response({"status":False, "message":"source detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["source_name"] = source
+                x["source_name"] = source.title
+                x["source_currency"] = source.currency
             if x["goal"] is not None:
                 try:
-                    goal = Goal.objects.get(id=str(x["goal"])).title
+                    goal = Goal.objects.get(id=str(x["goal"]))
                 except Goal.DoesNotExist:
                     return Response({"status":False, "message":"goal detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["goal_name"] = goal
+                x["goal_name"] = goal.title
+                x["goal_currency"] = goal.currency
             if x["expense"] is not None:
                 try:
-                    expense = Expense.objects.get(id=str(x["expense"])).title
+                    expense = Expense.objects.get(id=str(x["expense"]))
                 except Expense.DoesNotExist:
                     return Response({"status":False, "message":"expense detail not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["expense_name"] = expense
+                x["expense_name"] = expense.title
+                x["expense_currency"] = expense.currency
             if x["periodic"] is not None:
                 periodic = Periodic.objects.get(id=str(x["periodic"]))
                 x["periodic_data"] = {'id':periodic.id,'start_date':periodic.start_date,'end_date':periodic.end_date,'week_days':periodic.week_days,'prefix':periodic.prefix,'prefix_value':periodic.prefix_value, 'created_at':periodic.created_at, 'modified_at':periodic.modified_at}
@@ -4323,10 +4335,11 @@ class ReportView(APIView):
                 x["location_data"] = {'id':location.id,'latitude':location.latitude,'longitude':location.longitude, 'created_at':location.created_at, 'modified_at':location.modified_at}
             if x["debt"] is not None:
                 try:
-                    debt = Debt.objects.get(id=str(x["debt"])).name
+                    debt = Debt.objects.get(id=str(x["debt"]))
                 except Debt.DoesNotExist:
                     return Response({"status":False, "message":"debt data not found"}, status=status.HTTP_404_NOT_FOUND)
-                x["debt_name"] = debt
+                x["debt_name"] = debt.name
+                x["debt_currency"] = debt.currency
             if x["tag"] != []:
                 tags_name = []
                 for t in x["tag"]:
