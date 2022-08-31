@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from Account.models import User,Income,Expense,Goal, LogsAPI, Setting, Tag, Transaction, SourceIncome, Debt, Subscription, Location, Periodic, Exchangerate
+from Account.models import User,Income,Expense,Goal, LogsAPI, Setting, Tag, Transaction, SourceIncome, Debt, Subscription, Location, Periodic, Exchangerate, notification
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
@@ -195,3 +195,15 @@ class SettingAdmin(admin.ModelAdmin):
         return False
 
 admin.site.register(Setting,SettingAdmin)
+
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('id','title','message','receiver_token','payload','created_date','modified_date','user')
+    list_filter = ('receiver_token',)
+    search_fields = ('receiver_token',)
+    ordering = ('receiver_token',)
+    list_per_page = 10
+
+    def has_add_permission(self, request):
+        return False
+        
+admin.site.register(notification, NotificationAdmin)

@@ -2209,3 +2209,20 @@ Bad Request: /login
 Bad Request: /login
 Not Found: /transaction/36
 Bad Request: /transaction/12
+Not Found: /
+Not Found: /favicon.ico
+Unauthorized: /notifications
+Unauthorized: /setting
+Unauthorized: /profile
+Unauthorized: /home
+Bad Request: /login
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /
+Forbidden (CSRF cookie not set.): /admin/login/
+Bad Request: /login
+OSError: LSAPI: Socket read/write error
+Bad Request: /expense
+Bad Request: /goal
+A
+Not Found: /transaction/
