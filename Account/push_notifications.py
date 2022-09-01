@@ -42,13 +42,13 @@ class Notification:
         if response != "":
             data_dict["response"] = response
             data_dict["data"] = {
-                'title': title,
-                'body': message,
-                'content-available': True,
-                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                'status':notify_status,
-                'for_id':for_id,
-                'for_name':for_name,
+                "title": title,
+                "body": message,
+                "content-available": True,
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+                "status":notify_status,
+                "for_id":for_id,
+                "for_name":for_name,
                 "for_icon":for_icon
             }
         else:
