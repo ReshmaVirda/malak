@@ -18,6 +18,10 @@ class Notification:
                 'body': message,
                 'sound':'default',
                 'content-available': True,
+                'icon':'ic_launcher',
+                'sound':'default',
+                'content-available':True,
+                'priority':'high'
             },
             'data': {
                 'title': title,
@@ -26,7 +30,10 @@ class Notification:
                 'click_action': 'FLUTTER_NOTIFICATION_CLICK',
                 'status':notify_status
             },
-            'priority': 'high', 
+            'icon':'notification_icon',
+            'sound':'default',
+            'content-available':True,
+            'priority':'high'
         }
         response = requests.post("https://fcm.googleapis.com/fcm/send",headers=headers, data=json.dumps(body))
         if response.status_code == 200:
