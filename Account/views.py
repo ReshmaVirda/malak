@@ -4468,8 +4468,8 @@ class Notifications(APIView):
             "message":n.message,
             "receiver_token":n.receiver_token,
             "payload":json.loads(n.payload),
-            "created_date":n.created_date,
-            "modified_date":n.modified_date
+            "created_date":n.created_at,
+            "modified_date":n.modified_at
         }
         notification_list.append(data)
         notifications_dict["notifications"] = notification_list
@@ -4492,8 +4492,8 @@ class Pub_Notification(APIView):
             "message":n.message,
             "receiver_token":n.receiver_token,
             "payload":json.loads(n.payload),
-            "created_date":n.created_date,
-            "modified_date":n.modified_date
+            "created_date":n.created_at,
+            "modified_date":n.modified_at
         }
         notification_list.append(data)
         notifications_dict["notifications"] = notification_list
