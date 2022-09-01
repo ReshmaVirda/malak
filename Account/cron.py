@@ -23,7 +23,7 @@ class MyCronJob(CronJobBase):
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
 
-                get_notification = Notification.Notify(deviceToken=user.device_token,title="Debt (Reminder)", message="Your debt payment of amount %s %s is planned for today."%(str(x.currency), str(x.amount)), notify_status="DEBT_PLANNED")
+                get_notification = Notification.Notify(deviceToken=user.device_token,title="Debt (Reminder)", message="Your debt payment of amount %s %s is planned for today."%(str(x.currency), str(x.amount)), notify_status="DEBT_PLANNED", for_id=x.id, for_name=x.name, for_icon=x.icon)
                 notification.objects.create(title="Debt (Reminder)", message="Your debt payment of amount %s %s is planned for today."%(str(x.currency), str(x.amount)), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)              
 
         ## Debt Settleing ##
@@ -35,7 +35,7 @@ class MyCronJob(CronJobBase):
                         user = User.objects.get(id=y.user_id)
                     except User.DoesNotExist:
                         return "User Doesn't Exist"
-                    get_notification = Notification.Notify(deviceToken=user.device_token, title="Debt (Settleing)", message="Congratulations, your debt to %s has been fully settled with amount %s %s"%(y.name, y.currency, y.paid_amount), notify_status="DEBT_SETTLED")
+                    get_notification = Notification.Notify(deviceToken=user.device_token, title="Debt (Settleing)", message="Congratulations, your debt to %s has been fully settled with amount %s %s"%(y.name, y.currency, y.paid_amount), notify_status="DEBT_SETTLED", for_id=y.id, for_name=y.name, for_icon=y.icon)
                     notification.objects.create(title="Debt (Settleing)", message="Congratulations, your debt to %s has been fully settled with amount %s %s"%(y.name, y.currency, y.paid_amount), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
                 else:
                     user = ''
@@ -43,7 +43,7 @@ class MyCronJob(CronJobBase):
                         user = User.objects.get(id=y.user_id)
                     except User.DoesNotExist:
                         return "User Doesn't Exist"
-                    get_notification = Notification.Notify(deviceToken=user.device_token, title="Debt (Settleing)", message="Congratulations, your debt to %s has been partially settled with amount %s %s"%(y.name, y.currency, y.paid_amount), notify_status="DEBT_SETTLED")
+                    get_notification = Notification.Notify(deviceToken=user.device_token, title="Debt (Settleing)", message="Congratulations, your debt to %s has been partially settled with amount %s %s"%(y.name, y.currency, y.paid_amount), notify_status="DEBT_SETTLED", for_id=y.id, for_name=y.name, for_icon=y.icon)
                     notification.objects.create(title="Debt (Settleing)", message="Congratulations, your debt to %s has been partially settled with amount %s %s"%(y.name, y.currency, y.paid_amount), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
         
         ############# ACHIEVINGS ######################
@@ -56,7 +56,7 @@ class MyCronJob(CronJobBase):
                     user = User.objects.get(id=g.user_id)
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
-                get_notification = Notification.Notify(deviceToken=user.device_token, title="Goal (Achieving)", message="You have reached the goal having accumulated amount %s %s"%(g.currency, g.amount), notify_status="GOAL_ACCUMULATED")
+                get_notification = Notification.Notify(deviceToken=user.device_token, title="Goal (Achieving)", message="You have reached the goal having accumulated amount %s %s"%(g.currency, g.amount), notify_status="GOAL_ACCUMULATED", for_id=g.id, for_name=g.title, for_icon=g.icon)
                 notification.objects.create(title="Goal (Achieving)", message="You have reached the goal having accumulated amount %s %s"%(g.currency, g.amount), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
         
         ## Expense ##
@@ -68,7 +68,7 @@ class MyCronJob(CronJobBase):
                     user = User.objects.get(id=e.user_id)
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
-                get_notification = Notification.Notify(deviceToken=user.device_token, title="Expense (Achieving)", message="You have spend the expense having accumulated amount %s %s"%(e.currency, e.amount_limit), notify_status="EXPENSE_ACCUMULATED")
+                get_notification = Notification.Notify(deviceToken=user.device_token, title="Expense (Achieving)", message="You have spend the expense having accumulated amount %s %s"%(e.currency, e.amount_limit), notify_status="EXPENSE_ACCUMULATED", for_id=e.id, for_name=e.title, for_icon=e.icon)
                 notification.objects.create(title="Expense (Achieving)", message="You have spend the expense having accumulated amount %s %s"%(e.currency, e.amount_limit), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
         
         ## SourceIncome ##
@@ -80,7 +80,7 @@ class MyCronJob(CronJobBase):
                     user = User.objects.get(id=s.user_id)
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
-                get_notification = Notification.Notify(deviceToken=user.device_token, title="Source (Achieving)", message="You have spend the source having accumulated amount %s %s"%(s.currency, s.amount), notify_status="SOURCE_ACCUMULATED")
+                get_notification = Notification.Notify(deviceToken=user.device_token, title="Source (Achieving)", message="You have spend the source having accumulated amount %s %s"%(s.currency, s.amount), notify_status="SOURCE_ACCUMULATED", for_id=s.id, for_name=s.title, for_icon=s.icon)
                 notification.objects.create(title="Source (Achieving)", message="You have spend the source having accumulated amount %s %s"%(s.currency, s.amount), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
         
         ############# OVERDUES ########################
@@ -93,7 +93,7 @@ class MyCronJob(CronJobBase):
                     user = User.objects.get(id=g1.user_id)
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
-                get_notification = Notification.Notify(deviceToken=user.device_token, title="Goal (Overdue)", message="You have overdue the goal having accumulated amount %s %s"%(g1.currency, g1.amount), notify_status="GOAL_OVERDUE")
+                get_notification = Notification.Notify(deviceToken=user.device_token, title="Goal (Overdue)", message="You have overdue the goal having accumulated amount %s %s"%(g1.currency, g1.amount), notify_status="GOAL_OVERDUE", for_id=g1.id, for_name=g1.title, for_icon=g1.icon)
                 notification.objects.create(title="Goal (Overdue)", message="You have overdue the goal having accumulated amount %s %s"%(g1.currency, g1.amount), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
         
         ## Expense ##
@@ -105,7 +105,7 @@ class MyCronJob(CronJobBase):
                     user = User.objects.get(id=e1.user_id)
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
-                get_notification = Notification.Notify(deviceToken=user.device_token, title="Expense (Overdue)", message="You have over spend the expense having accumulated amount %s %s"%(e1.currency, e1.amount_limit), notify_status="EXPENSE_OVERDUE")
+                get_notification = Notification.Notify(deviceToken=user.device_token, title="Expense (Overdue)", message="You have over spend the expense having accumulated amount %s %s"%(e1.currency, e1.amount_limit), notify_status="EXPENSE_OVERDUE", for_id=e1.id, for_name=e1.title, for_icon=e1.icon)
                 notification.objects.create(title="Expense (Overdue)", message="You have over spend the expense having accumulated amount %s %s"%(e1.currency, e1.amount_limit), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
         
         ## SourceIncome ##
@@ -117,7 +117,7 @@ class MyCronJob(CronJobBase):
                     user = User.objects.get(id=s1.user_id)
                 except User.DoesNotExist:
                     return "User Doesn't Exist"
-                get_notification = Notification.Notify(deviceToken=user.device_token, title="Source (Overdue)", message="You have spend the source having accumulated amount %s %s"%(s1.currency, s1.amount), notify_status="SOURCE_OVERDUE")
+                get_notification = Notification.Notify(deviceToken=user.device_token, title="Source (Overdue)", message="You have spend the source having accumulated amount %s %s"%(s1.currency, s1.amount), notify_status="SOURCE_OVERDUE", for_id=s1.id, for_name=s1.title, for_icon=s1.icon)
                 notification.objects.create(title="Source (Overdue)", message="You have over spend the source having accumulated amount %s %s"%(s1.currency, s1.amount), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
 
         ## Reccurence ##
@@ -158,7 +158,7 @@ class MyCronJob(CronJobBase):
                         except Income.DoesNotExist:
                             return "Income Doesn't Exist"
                         
-                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(source.title, income.title), message="Your planed payment %s %s deducted from source %s and added %s %s to income %s"%(source.currency, get_transaction.transaction_amount, source.title, income.currency, get_transaction.converted_transaction, income.title), notify_status="RECURRENCE_PLANNED")
+                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(source.title, income.title), message="Your planed payment %s %s deducted from source %s and added %s %s to income %s"%(source.currency, get_transaction.transaction_amount, source.title, income.currency, get_transaction.converted_transaction, income.title), notify_status="RECURRENCE_PLANNED", for_id=source.id, for_name=source.title, for_icon=source.icon)
                         notification.objects.create(title="Recurrence from %s to %s"%(source.title, income.title), message="Your planed payment %s %s deducted from source %s and added %s %s to income %s"%(source.currency, get_transaction.transaction_amount, source.title, income.currency, get_transaction.converted_transaction, income.title), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)    
                     
                     elif ((get_transaction.income_from_id is not None and get_transaction.income_to_id is not None) and (get_transaction.source_id is None and get_transaction.goal_id is None and get_transaction.expense_id is None and get_transaction.debt is None)): 
@@ -176,7 +176,7 @@ class MyCronJob(CronJobBase):
                         except Income.DoesNotExist:
                             return "Income_To Doesn't Exist"
 
-                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income_from.title, income_to.title), message="Your planed payment %s %s deducted from income %s and added %s %s to income %s"%(income_from.currency, get_transaction.transaction_amount, income_from.title, income_to.currency, get_transaction.converted_transaction, income_to.title), notify_status="RECURRENCE_PLANNED")
+                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income_from.title, income_to.title), message="Your planed payment %s %s deducted from income %s and added %s %s to income %s"%(income_from.currency, get_transaction.transaction_amount, income_from.title, income_to.currency, get_transaction.converted_transaction, income_to.title), notify_status="RECURRENCE_PLANNED", for_id=income_from.id, for_name=income_from.title, for_icon=income_from.icon)
                         notification.objects.create(title="Recurrence from %s to %s"%(income_from.title, income_to.title), message="Your planed payment %s %s deducted from income %s and added %s %s to income %s"%(income_from.currency, get_transaction.transaction_amount, income_from.title, income_to.currency, get_transaction.converted_transaction, income_to.title), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
 
                     elif ((get_transaction.income_from_id is not None and get_transaction.expense_id is not None) and (get_transaction.source_id is None and get_transaction.goal_id is None and get_transaction.income_to_id is None and get_transaction.debt is None)):
@@ -194,7 +194,7 @@ class MyCronJob(CronJobBase):
                         except Expense.DoesNotExist:
                             return "Expnese Doesn't Exist"
                         
-                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income.title, expense.title), message="Your planed payment %s %s deducted from income %s and added %s %s to expense %s"%(income.currency, get_transaction.transaction_amount, income.title, expense.currency, get_transaction.converted_transaction, expense.title), notify_status="RECURRENCE_PLANNED")
+                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income.title, expense.title), message="Your planed payment %s %s deducted from income %s and added %s %s to expense %s"%(income.currency, get_transaction.transaction_amount, income.title, expense.currency, get_transaction.converted_transaction, expense.title), notify_status="RECURRENCE_PLANNED", for_id=income.id, for_name=income.title, for_icon=income.icon)
                         notification.objects.create(title="Recurrence from %s to %s"%(income.title, expense.title), message="Your planed payment %s %s deducted from income %s and added %s %s to expense %s"%(income.currency, get_transaction.transaction_amount, income.title, expense.currency, get_transaction.converted_transaction, expense.title), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
 
                     elif ((get_transaction.income_from_id is not None and get_transaction.goal_id is not None) and (get_transaction.source_id is None and get_transaction.income_to_id is None and get_transaction.expense_id is None and get_transaction.debt is None)):
@@ -212,7 +212,7 @@ class MyCronJob(CronJobBase):
                         except Goal.DoesNotExist:
                             return "Goal Doesn't Exist"
                         
-                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income.title, goal.title), message="Your planed payment %s %s deducted from income %s and added %s %s to goal %s"%(income.currency, get_transaction.transaction_amount, income.title, goal.currency, get_transaction.converted_transaction, goal.title), notify_status="RECURRENCE_PLANNED")
+                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income.title, goal.title), message="Your planed payment %s %s deducted from income %s and added %s %s to goal %s"%(income.currency, get_transaction.transaction_amount, income.title, goal.currency, get_transaction.converted_transaction, goal.title), notify_status="RECURRENCE_PLANNED", for_id=income.id, for_name=income.title, for_icon=income.icon)
                         notification.objects.create(title="Recurrence from %s to %s"%(income.title, goal.title), message="Your planed payment %s %s deducted from income %s and added %s %s to goal %s"%(income.currency, get_transaction.transaction_amount, income.title, goal.currency, get_transaction.converted_transaction, goal.title), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
 
                     elif ((get_transaction.income_from_id is not None and get_transaction.debt_id is not None) and (get_transaction.source_id is None and get_transaction.goal_id is None and get_transaction.expense_id is None and get_transaction.income_to_id is None)):
@@ -230,7 +230,7 @@ class MyCronJob(CronJobBase):
                         except Debt.DoesNotExist:
                             return "Debt Doesn't Exist"
 
-                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income.title, debt.title), message="Your planed payment %s %s deducted from income %s and added %s %s to debt %s"%(income.currency, get_transaction.transaction_amount, income.title, debt.currency, get_transaction.converted_transaction, debt.title), notify_status="RECURRENCE_PLANNED")
+                        get_notification = Notification.Notify(deviceToken=user.device_token,title="Recurrence from %s to %s"%(income.title, debt.title), message="Your planed payment %s %s deducted from income %s and added %s %s to debt %s"%(income.currency, get_transaction.transaction_amount, income.title, debt.currency, get_transaction.converted_transaction, debt.title), notify_status="RECURRENCE_PLANNED", for_id=income.id, for_name=income.title, for_icon=income.icon)
                         notification.objects.create(title="Recurrence from %s to %s"%(income.title, debt.title), message="Your planed payment %s %s deducted from income %s and added %s %s to debt %s"%(income.currency, get_transaction.transaction_amount, income.title, debt.currency, get_transaction.converted_transaction, debt.title), receiver_token=user.device_token, payload=json.dumps(get_notification["data"]), user_id=user.id)
 
         return "success"

@@ -2,7 +2,7 @@ import requests
 import json
 
 class Notification:
-    def Notify(deviceToken, title, message, notify_status):
+    def Notify(deviceToken, title, message, notify_status, for_id=None, for_name=None, for_icon=None):
         serverToken = 'AAAABS5CEwQ:APA91bHqtOw8u7p_ErfllCpp2j_nTObmNifPXxjDHBSrpw1b_6Ds-_FFDlI6D1p_YjvjWTnOQZYy9boppVGgEcanHadWKoX_sZ68k1-7MT491cc7u84tG8I7-oAKHnMINdI10wdQtsQM'
 
         headers = {
@@ -12,6 +12,13 @@ class Notification:
 
         body = {
             'to': deviceToken,
+            'data': {
+                'title': title,
+                'body': message,
+                'content-available': True,
+                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                'status':notify_status
+            },
             'notification': 
             {
                 'title': title,
@@ -19,16 +26,7 @@ class Notification:
                 'sound':'default',
                 'content-available': True,
                 'icon':'ic_launcher',
-                'sound':'default',
-                'content-available':True,
                 'priority':'high'
-            },
-            'data': {
-                'title': title,
-                'body': message,
-                'content-available': True,
-                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                'status':notify_status
             },
             'icon':'notification_icon',
             'sound':'default',
@@ -48,7 +46,10 @@ class Notification:
                 'body': message,
                 'content-available': True,
                 'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                'status':notify_status
+                'status':notify_status,
+                'for_id':for_id,
+                'for_name':for_name,
+                "for_icon":for_icon
             }
         else:
             data_dict["response"] = response

@@ -4434,14 +4434,16 @@ class Notifications(APIView):
 
         notify = notification.objects.filter(user_id=user)
         for n in notify:
+            payload = json.loads(n.payload)
             data = {
                 "id":n.id,
                 "title":n.title,
+                "type":payload["status"],
                 "message":n.message,
                 "receiver_token":n.receiver_token,
-                "payload":json.loads(n.payload),
-                "created_date":n.created_date,
-                "modified_date":n.modified_date
+                "payload":payload,
+                "created_at":n.created_at,
+                "modified_at":n.modified_at
             }
             notification_list.append(data)
         notifications_dict["notifications"] = notification_list

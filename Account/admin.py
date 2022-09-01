@@ -197,7 +197,7 @@ class SettingAdmin(admin.ModelAdmin):
 admin.site.register(Setting,SettingAdmin)
 
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('id','title','message','receiver_token','payload','created_date','modified_date','user')
+    list_display = ('id','title','message','receiver_token','payload','created_at','modified_at','user')
     list_filter = ('receiver_token',)
     search_fields = ('receiver_token',)
     ordering = ('receiver_token',)

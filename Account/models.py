@@ -330,5 +330,5 @@ class notification(models.Model):
     receiver_token = models.TextField(blank=True, null=True, default="")
     payload = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications", blank=True, null=True, default="")
-    created_date = models.DateField(auto_now_add=True)
-    modified_date = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
+    modified_at = models.DateTimeField(auto_now=True)
