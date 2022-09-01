@@ -4455,7 +4455,7 @@ class Notifications(APIView):
             user = User.objects.get(email=request.user)
         except User.DoesNotExist:
             return Response({"status":False, "message":"User Doesn't Exist"}, status=status.HTTP_404_NOT_FOUND)
-
+        
         from .push_notifications import Notification
         Notify_Data = Notification.Notify(deviceToken=request.data["deviceToken"], title=request.data["title"], message=request.data["message"], notify_status=request.data["status"])
         n = notification.objects.create(title=request.data["title"], message=request.data["message"], receiver_token=request.data["deviceToken"], payload=json.dumps(Notify_Data["data"]), user_id=user.id)
@@ -4473,6 +4473,29 @@ class Notifications(APIView):
         notifications_dict["notifications"] = notification_list
         return Response({"status":True, "message":"Notification Created Successfully", "data":notifications_dict}, status=status.HTTP_201_CREATED)
 # Notification API Code End #
+
+# public notification #
+class Pub_Notification(APIView):
+    def post(self, request):
+        notifications_dict = dict()
+        notification_list = list()
+
+        from .push_notifications import Notification
+        Notify_Data = Notification.Notify(deviceToken=request.data["deviceToken"], title=request.data["title"], message=request.data["message"], notify_status=request.data["status"])
+        n = notification.objects.create(title=request.data["title"], message=request.data["message"], receiver_token=request.data["deviceToken"], payload=json.dumps(Notify_Data["data"]))
+        n = notification.objects.get(id=n.pk)
+        data = {
+            "id":n.id,
+            "title":n.title,
+            "message":n.message,
+            "receiver_token":n.receiver_token,
+            "payload":json.loads(n.payload),
+            "created_date":n.created_date,
+            "modified_date":n.modified_date
+        }
+        notification_list.append(data)
+        notifications_dict["notifications"] = notification_list
+        return Response({"status":True, "message":"Notification Created Successfully", "data":notifications_dict}, status=status.HTTP_201_CREATED)
 
 # Export Data in CSV or XLS #
 class Export(APIView):
