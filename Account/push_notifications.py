@@ -47,9 +47,9 @@ class Notification:
                 "content-available": True,
                 "click_action": "FLUTTER_NOTIFICATION_CLICK",
                 "status":notify_status,
-                "for_id":for_id,
-                "for_name":for_name,
-                "for_icon":for_icon
+                "id":for_id,
+                "name":for_name,
+                "icon":for_icon
             }
         else:
             data_dict["response"] = response

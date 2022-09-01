@@ -4425,7 +4425,6 @@ class Notifications(APIView):
 
     def get(self, request):
         user = ''
-        notifications_dict = dict()
         notification_list = list()
         try:
             user = User.objects.get(email=request.user).id
@@ -4446,8 +4445,7 @@ class Notifications(APIView):
                 "modified_at":n.modified_at
             }
             notification_list.append(data)
-        notifications_dict["notifications"] = notification_list
-        return Response({"status":True, "message":"Notification Fetched Successfully", "data":notifications_dict}, status=status.HTTP_200_OK)
+        return Response({"status":True, "message":"Notification Fetched Successfully", "data":notification_list}, status=status.HTTP_200_OK)
     
     def post(self, request):
         notifications_dict = dict()
