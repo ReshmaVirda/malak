@@ -2226,3 +2226,6 @@ Bad Request: /expense
 Bad Request: /goal
 A
 Not Found: /transaction/
+Not Found: /
+Not Found: /favicon.ico
+Not Found: /debts
